@@ -6,4 +6,5 @@ public interface View <B extends Bilancio>{
 
     void open(Controller<B> controller) throws IOException;
     void close();
+
 }

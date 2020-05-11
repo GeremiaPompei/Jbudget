@@ -1,6 +1,8 @@
 package it.unicam.cs.pa.jbudget105333;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -18,7 +20,7 @@ public class PianoMensile<B extends Bilancio,T extends Tag> implements Piano<B> 
         this.gestoreMovimenti = gestoreMovimenti;
         int mesi = (12*stop.getYear()+stop.getMonthValue())-(12*start.getYear()+start.getMonthValue());
         for (int i = 0; i<= mesi ;i++)
-            this.movimenti.add(new Movimento(value,tag,start.plusMonths(i)));
+            this.movimenti.add(new Movimento(value,tag,LocalDateTime.of(start.plusMonths(i), LocalTime.MIN)));
     }
 
     public PianoMensile(ArrayList<? extends Tag> tags, double value, LocalDate start, LocalDate stop
@@ -29,7 +31,7 @@ public class PianoMensile<B extends Bilancio,T extends Tag> implements Piano<B> 
         this.gestoreMovimenti = gestoreMovimenti;
         int mesi = (12*stop.getYear()+stop.getMonthValue())-(12*start.getYear()+start.getMonthValue());
         for (int i = 0; i<= mesi ;i++)
-            this.movimenti.add(new Movimento(value,tags,start.plusMonths(i)));
+            this.movimenti.add(new Movimento(value,tags,LocalDateTime.of(start.plusMonths(i), LocalTime.MIN)));
     }
 
     @Override

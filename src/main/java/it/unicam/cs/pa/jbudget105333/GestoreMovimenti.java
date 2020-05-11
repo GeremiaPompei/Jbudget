@@ -1,6 +1,6 @@
 package it.unicam.cs.pa.jbudget105333;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class GestoreMovimenti <B extends Bilancio,T extends Tag> {
@@ -14,10 +14,10 @@ public class GestoreMovimenti <B extends Bilancio,T extends Tag> {
     }
 
     public void update(){
-        LocalDate localDate = LocalDate.now();
+        LocalDateTime localDateTime = LocalDateTime.now();
         this.bilancio.resetValue();
         for(Movimento m : this.movimenti){
-            if(m.getLocalDate().compareTo(localDate) <= 0){
+            if(m.getLocalDateTime().compareTo(localDateTime) <= 0){
                 if(m.getTags().get(0) instanceof TagIn)
                     this.bilancio.increment(m.getValue()*m.getCount());
                 else

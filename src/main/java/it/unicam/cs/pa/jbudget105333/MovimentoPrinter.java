@@ -4,7 +4,7 @@ public class MovimentoPrinter<T extends Tag> implements Printer<Movimento<T>> {
 
     public String stringOf(Movimento<T> m) {
         TagPrinter tp = new TagPrinter();
-        String s = "[ " + m.getLocalDate().toString() + " ] : [ " + m.getValue() + " ] : [ ";
+        String s = "[ " + m.getLocalDateTime().toLocalDate().toString() + " ] : [ " + m.getValue() + " ] : [ ";
         for(Tag t : m.getTags())
             s += " (" + tp.stringOf(t) + ") ,";
         s += " ] : [ " + m.getCount() + " ]";

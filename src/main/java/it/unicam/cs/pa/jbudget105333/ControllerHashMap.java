@@ -38,8 +38,8 @@ public class ControllerHashMap<B extends Bilancio> implements Controller<B> {
                                 ,processStopLocalDate(coda),gestoreMovimenti).move();
                 break;
                 case "gd " : print(gestoreMovimenti.getMovimenti().stream()
-                        .filter(d->d.getLocalDate().compareTo(processStartLocalDate(coda))>=0)
-                        .filter(d->d.getLocalDate().compareTo(processStopLocalDate(coda))<=0));
+                        .filter(d->d.getLocalDateTime().toLocalDate().compareTo(processStartLocalDate(coda))>=0)
+                        .filter(d->d.getLocalDateTime().toLocalDate().compareTo(processStopLocalDate(coda))<=0));
                 break;
                 case "gt " : print(gestoreMovimenti.getMovimenti().stream()
                         .filter(t->t.getTags().equals(processoTags(coda))));

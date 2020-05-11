@@ -2,24 +2,27 @@ package it.unicam.cs.pa.jbudget105333;
 
 import java.io.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
 
 public class FileStore<B extends Bilancio> implements Store<B> {
 
-    private static final String path = "/Users/geremiapompei/Desktop/JetBrains/IntelliJ/JBudget/StoreFile.txt";
+    private static final String path = "/Users/geremiapompei/Desktop/JetBrains/IntelliJ/JBudget/";
     private InputStreamReader reader;
     private OutputStreamWriter writer;
-    private File file;
+    private BilancioPrinter<B> bilancioPrinter;
 
-    public FileStore() {
-        file = new File(path);
+    public FileStore(BilancioPrinter<B> bilancioPrinter) {
+        this.bilancioPrinter = bilancioPrinter;
     }
 
     @Override
     public void read(GestoreMovimenti gestoreMovimenti) throws IOException {
-        reader = new InputStreamReader(new FileInputStream(file));
+        reader = new InputStreamReader(new FileInputStream
+                (new File(path+gestoreMovimenti.getBilancio().getClass().toString()+".txt")));
         int in = 0;
         ArrayList<String> al = new ArrayList<>();
         String s = "";
@@ -33,6 +36,7 @@ public class FileStore<B extends Bilancio> implements Store<B> {
         }
         TreeSet<Movimento<Tag>> ts = new TreeSet<>();
         StringTokenizer st = null;
+        if(s.length()!=0){
         for(int i = 1;i<al.size();i++){
             st = new StringTokenizer(al.get(i),":");
             String dateS = st.nextToken();
@@ -53,16 +57,18 @@ public class FileStore<B extends Bilancio> implements Store<B> {
                     tag.add(TagOut.valueOf(tagS));
                 }
             }
-            ts.add(new Movimento<Tag>(value,tag,date));
+            ts.add(new Movimento<Tag>(value,tag, LocalDateTime.of(date, LocalTime.MIN)));
         }
-        gestoreMovimenti.getBilancio().setValue(Double.parseDouble(al.get(0)));
-        gestoreMovimenti.addMovimenti(ts);
+        gestoreMovimenti.getBilancio().setValue
+                (Double.parseDouble(al.get(0).substring(9,al.get(0).indexOf(',')).trim()));
+        gestoreMovimenti.addMovimenti(ts);}
     }
 
     @Override
     public void write(GestoreMovimenti<B, Tag> gestoreMovimenti) throws IOException {
-        writer = new OutputStreamWriter(new FileOutputStream(file));
-        writer.write(gestoreMovimenti.getBilancio().getValue()+"\n");
+        writer = new OutputStreamWriter(new FileOutputStream
+                (new File(path+gestoreMovimenti.getBilancio().getClass().toString()+".txt")));
+        writer.write(bilancioPrinter.stringOf(gestoreMovimenti.getBilancio())+"\n");
         writer.write(new GestoreMovimentiPrinter<B,Tag>().stringOf(gestoreMovimenti));
         writer.flush();
     }

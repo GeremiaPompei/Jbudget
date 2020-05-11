@@ -29,13 +29,14 @@ public class App<B extends Bilancio> {
     }
 
     public static App createBilancio() throws FileNotFoundException {
-        Bilancio b = new BilancioSemplice();
-        Store<? extends Bilancio> store = new FileStore<>();
+        Bilancio b = new BilancioUltimoMov();
+        BilancioPrinter<? extends Bilancio> movimentoPrinter = new BilancioUltimoMovPrinter();
+        View v = new ConsoleView(movimentoPrinter);
+        Store<? extends Bilancio> store = new FileStore<>(movimentoPrinter);
         Controller<? extends Bilancio> controller = new ControllerHashMap(new HashMap<>(),b,store);
         controller.addComandi(createBaseCommand());
         controller.addComandi(createShowCommand());
         controller.addComando("help", s->System.out.println(controller.getComandi().keySet().toString()));
-        View v = new ConsoleView(new BilancioSemplicePrinter());
         return new App(v, controller,store);
     }
 

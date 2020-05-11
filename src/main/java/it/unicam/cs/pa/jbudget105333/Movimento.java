@@ -1,6 +1,6 @@
 package it.unicam.cs.pa.jbudget105333;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -8,22 +8,22 @@ public class Movimento<T extends Tag> implements Comparable<Movimento> {
 
     private double value = 0.0;
     private ArrayList<T> tags = new ArrayList<T>();
-    private LocalDate localDate = null;
+    private LocalDateTime localDateTime = null;
     private int count = 0;
 
-    public Movimento(double value, T tag, LocalDate localDate) {
+    public Movimento(double value, T tag, LocalDateTime localDateTime) {
         this.value = value;
         this.tags.add(tag);
-        this.localDate = localDate;
+        this.localDateTime = localDateTime;
         this.count = 1;
     }
 
-    public Movimento(double value, ArrayList<T> tags, LocalDate localDateTime) throws IllegalArgumentException {
+    public Movimento(double value, ArrayList<T> tags, LocalDateTime localDateTime) throws IllegalArgumentException {
         if(check(tags))
             throw new IllegalArgumentException();
         this.value = value;
         this.tags.addAll(tags);
-        this.localDate = localDateTime;
+        this.localDateTime = localDateTime;
         this.count = 1;
     }
 
@@ -49,16 +49,16 @@ public class Movimento<T extends Tag> implements Comparable<Movimento> {
         Movimento<?> movimento = (Movimento<?>) o;
         return Double.compare(movimento.value, value) == 0 &&
                 Objects.equals(tags, movimento.tags) &&
-                Objects.equals(localDate, movimento.localDate);
+                Objects.equals(localDateTime, movimento.localDateTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value, tags, localDate);
+        return Objects.hash(value, tags, localDateTime);
     }
 
     public int compareTo(Movimento m) {
-        int comp = this.localDate.compareTo(m.getLocalDate());
+        int comp = this.localDateTime.compareTo(m.getLocalDateTime());
         if(comp == 0)
             comp = (int)(this.value*100-m.getValue()*100);
         if(comp == 0)
@@ -82,7 +82,7 @@ public class Movimento<T extends Tag> implements Comparable<Movimento> {
         return tags;
     }
 
-    public LocalDate getLocalDate() {
-        return this.localDate;
+    public LocalDateTime getLocalDateTime() {
+        return this.localDateTime;
     }
 }
