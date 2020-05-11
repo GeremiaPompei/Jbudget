@@ -11,12 +11,12 @@ import java.util.function.Consumer;
 public class App<B extends Bilancio> {
 
     private View<B> view;
-    private Comandi<B> comandi;
+    private Controller<B> controller;
     private Store<B> store;
 
-    public App(View<B> consoleView, Comandi<B> comandi, Store<B> store) {
+    public App(View<B> consoleView, Controller<B> controller, Store<B> store) {
         this.view = consoleView;
-        this.comandi = comandi;
+        this.controller = controller;
         this.store = store;
     }
 
@@ -30,18 +30,19 @@ public class App<B extends Bilancio> {
 
     public static App createBilancio() throws FileNotFoundException {
         Bilancio b = new BilancioSemplice();
-        Comandi<? extends Bilancio> comandi = new ComandiHashMap(new HashMap<>(),b);
-        comandi.addComandi(createBaseCommand());
-        comandi.addComandi(createShowCommand());
-        comandi.addComando("help",s->System.out.println(comandi.getComandi().keySet().toString()));
+        Store<? extends Bilancio> store = new FileStore<>();
+        Controller<? extends Bilancio> controller = new ControllerHashMap(new HashMap<>(),b,store);
+        controller.addComandi(createBaseCommand());
+        controller.addComandi(createShowCommand());
+        controller.addComando("help", s->System.out.println(controller.getComandi().keySet().toString()));
         View v = new ConsoleView(new BilancioSemplicePrinter());
-        return new App(v,comandi,new FileStore());
+        return new App(v, controller,store);
     }
 
     private void start() throws IOException {
-        this.store.read(this.comandi.getGestoreMovimenti());
-        this.view.open(this.comandi);
-        this.store.write(this.comandi.getGestoreMovimenti());
+        this.store.read(this.controller.getGestoreMovimenti());
+        this.view.open(this.controller);
+        this.store.write(this.controller.getGestoreMovimenti());
         this.view.close();
         this.store.close();
     }

@@ -64,6 +64,7 @@ public class FileStore<B extends Bilancio> implements Store<B> {
         writer = new OutputStreamWriter(new FileOutputStream(file));
         writer.write(gestoreMovimenti.getBilancio().getValue()+"\n");
         writer.write(new GestoreMovimentiPrinter<B,Tag>().stringOf(gestoreMovimenti));
+        writer.flush();
     }
 
     @Override

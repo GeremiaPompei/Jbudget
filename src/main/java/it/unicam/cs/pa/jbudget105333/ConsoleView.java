@@ -15,14 +15,14 @@ public class ConsoleView<B extends Bilancio,BP extends BilancioPrinter<B>> imple
     }
 
     @Override
-    public void open(Comandi<B> comandi) throws IOException {
+    public void open(Controller<B> controller) throws IOException {
         hello();
-        while(comandi.isOn()){
-            printState(comandi.getStato());
+        while(controller.isOn()){
+            printState(controller.getStato());
             System.out.println(" > ");
             System.out.flush();
             String command = reader.readLine();
-            comandi.processCommand(command);
+            controller.processCommand(command);
         }
         goodbye();
     }

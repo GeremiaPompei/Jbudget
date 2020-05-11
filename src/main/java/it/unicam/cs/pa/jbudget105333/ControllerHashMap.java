@@ -1,25 +1,28 @@
 package it.unicam.cs.pa.jbudget105333;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-public class ComandiHashMap<B extends Bilancio> implements Comandi<B> {
+public class ControllerHashMap<B extends Bilancio> implements Controller<B> {
 
     private HashMap<String, Consumer<B>> comandi = null;
     private B stato = null;
     private GestoreMovimenti<B,Tag> gestoreMovimenti = null;
+    private Store<B> store = null;
 
-    public ComandiHashMap(HashMap<String, Consumer<B>> comandi, B stato) {
+    public ControllerHashMap(HashMap<String, Consumer<B>> comandi, B stato, Store<B> store) {
         this.comandi = comandi;
         this.stato = stato;
         this.gestoreMovimenti = new GestoreMovimenti<>(stato);
+        this.store = store;
     }
 
     @Override
-    public void processCommand(String s) {
+    public void processCommand(String s) throws IOException{
         try{
             String intro = s.substring(0,3);
             String coda = s.substring(3).trim();
@@ -51,6 +54,8 @@ public class ComandiHashMap<B extends Bilancio> implements Comandi<B> {
                 System.err.println("Comando non riconosciuto: "+s);
             else
                 action.accept(stato);
+        }finally{
+            this.store.write(gestoreMovimenti);
         }
     }
 

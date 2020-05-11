@@ -4,6 +4,6 @@ import java.io.IOException;
 
 public interface View <B extends Bilancio>{
 
-    void open(Comandi<B> comandi) throws IOException;
+    void open(Controller<B> controller) throws IOException;
     void close();
 }
