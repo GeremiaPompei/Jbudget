@@ -3,9 +3,9 @@ package it.unicam.cs.pa.jbudget105333;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class GestoreMovimenti <B extends Bilancio,T extends Tag> {
+public class GestoreMovimenti <B extends Bilancio> {
 
-    private SortedSet<Movimento<T>> movimenti = null;
+    private SortedSet<Movimento<? extends Tag>> movimenti = null;
     private B bilancio = null;
 
     public GestoreMovimenti(B bilancio) {
@@ -26,7 +26,7 @@ public class GestoreMovimenti <B extends Bilancio,T extends Tag> {
         }
     }
 
-    public void addMovimento(Movimento<T> movimento){
+    public void addMovimento(Movimento<? extends Tag> movimento){
         if(movimenti.contains(movimento)){
             for (Movimento m : movimenti)
                 if(movimento.equals(m))
@@ -35,8 +35,8 @@ public class GestoreMovimenti <B extends Bilancio,T extends Tag> {
             movimenti.add(movimento);
     }
 
-    public void addMovimenti(SortedSet<Movimento<T>> movimenti){
-        for(Movimento<T> movimento : movimenti){
+    public void addMovimenti(SortedSet<Movimento<? extends Tag>> movimenti){
+        for(Movimento<? extends Tag> movimento : movimenti){
             for (Movimento m : this.movimenti)
                 if(movimento.equals(m))
                     m.incrementCount();
@@ -44,7 +44,7 @@ public class GestoreMovimenti <B extends Bilancio,T extends Tag> {
         this.movimenti.addAll(movimenti);
     }
 
-    public SortedSet<Movimento<T>> getMovimenti() {
+    public SortedSet<Movimento<? extends Tag>> getMovimenti() {
         return movimenti;
     }
 

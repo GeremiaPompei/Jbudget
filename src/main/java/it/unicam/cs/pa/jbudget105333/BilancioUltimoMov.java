@@ -39,6 +39,10 @@ public class BilancioUltimoMov implements Bilancio {
         return this.modifica;
     }
 
+    public void setModifica(double modifica) {
+        this.modifica = modifica;
+    }
+
     @Override
     public boolean isOn() {
         return this.state;

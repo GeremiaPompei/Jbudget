@@ -11,7 +11,7 @@ public class ControllerHashMap<B extends Bilancio> implements Controller<B> {
 
     private HashMap<String, Consumer<B>> comandi = null;
     private B stato = null;
-    private GestoreMovimenti<B,Tag> gestoreMovimenti = null;
+    private GestoreMovimenti<B> gestoreMovimenti = null;
     private Store<B> store = null;
 
     public ControllerHashMap(HashMap<String, Consumer<B>> comandi, B stato, Store<B> store) {
@@ -90,7 +90,7 @@ public class ControllerHashMap<B extends Bilancio> implements Controller<B> {
     }
 
     @Override
-    public GestoreMovimenti<B, Tag> getGestoreMovimenti() {
+    public GestoreMovimenti<B> getGestoreMovimenti() {
         return gestoreMovimenti;
     }
 
@@ -206,7 +206,15 @@ public class ControllerHashMap<B extends Bilancio> implements Controller<B> {
         return localDate;
     }
 
-    private void print(Stream<Movimento<Tag>> movimentoStream){
-        movimentoStream.forEach(s->System.out.println(new MovimentoPrinter<Tag>().stringOf(s)));
+    private void print(Stream<Movimento<? extends Tag>> movimentoStream){
+        movimentoStream.forEach(s->System.out.println(new MovimentoPrinter().stringOf(s)));
+    }
+
+    public void setStato(B stato) {
+        this.stato = stato;
+    }
+
+    public void setGestoreMovimenti(GestoreMovimenti<B> gestoreMovimenti) {
+        this.gestoreMovimenti = gestoreMovimenti;
     }
 }

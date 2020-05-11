@@ -7,14 +7,14 @@ import java.util.ArrayList;
 public class PianoIstantaneo<B extends Bilancio,T extends Tag> implements Piano<B> {
 
     private Movimento<T> movimento = null;
-    private GestoreMovimenti<B,T> gestoreMovimenti = null;
+    private GestoreMovimenti<B> gestoreMovimenti = null;
 
-    public PianoIstantaneo( T tag, double value,GestoreMovimenti<B,T> gestoreMovimenti) {
+    public PianoIstantaneo( T tag, double value,GestoreMovimenti<B> gestoreMovimenti) {
         this.movimento = new Movimento(value,tag, LocalDateTime.now());
         this.gestoreMovimenti = gestoreMovimenti;
     }
 
-    public PianoIstantaneo( ArrayList<? extends Tag> tags, double value,GestoreMovimenti<B,T> gestoreMovimenti) {
+    public PianoIstantaneo( ArrayList<? extends Tag> tags, double value,GestoreMovimenti<B> gestoreMovimenti) {
         this.movimento = new Movimento(value,tags,LocalDateTime.now());
         this.gestoreMovimenti = gestoreMovimenti;
     }

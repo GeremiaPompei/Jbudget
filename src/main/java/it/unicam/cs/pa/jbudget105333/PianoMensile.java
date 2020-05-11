@@ -9,11 +9,11 @@ import java.util.TreeSet;
 
 public class PianoMensile<B extends Bilancio,T extends Tag> implements Piano<B> {
 
-    private SortedSet<Movimento<T>> movimenti = null;
-    private GestoreMovimenti<B,T> gestoreMovimenti = null;
+    private SortedSet<Movimento<? extends Tag>> movimenti = null;
+    private GestoreMovimenti<B> gestoreMovimenti = null;
 
     public PianoMensile(T tag, double value, LocalDate start, LocalDate stop
-            , GestoreMovimenti<B,T> gestoreMovimenti) throws IllegalArgumentException {
+            , GestoreMovimenti<B> gestoreMovimenti) throws IllegalArgumentException {
         if(start.compareTo(stop) >= 0)
             throw new IllegalArgumentException();
         this.movimenti = new TreeSet<>();
@@ -24,7 +24,7 @@ public class PianoMensile<B extends Bilancio,T extends Tag> implements Piano<B> 
     }
 
     public PianoMensile(ArrayList<? extends Tag> tags, double value, LocalDate start, LocalDate stop
-            , GestoreMovimenti<B,T> gestoreMovimenti) throws IllegalArgumentException {
+            , GestoreMovimenti<B> gestoreMovimenti) throws IllegalArgumentException {
         if(start.compareTo(stop) >= 0)
             throw new IllegalArgumentException();
         this.movimenti = new TreeSet<>();
@@ -40,7 +40,7 @@ public class PianoMensile<B extends Bilancio,T extends Tag> implements Piano<B> 
         gestoreMovimenti.update();
     }
 
-    public SortedSet<Movimento<T>> getMovimenti() {
+    public SortedSet<Movimento<? extends Tag>> getMovimenti() {
         return movimenti;
     }
 }
