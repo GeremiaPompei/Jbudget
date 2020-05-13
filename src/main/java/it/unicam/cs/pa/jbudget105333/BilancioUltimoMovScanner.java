@@ -4,8 +4,12 @@ public class BilancioUltimoMovScanner implements BilancioScanner<BilancioUltimoM
     @Override
     public BilancioUltimoMov scanOf(String stringa) {
         BilancioUltimoMov bum = new BilancioUltimoMov();
-        bum.setValue(Double.parseDouble(stringa.substring(stringa.indexOf(':'),stringa.indexOf(',')).trim()));
-        bum.setModifica(Double.parseDouble(stringa.substring(stringa.indexOf(','),stringa.indexOf('\n')).trim()));
+        try{
+            bum.setValue(Double.parseDouble(stringa.substring(stringa.indexOf(':')+1).trim()));
+        }catch (Exception e){
+            bum.setValue(Double.parseDouble(stringa.substring(
+                    stringa.indexOf(':')+1,stringa.indexOf(',')).trim()));
+        }
         return bum;
     }
 }

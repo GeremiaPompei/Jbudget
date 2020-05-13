@@ -4,12 +4,7 @@ public class TagPrinter implements Printer<Tag> {
 
     @Override
     public String stringOf(Tag tag) {
-        String s = "";
-        if(tag.getDescrizione()==null)
-            s = tag.toString();
-        else
-            s = tag.toString() + ": " + tag.getDescrizione();
-        return s;
+        return tag.toString();
     }
 
     public static String stringTagIn(){

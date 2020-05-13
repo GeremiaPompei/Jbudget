@@ -1,9 +1,10 @@
 package it.unicam.cs.pa.jbudget105333;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class GestoreMovimenti <B extends Bilancio> {
+public class GestoreMovimenti <B extends Bilancio> implements Serializable {
 
     private SortedSet<Movimento<? extends Tag>> movimenti = null;
     private B bilancio = null;
@@ -50,5 +51,9 @@ public class GestoreMovimenti <B extends Bilancio> {
 
     public B getBilancio() {
         return bilancio;
+    }
+
+    public void setBilancio(B bilancio) {
+        this.bilancio = bilancio;
     }
 }

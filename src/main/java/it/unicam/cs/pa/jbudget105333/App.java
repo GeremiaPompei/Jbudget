@@ -3,7 +3,6 @@
  */
 package it.unicam.cs.pa.jbudget105333;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.function.Consumer;
@@ -28,34 +27,36 @@ public class App<B extends Bilancio> {
         }
     }
 
-    public static App createBilancio() throws FileNotFoundException {
-        Bilancio b = new BilancioSemplice();
-        BilancioPrinter<? extends Bilancio> movimentoPrinter = new BilancioSemplicePrinter();
+    public static App createBilancio() throws IOException {
+        Bilancio b = new BilancioUltimoMov();
+        BilancioPrinter<? extends Bilancio> movimentoPrinter = new BilancioUltimoMovPrinter();
         View v = new ConsoleView(movimentoPrinter);
         Store<? extends Bilancio> store = new FileStore<>(movimentoPrinter);
-        Controller<? extends Bilancio> controller = new ControllerHashMap(new HashMap<>(),b,store);
+        Controller<? extends Controller<? extends Bilancio>> controller =
+                new ControllerHashMap(new HashMap<>(),b,store);
         controller.addComandi(createBaseCommand());
         controller.addComandi(createShowCommand());
-        controller.addComando("help", s->System.out.println(controller.getComandi().keySet().toString()));
+        controller.addComando("help", s->System.out.println(s.getComandi().keySet().toString()));
         return new App(v, controller,store);
     }
 
     private void start() throws IOException {
-        this.store.read(this.controller.getGestoreMovimenti());
+        GestoreMovimenti gm = null;
+        if((gm = this.store.read())!=null)
+            this.controller.setGestoreMovimenti(gm);
         this.view.open(this.controller);
-        this.store.write(this.controller.getGestoreMovimenti());
         this.view.close();
         this.store.close();
     }
 
-    private static HashMap<String, Consumer<? extends Bilancio>> createBaseCommand(){
-        HashMap<String, Consumer<? extends Bilancio>> commands = new HashMap<>();
+    private static HashMap<String, Consumer<? extends Controller<? extends Bilancio>>> createBaseCommand(){
+        HashMap<String, Consumer<? extends Controller<? extends Bilancio>>> commands = new HashMap<>();
         commands.put("exit",s->s.shutdown());
         return commands;
     }
 
-    private static HashMap<String, Consumer<? extends Bilancio>> createShowCommand() {
-        HashMap<String, Consumer<? extends Bilancio>> commands = new HashMap<>();
+    private static HashMap<String, Consumer<? extends Controller<? extends Bilancio>>> createShowCommand() {
+        HashMap<String, Consumer<? extends Controller<? extends Bilancio>>> commands = new HashMap<>();
         commands.put("tagin",s->System.out.println(TagPrinter.stringTagIn()));
         commands.put("tagout",s->System.out.println(TagPrinter.stringTagOut()));
         commands.put("pi",s->System.out.println("pi(piano istantaneo) value tags"));
@@ -67,7 +68,7 @@ public class App<B extends Bilancio> {
         commands.put("gt",s->System.out.println
                 ("gt(gestore movimenti tags) tags"));
         commands.put("showall",s->System.out.println
-                ("showall movimenti: sho"));
+                (new GestoreMovimentiPrinter().stringOf(s.getGestoreMovimenti())));
         return commands;
     }
 

@@ -4,7 +4,12 @@ public class BilancioSempliceScanner implements BilancioScanner<BilancioSemplice
     @Override
     public BilancioSemplice scanOf(String stringa) {
         BilancioSemplice bs = new BilancioSemplice();
-        bs.setValue(Double.parseDouble(stringa.substring(stringa.indexOf(':'),stringa.indexOf('\n')).trim()));
+        try{
+            bs.setValue(Double.parseDouble(stringa.substring(stringa.indexOf(':')+1).trim()));
+        }catch (Exception e){
+            bs.setValue(Double.parseDouble(stringa.substring(
+                    stringa.indexOf(':')+1,stringa.indexOf(',')).trim()));
+        }
         return bs;
     }
 }

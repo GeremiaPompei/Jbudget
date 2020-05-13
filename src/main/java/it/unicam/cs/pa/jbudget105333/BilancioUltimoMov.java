@@ -1,5 +1,7 @@
 package it.unicam.cs.pa.jbudget105333;
 
+import java.io.Serializable;
+
 public class BilancioUltimoMov implements Bilancio {
 
     private double value = 0.0;

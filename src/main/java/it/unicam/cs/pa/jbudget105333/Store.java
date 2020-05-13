@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public interface Store<B extends Bilancio> {
 
-    void read(GestoreMovimenti<B> gestoreMovimenti) throws IOException;
+    GestoreMovimenti<B> read() throws IOException;
     void write(GestoreMovimenti<B> gestoreMovimenti) throws IOException;
     void close();
 }

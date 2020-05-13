@@ -10,13 +10,11 @@ import java.util.stream.Stream;
 public class ControllerHashMap<B extends Bilancio> implements Controller<B> {
 
     private HashMap<String, Consumer<B>> comandi = null;
-    private B stato = null;
     private GestoreMovimenti<B> gestoreMovimenti = null;
     private Store<B> store = null;
 
     public ControllerHashMap(HashMap<String, Consumer<B>> comandi, B stato, Store<B> store) {
         this.comandi = comandi;
-        this.stato = stato;
         this.gestoreMovimenti = new GestoreMovimenti<>(stato);
         this.store = store;
     }
@@ -44,8 +42,6 @@ public class ControllerHashMap<B extends Bilancio> implements Controller<B> {
                 case "gt " : print(gestoreMovimenti.getMovimenti().stream()
                         .filter(t->t.getTags().equals(processoTags(coda))));
                     break;
-                case "sho" : System.out.println(new GestoreMovimentiPrinter<B,Tag>().stringOf(gestoreMovimenti));
-                break;
                 default : throw new Exception();
             }
         }catch (Exception e){
@@ -53,10 +49,15 @@ public class ControllerHashMap<B extends Bilancio> implements Controller<B> {
             if(action==null)
                 System.err.println("Comando non riconosciuto: "+s);
             else
-                action.accept(stato);
+                action.accept(this);
         }finally{
-            this.store.write(gestoreMovimenti);
+            if(this.gestoreMovimenti.getBilancio().isOn())
+                this.store.write(gestoreMovimenti);
         }
+    }
+
+    public void setGestoreMovimenti(GestoreMovimenti<B> gestoreMovimenti) {
+        this.gestoreMovimenti = gestoreMovimenti;
     }
 
     @Override
@@ -71,17 +72,17 @@ public class ControllerHashMap<B extends Bilancio> implements Controller<B> {
 
     @Override
     public boolean isOn(){
-        return this.stato.isOn();
+        return this.gestoreMovimenti.getBilancio().isOn();
     }
 
     @Override
     public void shutdown(){
-        this.stato.shutdown();
+        this.gestoreMovimenti.getBilancio().shutdown();
     }
 
     @Override
     public B getStato() {
-        return stato;
+        return gestoreMovimenti.getBilancio();
     }
 
     @Override
@@ -208,13 +209,5 @@ public class ControllerHashMap<B extends Bilancio> implements Controller<B> {
 
     private void print(Stream<Movimento<? extends Tag>> movimentoStream){
         movimentoStream.forEach(s->System.out.println(new MovimentoPrinter().stringOf(s)));
-    }
-
-    public void setStato(B stato) {
-        this.stato = stato;
-    }
-
-    public void setGestoreMovimenti(GestoreMovimenti<B> gestoreMovimenti) {
-        this.gestoreMovimenti = gestoreMovimenti;
     }
 }

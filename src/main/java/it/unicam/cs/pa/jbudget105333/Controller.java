@@ -13,4 +13,5 @@ public interface Controller<B extends Bilancio> {
     B getStato();
     HashMap<String, Consumer<B>> getComandi();
     GestoreMovimenti<B> getGestoreMovimenti();
+    void setGestoreMovimenti(GestoreMovimenti<B> gestoreMovimenti);
 }

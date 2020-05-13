@@ -1,10 +1,11 @@
 package it.unicam.cs.pa.jbudget105333;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Movimento<T extends Tag> implements Comparable<Movimento> {
+public class Movimento<T extends Tag> implements Comparable<Movimento>, Serializable {
 
     private double value = 0.0;
     private ArrayList<T> tags = new ArrayList<T>();

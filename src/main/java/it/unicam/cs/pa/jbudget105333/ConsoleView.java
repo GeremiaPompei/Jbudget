@@ -18,7 +18,7 @@ public class ConsoleView<B extends Bilancio,BP extends BilancioPrinter<B>> imple
     public void open(Controller<B> controller) throws IOException {
         hello();
         while(controller.isOn()){
-            printState(controller.getStato());
+            printState(controller);
             System.out.println(" > ");
             System.out.flush();
             String command = reader.readLine();
@@ -47,8 +47,8 @@ public class ConsoleView<B extends Bilancio,BP extends BilancioPrinter<B>> imple
         System.out.println("See you next time!\n");
     }
 
-    private void printState(B bilancio){
-        System.out.println("["+ bilancioPrinter.stringOf(bilancio)+"]");
+    private void printState(Controller<B> controller){
+        System.out.println("["+ bilancioPrinter.stringOf(controller.getStato())+"]");
     }
 
 }
