@@ -9,11 +9,11 @@ import java.util.stream.Stream;
 
 public class ControllerHashMap<B extends Bilancio> implements Controller<B> {
 
-    private HashMap<String, Consumer<B>> comandi = null;
+    private HashMap<String, Consumer<Controller<B>>> comandi = null;
     private GestoreMovimenti<B> gestoreMovimenti = null;
     private Store<B> store = null;
 
-    public ControllerHashMap(HashMap<String, Consumer<B>> comandi, B stato, Store<B> store) {
+    public ControllerHashMap(HashMap<String, Consumer<Controller<B>>> comandi, B stato, Store<B> store) {
         this.comandi = comandi;
         this.gestoreMovimenti = new GestoreMovimenti<>(stato);
         this.store = store;
@@ -61,7 +61,7 @@ public class ControllerHashMap<B extends Bilancio> implements Controller<B> {
     }
 
     @Override
-    public void addComando(String s, Consumer<B> comando) {
+    public void addComando(String s, Consumer<Controller<B>> comando) {
         this.comandi.put(s,comando);
     }
 
@@ -86,7 +86,7 @@ public class ControllerHashMap<B extends Bilancio> implements Controller<B> {
     }
 
     @Override
-    public HashMap<String, Consumer<B>> getComandi() {
+    public HashMap<String, Consumer<Controller<B>>> getComandi() {
         return comandi;
     }
 

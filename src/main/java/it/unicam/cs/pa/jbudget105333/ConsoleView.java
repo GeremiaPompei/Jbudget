@@ -19,7 +19,7 @@ public class ConsoleView<B extends Bilancio,BP extends BilancioPrinter<B>> imple
         hello();
         while(controller.isOn()){
             printState(controller);
-            System.out.println(" > ");
+            System.out.print(" > ");
             System.out.flush();
             String command = reader.readLine();
             controller.processCommand(command);

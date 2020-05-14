@@ -4,7 +4,7 @@ import java.io.*;
 
 public class FileStore<B extends Bilancio> implements Store<B> {
 
-    private static final String path = "/Users/geremiapompei/Desktop/JetBrains/IntelliJ/JBudget/";
+    private static final String path = "src/file/";
     private ObjectInputStream in;
     private ObjectOutputStream out;
     private BilancioPrinter<B> bilancioPrinter;
@@ -25,18 +25,6 @@ public class FileStore<B extends Bilancio> implements Store<B> {
         }catch (Exception e){
             return null;
         }
-
-        /*int in = 0;
-        String s = "";
-        while((in=reader.read())>-1)
-            s+=(char)in;
-        GestoreMovimenti<B> neoGM = null;
-        try{
-            neoGM = new GestoreMovimentiScanner(gestoreMovimenti.getBilancio()).scanOf(s);
-        }catch (Exception e){
-            neoGM = new GestoreMovimenti(gestoreMovimenti.getBilancio());
-        }
-        gestoreMovimenti.addMovimenti(neoGM.getMovimenti());*/
     }
 
     @Override
@@ -45,9 +33,6 @@ public class FileStore<B extends Bilancio> implements Store<B> {
         out.writeObject(gestoreMovimenti);
         out.flush();
         out.close();
-        //writer.write(bilancioPrinter.stringOf(gestoreMovimenti.getBilancio())+"\n");
-        //writer.write(new GestoreMovimentiPrinter<B,Tag>().stringOf(gestoreMovimenti));
-        //writer.flush();
     }
 
     @Override
