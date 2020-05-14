@@ -3,73 +3,23 @@
  */
 package it.unicam.cs.pa.jbudget105333;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.function.Consumer;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-public class App<B extends Bilancio> {
-
-    private View<B> view;
-    private Controller<B> controller;
-    private Store<B> store;
-
-    public App(View<B> consoleView, Controller<B> controller, Store<B> store) {
-        this.view = consoleView;
-        this.controller = controller;
-        this.store = store;
-    }
+public class App {
 
     public static void main(String[] args) {
-        try{
-            createBilancio().start();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    public static App createBilancio() throws IOException {
-        Bilancio b = new BilancioSemplice();
-        BilancioPrinter<? extends Bilancio> movimentoPrinter = new BilancioSemplicePrinter();
-        View v = new ConsoleView(movimentoPrinter);
-        Store<? extends Bilancio> store = new FileStore<>(movimentoPrinter);
-        Controller<? extends Controller<? extends Bilancio>> controller =
-                new ControllerHashMap(new HashMap<>(),b,store);
-        controller.addComandi(createBaseCommand());
-        controller.addComandi(createShowCommand());
-        controller.addComando("help", s->System.out.println(s.getComandi().keySet().toString()));
-        return new App(v, controller,store);
-    }
-
-    private void start() throws IOException {
-        GestoreMovimenti gm = null;
-        if((gm = this.store.read())!=null)
-            this.controller.setGestoreMovimenti(gm);
-        this.view.open(this.controller);
-        this.view.close();
-        this.store.close();
-    }
-
-    private static HashMap<String, Consumer<? extends Controller<? extends Bilancio>>> createBaseCommand(){
-        HashMap<String, Consumer<? extends Controller<? extends Bilancio>>> commands = new HashMap<>();
-        commands.put("exit",s->s.shutdown());
-        return commands;
-    }
-
-    private static HashMap<String, Consumer<? extends Controller<? extends Bilancio>>> createShowCommand() {
-        HashMap<String, Consumer<? extends Controller<? extends Bilancio>>> commands = new HashMap<>();
-        commands.put("tagin",s->System.out.println(TagPrinter.stringTagIn()));
-        commands.put("tagout",s->System.out.println(TagPrinter.stringTagOut()));
-        commands.put("pi",s->System.out.println("pi(piano istantaneo) value tags"));
-        commands.put("pp",s->System.out.println("pp(piano programmato) value tags date(anno:mese:giorno)"));
-        commands.put("pm",s->System.out.println
-                ("pm(piano mensile) value tags dateStart(anno:mese:giorno)-dateStop(anno:mese:giorno)"));
-        commands.put("gd",s->System.out.println
-                ("gd(gestore movimenti date) dateStart(anno:mese:giorno)-dateStop(anno:mese:giorno)"));
-        commands.put("gt",s->System.out.println
-                ("gt(gestore movimenti tags) tags"));
-        commands.put("showall",s->System.out.println
-                (new GestoreMovimentiPrinter().stringOf(s.getGestoreMovimenti())));
-        return commands;
+        Tag t = new TagBase("Sport");
+        Account a = new AccountBase("ContoCorrente","Unicredit"
+                ,4.9);
+        MovementBase mb = new MovementBase(MovementType.CREDITS
+                ,3.6,a, LocalDate.now());
+        List<Movement> lm = new ArrayList<>();
+        lm.add(mb);
+        Transaction transaction = new TransactionBase(lm,LocalDate.now());
+        System.out.println(transaction.movements().get(0));
+        System.out.println(mb);
     }
 
 }
