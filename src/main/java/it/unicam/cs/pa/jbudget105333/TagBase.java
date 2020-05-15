@@ -6,11 +6,6 @@ public class TagBase implements Tag{
     private String description = "";
     private static int ID = 0;
 
-    public TagBase(String nome) {
-        this.name = nome;
-        this.ID++;
-    }
-
     public TagBase(String name, String description) {
         this.name = name;
         this.description = description;

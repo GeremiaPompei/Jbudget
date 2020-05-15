@@ -10,16 +10,27 @@ import java.util.List;
 public class App {
 
     public static void main(String[] args) {
-        Tag t = new TagBase("Sport");
-        Account a = new AccountBase("ContoCorrente","Unicredit"
-                ,4.9);
+        Tag t = new TagBase("Sport","tennis");
+        List<Tag> l = new ArrayList<>();
+        l.add(t);
+        Account conto = new AccountBase("ContoCorrente","Unicredit"
+                ,4.9,AccountType.ASSETS);
+        Transaction transaction = new TransactionBase(LocalDate.now(),l);
         MovementBase mb = new MovementBase(MovementType.CREDITS
-                ,3.6,a, LocalDate.now());
+                ,3.6,transaction,conto, LocalDate.now(),l,"Movimento");
         List<Movement> lm = new ArrayList<>();
         lm.add(mb);
-        Transaction transaction = new TransactionBase(lm,LocalDate.now());
+
         System.out.println(transaction.movements().get(0));
         System.out.println(mb);
+        System.out.println(conto.getMovements().get(0));
+
+        System.out.println(transaction);
+        System.out.println(mb.getTransaction());
+
+        System.out.println(mb.getAccount());
+        System.out.println(conto);
+
     }
 
 }

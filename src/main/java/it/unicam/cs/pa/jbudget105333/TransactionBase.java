@@ -8,18 +8,24 @@ public class TransactionBase implements Transaction{
 
     private static int ID = 0;
     private List<Movement> movements = null;
+    private List<Tag> tags = null;
     private LocalDate localDate = null;
 
-    public TransactionBase(List<Movement> movements, LocalDate localDate) {
-        this.movements = movements;
+    public TransactionBase(LocalDate localDate, List<Tag> tags) {
+        this.movements = new ArrayList<>();
         this.localDate = localDate;
+        this.tags = tags;
         this.ID++;
-        this.movements.stream().forEach(m->m.setTransaction(this));
     }
 
     @Override
     public int getID() {
         return this.ID;
+    }
+
+    @Override
+    public void addMovement(Movement movement){
+        this.movements.add(movement);
     }
 
     @Override
@@ -29,9 +35,7 @@ public class TransactionBase implements Transaction{
 
     @Override
     public List<Tag> tags() {
-        List<Tag> lm = new ArrayList<>();
-        this.movements.stream().forEach(m->lm.addAll(m.tags()));
-        return lm;
+        return this.tags;
     }
 
     @Override

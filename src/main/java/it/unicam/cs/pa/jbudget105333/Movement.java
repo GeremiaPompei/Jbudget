@@ -12,5 +12,4 @@ public interface Movement {
     int getID();
     LocalDate getDate();
     List<Tag> tags();
-    void setTransaction(Transaction transaction);
 }

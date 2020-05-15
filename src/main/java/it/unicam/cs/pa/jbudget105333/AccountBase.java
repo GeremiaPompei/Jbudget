@@ -9,13 +9,16 @@ public class AccountBase implements Account{
     private String description = "";
     private final double openingBalance;
     private double balance = 0.0;
-    private List<Movement> movements = new ArrayList<>();
+    private List<Movement> movements = null;
+    private AccountType accountType = null;
 
-    public AccountBase(String name, String description, double openingBalance) {
+    public AccountBase(String name, String description, double openingBalance,AccountType accountType) {
         this.name = name;
         this.description = description;
         this.openingBalance = openingBalance;
         this.balance = openingBalance;
+        this.accountType = accountType;
+        this.movements = new ArrayList<>();
     }
 
     @Override
@@ -56,5 +59,10 @@ public class AccountBase implements Account{
     @Override
     public List<Movement> getMovements() {
         return this.movements;
+    }
+
+    @Override
+    public AccountType getAccountTyepe() {
+        return this.accountType;
     }
 }

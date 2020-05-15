@@ -14,19 +14,8 @@ public class MovementBase implements Movement{
     private LocalDate localDate = null;
     private List<Tag> tags = null;
 
-    public MovementBase(MovementType movementType, double amount
-            , Account account, LocalDate localDate) {
-        this.movementType = movementType;
-        this.amount = amount;
-        this.account = account;
-        this.localDate = localDate;
-        this.tags = tags;
-        this.ID++;
-        account.addMovement(this);
-    }
-
-    public MovementBase(String descrizione, MovementType movementType, double amount
-            , Account account, LocalDate localDate, List<Tag> tags) {
+    public MovementBase(MovementType movementType, double amount, Transaction transaction
+            , Account account, LocalDate localDate, List<Tag> tags, String descrizione) {
         this.descrizione = descrizione;
         this.movementType = movementType;
         this.amount = amount;
@@ -35,6 +24,7 @@ public class MovementBase implements Movement{
         this.localDate = localDate;
         this.tags = tags;
         this.ID++;
+        transaction.addMovement(this);
         account.addMovement(this);
     }
 
@@ -78,8 +68,4 @@ public class MovementBase implements Movement{
         return this.tags;
     }
 
-    @Override
-    public void setTransaction(Transaction transaction) {
-        this.transaction = transaction;
-    }
 }

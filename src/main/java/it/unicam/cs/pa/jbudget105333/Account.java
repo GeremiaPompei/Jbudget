@@ -12,4 +12,5 @@ public interface Account {
     void decrementBalance(double value);
     void addMovement(Movement movement);
     List<Movement> getMovements();
+    AccountType getAccountTyepe();
 }

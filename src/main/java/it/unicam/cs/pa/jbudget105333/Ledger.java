@@ -8,7 +8,7 @@ public interface Ledger {
     void addTransaction(Transaction transaction);
     List<Transaction> getTransactions();
     List<Tag> getTags();
-    void addAccount(String name,String description,Double openingBalance);
+    void addAccount(Account account);
     void addTag(Tag tag);
     void addScheduleTransaction(ScheduleTransaction scheduleTransaction);
     void schedule(LocalDate localDate);
