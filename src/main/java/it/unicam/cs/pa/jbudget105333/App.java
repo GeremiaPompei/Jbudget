@@ -10,10 +10,10 @@ import java.util.function.Consumer;
 
 public class App {
 
-    private ControllerBase controller = null;
-    private View<ControllerBase> view = null;
+    private Controller controller = null;
+    private View view = null;
 
-    public App(ControllerBase controller, View view) {
+    public App(Controller controller, View view) {
         this.controller = controller;
         this.view = view;
     }
@@ -35,23 +35,23 @@ public class App {
         Ledger ledger = new LedgerBase();
         Budget budget = new BudgetBase();
         BudgetReport budgetReport = new BudgetReportBase(ledger,budget);
-        ControllerBase controller = new ControllerBase(budgetReport);
+        Controller controller = new ControllerBase(budgetReport);
         View view = new ConsoleView();
         controller.addCommands(createBasicCommands());
         controller.addCommand("help",c->System.out.println(c.getCommands().toString()));
         return  new App(controller,view);
     }
 
-    private static Map<String, Consumer<? extends Controller>> createBasicCommands(){
-        Map<String, Consumer<? extends Controller>> commands = new HashMap<>();
+    private static Map<String, Consumer<Controller>> createBasicCommands(){
+        Map<String, Consumer<Controller>> commands = new HashMap<>();
         commands.put("exit",c->c.shutdown());
         commands.put("newaccount",c->System.out.println("createAccount name,description,openingBalance,accountType"));
         commands.put("newtag",c->System.out.println("createTag name,description"));
         commands.put("newbudget",c->System.out.println("createBudget tagID,value"));
-        /*commands.put("showtag",c->c.getBudgetReport().getLedger().getTags().stream()
+        commands.put("showtag",c->c.getBudgetReport().getLedger().getTags().stream()
                     .forEach(t->System.out.println(new TagBasePrinter<Tag>().stringOf(t))));
         commands.put("showbudget",c->System.out.println
-                (new BudgetBasePrinter().stringOf(c.getBudgetReport().getBudget())));*/
+                (new BudgetBasePrinter().stringOf(c.getBudgetReport().getBudget())));
         return commands;
     }
 

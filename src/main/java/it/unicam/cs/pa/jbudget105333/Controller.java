@@ -4,12 +4,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-public interface Controller <O extends Object>{
+public interface Controller {
     void processCommand(String command);
     Set getCommands();
-    O getBudgetReport();
-    void addCommand(String string, Consumer<? extends Controller> command);
-    void addCommands(Map<String,Consumer<? extends Controller>> commands);
+    BudgetReport getBudgetReport();
+    void addCommand(String string, Consumer<Controller> command);
+    void addCommands(Map<String,Consumer<Controller>> commands);
     boolean isOn();
     void shutdown();
 }

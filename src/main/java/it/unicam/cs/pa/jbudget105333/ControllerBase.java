@@ -5,9 +5,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-public class ControllerBase implements Controller<BudgetReport>{
+public class ControllerBase implements Controller{
 
-    private Map<String,Consumer<? extends Controller>> commands = null;
+    private Map<String,Consumer<Controller>> commands = null;
     private BudgetReport budgetReport = null;
     private boolean state = false;
 
@@ -20,19 +20,6 @@ public class ControllerBase implements Controller<BudgetReport>{
     @Override
     public void processCommand(String command) {
         try {
-            if(command.toLowerCase().equals("newtransaction")){
-                Transaction transaction = new InstantTransaction();
-                ControllerInstantTransaction controller = new ControllerInstantTransaction(this.budgetReport,transaction);
-                controller.addCommand("exit",t->t.shutdown());
-                Consumer<ControllerInstantTransaction> c =
-                        t->transaction.addMovement(new MovementBase(t.getMovementType(), t.getAmount()
-                                , transaction, t.getAccount(), t.getLocalDate(), t.getTag(), t.getDescription()));
-                controller.addCommand("create",c);
-                View view = new ConsoleViewTransaction();
-                view.open(controller);
-                view.close();
-            }
-            else
             if(command.substring(0,6).toLowerCase().equals("newtag"))
                 this.budgetReport.getLedger()
                         .addTag(new TagBaseScanner().scanOf(command.substring(6)));
@@ -43,6 +30,8 @@ public class ControllerBase implements Controller<BudgetReport>{
             else
             if(command.substring(0,9).toLowerCase().equals("newbudget"))
                 new BudgetBaseScanner(this.budgetReport).scanOf(command.substring(9));
+            else
+                throw new Exception();
         }catch (Exception e) {
             Consumer<Controller> action = (Consumer)this.commands.get(command);
             if(action == null)
@@ -65,12 +54,12 @@ public class ControllerBase implements Controller<BudgetReport>{
     }
 
     @Override
-    public void addCommand(String string, Consumer<? extends Controller> command) {
+    public void addCommand(String string, Consumer<Controller> command) {
         this.commands.put(string,command);
     }
 
     @Override
-    public void addCommands(Map<String, Consumer<? extends Controller>> commands) {
+    public void addCommands(Map<String, Consumer<Controller>> commands) {
         this.commands.putAll(commands);
     }
 
