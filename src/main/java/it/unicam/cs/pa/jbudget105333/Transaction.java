@@ -6,7 +6,7 @@ import java.util.List;
 public interface Transaction {
     int getID();
     void addMovement(Movement movement);
-    List<Movement> movements();
-    List<Tag> tags();
+    List<Movement> getMovements();
+    List<Tag> getTags();
     LocalDate getDate();
 }

@@ -11,5 +11,5 @@ public interface Movement {
     Account getAccount();
     int getID();
     LocalDate getDate();
-    List<Tag> tags();
+    Tag getTag();
 }

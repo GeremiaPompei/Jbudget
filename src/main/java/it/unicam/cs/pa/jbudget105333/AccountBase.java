@@ -1,5 +1,6 @@
 package it.unicam.cs.pa.jbudget105333;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class AccountBase implements Account{
     private List<Movement> movements = null;
     private AccountType accountType = null;
 
-    public AccountBase(String name, String description, double openingBalance,AccountType accountType) {
+    public AccountBase(String name, String description, double openingBalance, AccountType accountType) {
         this.name = name;
         this.description = description;
         this.openingBalance = openingBalance;
@@ -57,12 +58,19 @@ public class AccountBase implements Account{
     }
 
     @Override
+    public void update(){
+        this.movements.stream()
+                .filter(m->m.getDate().isBefore(LocalDate.now()))
+                .forEach(m->this.balance+=m.amount());
+    }
+
+    @Override
     public List<Movement> getMovements() {
         return this.movements;
     }
 
     @Override
-    public AccountType getAccountTyepe() {
+    public AccountType getAccountType() {
         return this.accountType;
     }
 }

@@ -4,18 +4,17 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TransactionBase implements Transaction{
+public class ProgramTransaction implements Transaction{
 
-    private static int ID = 0;
+    private static int IDStatic = 0;
+    private int ID = 0;
     private List<Movement> movements = null;
-    private List<Tag> tags = null;
     private LocalDate localDate = null;
 
-    public TransactionBase(LocalDate localDate, List<Tag> tags) {
+    public ProgramTransaction(LocalDate localDate){
         this.movements = new ArrayList<>();
         this.localDate = localDate;
-        this.tags = tags;
-        this.ID++;
+        this.ID = this.IDStatic++;
     }
 
     @Override
@@ -25,17 +24,22 @@ public class TransactionBase implements Transaction{
 
     @Override
     public void addMovement(Movement movement){
-        this.movements.add(movement);
+        if(this.localDate.isBefore(movement.getDate()))
+            throw new IllegalArgumentException();
+        else
+            this.movements.add(movement);
     }
 
     @Override
-    public List<Movement> movements() {
+    public List<Movement> getMovements() {
         return this.movements;
     }
 
     @Override
-    public List<Tag> tags() {
-        return this.tags;
+    public List<Tag> getTags() {
+        List<Tag> tags = new ArrayList<>();
+        this.movements.stream().forEach(m -> tags.add(m.getTag()));
+        return tags;
     }
 
     @Override

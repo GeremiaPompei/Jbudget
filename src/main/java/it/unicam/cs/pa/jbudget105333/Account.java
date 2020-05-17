@@ -11,6 +11,7 @@ public interface Account {
     void incrementBalance(double value);
     void decrementBalance(double value);
     void addMovement(Movement movement);
+    void update();
     List<Movement> getMovements();
-    AccountType getAccountTyepe();
+    AccountType getAccountType();
 }

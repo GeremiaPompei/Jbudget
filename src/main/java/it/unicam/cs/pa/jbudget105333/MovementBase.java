@@ -12,17 +12,17 @@ public class MovementBase implements Movement{
     private Account account = null;
     private static int ID = 0;
     private LocalDate localDate = null;
-    private List<Tag> tags = null;
+    private Tag tag = null;
 
     public MovementBase(MovementType movementType, double amount, Transaction transaction
-            , Account account, LocalDate localDate, List<Tag> tags, String descrizione) {
+            , Account account, LocalDate localDate, Tag tag, String descrizione) {
         this.descrizione = descrizione;
         this.movementType = movementType;
         this.amount = amount;
         this.transaction = transaction;
         this.account = account;
         this.localDate = localDate;
-        this.tags = tags;
+        this.tag = tag;
         this.ID++;
         transaction.addMovement(this);
         account.addMovement(this);
@@ -64,8 +64,8 @@ public class MovementBase implements Movement{
     }
 
     @Override
-    public List<Tag> tags() {
-        return this.tags;
+    public Tag getTag() {
+        return this.tag;
     }
 
 }

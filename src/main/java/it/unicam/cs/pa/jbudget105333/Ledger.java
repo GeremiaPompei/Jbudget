@@ -1,6 +1,5 @@
 package it.unicam.cs.pa.jbudget105333;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public interface Ledger {
@@ -9,7 +8,6 @@ public interface Ledger {
     List<Transaction> getTransactions();
     List<Tag> getTags();
     void addAccount(Account account);
+    void update();
     void addTag(Tag tag);
-    void addScheduleTransaction(ScheduleTransaction scheduleTransaction);
-    void schedule(LocalDate localDate);
 }

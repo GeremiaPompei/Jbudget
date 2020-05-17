@@ -3,34 +3,56 @@
  */
 package it.unicam.cs.pa.jbudget105333;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 
 public class App {
 
+    private ControllerBase controller = null;
+    private View<ControllerBase> view = null;
+
+    public App(ControllerBase controller, View view) {
+        this.controller = controller;
+        this.view = view;
+    }
+
     public static void main(String[] args) {
-        Tag t = new TagBase("Sport","tennis");
-        List<Tag> l = new ArrayList<>();
-        l.add(t);
-        Account conto = new AccountBase("ContoCorrente","Unicredit"
-                ,4.9,AccountType.ASSETS);
-        Transaction transaction = new TransactionBase(LocalDate.now(),l);
-        MovementBase mb = new MovementBase(MovementType.CREDITS
-                ,3.6,transaction,conto, LocalDate.now(),l,"Movimento");
-        List<Movement> lm = new ArrayList<>();
-        lm.add(mb);
+        try {
+            createAppBase().start();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
-        System.out.println(transaction.movements().get(0));
-        System.out.println(mb);
-        System.out.println(conto.getMovements().get(0));
+    private void start() throws IOException {
+        this.view.open(this.controller);
+        this.view.close();
+    }
 
-        System.out.println(transaction);
-        System.out.println(mb.getTransaction());
+    private static App createAppBase(){
+        Ledger ledger = new LedgerBase();
+        Budget budget = new BudgetBase();
+        BudgetReport budgetReport = new BudgetReportBase(ledger,budget);
+        ControllerBase controller = new ControllerBase(budgetReport);
+        View view = new ConsoleView();
+        controller.addCommands(createBasicCommands());
+        controller.addCommand("help",c->System.out.println(c.getCommands().toString()));
+        return  new App(controller,view);
+    }
 
-        System.out.println(mb.getAccount());
-        System.out.println(conto);
-
+    private static Map<String, Consumer<? extends Controller>> createBasicCommands(){
+        Map<String, Consumer<? extends Controller>> commands = new HashMap<>();
+        commands.put("exit",c->c.shutdown());
+        commands.put("newaccount",c->System.out.println("createAccount name,description,openingBalance,accountType"));
+        commands.put("newtag",c->System.out.println("createTag name,description"));
+        commands.put("newbudget",c->System.out.println("createBudget tagID,value"));
+        /*commands.put("showtag",c->c.getBudgetReport().getLedger().getTags().stream()
+                    .forEach(t->System.out.println(new TagBasePrinter<Tag>().stringOf(t))));
+        commands.put("showbudget",c->System.out.println
+                (new BudgetBasePrinter().stringOf(c.getBudgetReport().getBudget())));*/
+        return commands;
     }
 
 }

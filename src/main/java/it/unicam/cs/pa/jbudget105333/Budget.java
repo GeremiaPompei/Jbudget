@@ -1,9 +1,11 @@
 package it.unicam.cs.pa.jbudget105333;
 
-import java.util.List;
+import java.util.Set;
+import java.util.Map;
 
 public interface Budget {
-    List<Tag> tags();
-    void set(Tag tag);
-    Tag get();
+    void add(Tag tag,double value);
+    Map<Tag,Double> getBudget();
+    double getValue(Tag tag);
+    Set<Tag> getTags();
 }
