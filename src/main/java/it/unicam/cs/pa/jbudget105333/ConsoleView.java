@@ -3,6 +3,7 @@ package it.unicam.cs.pa.jbudget105333;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDateTime;
 
 public class ConsoleView<B extends  BudgetReport,C extends Controller<B>> implements View<C>{
 
@@ -53,5 +54,6 @@ public class ConsoleView<B extends  BudgetReport,C extends Controller<B>> implem
             controller.getBudgetReport().getLedger().getAccounts().stream()
                     .forEach(a -> System.out.println
                             (new AccountBasePrinter<>().stringOf(a)));
+        System.out.println(LocalDateTime.now());
     }
 }

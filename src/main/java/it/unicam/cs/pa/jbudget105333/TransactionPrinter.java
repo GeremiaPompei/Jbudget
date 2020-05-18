@@ -7,7 +7,7 @@ public class TransactionPrinter<T extends Transaction> implements Printer<T>{
     public String stringOf(T transaction) {
         MovementBasePrinter mbp = new MovementBasePrinter();
         AtomicReference<String> ar = new AtomicReference<>();
-                ar.set(transaction.getID()+" "+transaction.getDate());
+                ar.set(transaction.getDate()+"");
         transaction.getMovements().stream()
                 .forEach(m->ar.set(ar.get()+"\n"+mbp.stringOf(m)));
         return ar.get();

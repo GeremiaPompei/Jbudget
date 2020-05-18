@@ -1,16 +1,14 @@
 package it.unicam.cs.pa.jbudget105333;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDateTime;
 
 public interface Movement extends Serializable {
-    String getDescrizione();
+    String getDescription();
     MovementType type();
     double amount();
     Transaction getTransaction();
     Account getAccount();
-    int getID();
-    LocalDate getDate();
+    LocalDateTime getDate();
     Tag getTag();
 }

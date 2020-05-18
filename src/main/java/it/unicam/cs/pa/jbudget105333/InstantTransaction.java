@@ -1,25 +1,17 @@
 package it.unicam.cs.pa.jbudget105333;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class InstantTransaction implements Transaction{
 
-    private static int IDStatic = 0;
-    private int ID = 0;
     private List<Movement> movements = null;
-    private LocalDate localDate = null;
+    private LocalDateTime localDate = null;
 
     public InstantTransaction() {
-        this.localDate = LocalDate.now();
-        this.ID = this.IDStatic++;
+        this.localDate = LocalDateTime.now();
         this.movements = new ArrayList<>();
-    }
-
-    @Override
-    public int getID() {
-        return this.ID;
     }
 
     @Override
@@ -40,7 +32,7 @@ public class InstantTransaction implements Transaction{
     }
 
     @Override
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return this.localDate;
     }
 }

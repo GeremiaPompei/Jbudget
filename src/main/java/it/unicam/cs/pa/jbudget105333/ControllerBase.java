@@ -1,6 +1,9 @@
 package it.unicam.cs.pa.jbudget105333;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,9 +27,17 @@ public class ControllerBase<B extends BudgetReport> implements Controller<B>{
     @Override
     public void processCommand(String command) throws IOException {
         try {
-            if(command.equalsIgnoreCase("newitransaction"))
-                createInstantTransaction();
-            else
+            if(command.equalsIgnoreCase("newitransaction")) {
+                InstantTransaction transaction = new InstantTransaction();
+                createTransaction(transaction);
+            }else
+            if(command.substring(0,15).equalsIgnoreCase("newptransaction")) {
+                ProgramTransaction transaction =
+                        new ProgramTransaction(LocalDateTime.of(
+                                LocalDate.parse(command.substring(15).trim()), LocalTime.MIN));
+                if(transaction.getDate().isAfter(LocalDateTime.now()))
+                    createTransaction(transaction);
+            }else
             if(command.substring(0,6).toLowerCase().equals("newtag"))
                 this.budgetReport.getLedger()
                         .addTag(new TagBaseScanner().scanOf(command.substring(6)));
@@ -81,20 +92,19 @@ public class ControllerBase<B extends BudgetReport> implements Controller<B>{
         this.state = false;
     }
 
-    private void createInstantTransaction() throws IOException {
-        InstantTransaction transaction = new InstantTransaction();
-        ControllerTransaction<Ledger,InstantTransaction> controller =
+    private void createTransaction(Transaction transaction) throws IOException {
+        ControllerTransaction<Ledger,Transaction> controller =
                 new ControllerTransaction<>(this.budgetReport.getLedger(),transaction);
         controller.addCommand("exit",c->c.shutdown());
         controller.addCommand("help",c->System.out.println(c.getCommands().toString()));
-        controller.addCommand("createMovement"
-                ,c->System.out.println("movementType,amount,account,tag,description"));
-        controller.addCommand("showMovType",m-> Arrays.stream(MovementType.values())
+        controller.addCommand("newmovement"
+                ,c->System.out.println("movementType,amount,accountName,tagName,description"));
+        controller.addCommand("showmovtype",m-> Arrays.stream(MovementType.values())
                 .forEach(n->System.out.println(n.toString())));
-        controller.addCommand("showTags"
+        controller.addCommand("showtags"
                 ,c->this.budgetReport.getLedger().getTags().stream()
                         .forEach(t->System.out.println(new TagBasePrinter<>().stringOf(t))));
-        controller.addCommand("showAccounts"
+        controller.addCommand("showaccounts"
                 ,c->this.budgetReport.getLedger().getAccounts().stream()
                         .forEach(a->System.out.println(new AccountBasePrinter<>().stringOf(a))));
         ConsoleViewTransaction<ControllerTransaction> view =
@@ -103,4 +113,5 @@ public class ControllerBase<B extends BudgetReport> implements Controller<B>{
         if(!transaction.getMovements().isEmpty())
             this.budgetReport.getLedger().addTransaction(transaction);
     }
+
 }

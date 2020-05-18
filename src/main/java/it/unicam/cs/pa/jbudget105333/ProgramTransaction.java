@@ -1,30 +1,23 @@
 package it.unicam.cs.pa.jbudget105333;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProgramTransaction implements Transaction{
 
-    private static int IDStatic = 0;
-    private int ID = 0;
     private List<Movement> movements = null;
-    private LocalDate localDate = null;
+    private LocalDateTime localDate = null;
 
-    public ProgramTransaction(LocalDate localDate){
+    public ProgramTransaction(LocalDateTime localDate){
         this.movements = new ArrayList<>();
         this.localDate = localDate;
-        this.ID = this.IDStatic++;
-    }
-
-    @Override
-    public int getID() {
-        return this.ID;
     }
 
     @Override
     public void addMovement(Movement movement){
-        if(this.localDate.isBefore(LocalDate.now()))
+        if(this.localDate.isBefore(LocalDateTime.now()))
             throw new IllegalArgumentException();
         else
             this.movements.add(movement);
@@ -43,7 +36,7 @@ public class ProgramTransaction implements Transaction{
     }
 
     @Override
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return this.localDate;
     }
 }

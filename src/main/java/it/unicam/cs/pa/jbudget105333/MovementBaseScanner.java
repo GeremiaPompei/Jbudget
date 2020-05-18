@@ -38,7 +38,7 @@ public class MovementBaseScanner implements Scanner<MovementBase>{
     private Tag checkTag(String string){
         AtomicReference<Tag> tag = new AtomicReference<>();
         this.ledger.getTags().stream()
-                .filter(t->t.getID()==Integer.parseInt(string))
+                .filter(t->t.getName().equalsIgnoreCase(string))
                 .forEach(t-> tag.set(t));
         return tag.get();
     }

@@ -6,8 +6,7 @@ public class MovementBasePrinter implements Printer<Movement>{
         return movement.type()+" , "+movement.amount()+" , "+
                 new AccountBasePrinter<>().stringOf(movement.getAccount())
                 +" , "+new TagBasePrinter<>().stringOf(movement.getTag())
-                +" , TransactionID:"+movement.getTransaction().getID()+" , "
-                +movement.getDate().toString()+" , MovementID:"+movement.getID()+" , "
-                +movement.getDescrizione();
+                +" , " +movement.getDate().toString()+" , "
+                +movement.getDescription();
     }
 }

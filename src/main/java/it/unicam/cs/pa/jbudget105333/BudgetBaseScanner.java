@@ -17,7 +17,7 @@ public class BudgetBaseScanner implements Scanner<Budget>{
         String id = stringTokenizer.nextToken();
         AtomicReference<Tag> tag = new AtomicReference();
         this.budgetReport.getLedger().getTags().stream()
-                .filter(t->t.getID()==(Integer.parseInt(id.trim())))
+                .filter(t->t.getName().equalsIgnoreCase(id.trim()))
                 .forEach(t-> tag.set(t));
         if(tag.get()!=null)
             this.budgetReport.getBudget().add(tag.get(),Double.parseDouble(stringTokenizer.nextToken()));

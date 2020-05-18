@@ -1,6 +1,7 @@
 package it.unicam.cs.pa.jbudget105333;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class MovementBase implements Movement{
@@ -10,9 +11,7 @@ public class MovementBase implements Movement{
     private double amount = 0.0;
     private Transaction transaction = null;
     private Account account = null;
-    private int ID = 0;
-    private static int IDStatic = 0;
-    private LocalDate localDate = null;
+    private LocalDateTime localDate = null;
     private Tag tag = null;
 
     public MovementBase(MovementType movementType, double amount, Transaction transaction
@@ -24,13 +23,12 @@ public class MovementBase implements Movement{
         this.account = account;
         this.localDate = transaction.getDate();
         this.tag = tag;
-        this.ID = this.IDStatic++;
         transaction.addMovement(this);
         account.addMovement(this);
     }
 
     @Override
-    public String getDescrizione() {
+    public String getDescription() {
         return this.descrizione;
     }
 
@@ -55,12 +53,7 @@ public class MovementBase implements Movement{
     }
 
     @Override
-    public int getID() {
-        return this.ID;
-    }
-
-    @Override
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return this.localDate;
     }
 

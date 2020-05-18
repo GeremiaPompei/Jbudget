@@ -23,7 +23,6 @@ public class LedgerBase implements Ledger{
     @Override
     public void addTransaction(Transaction transaction) {
         this.transactions.add(transaction);
-        this.tags.addAll(transaction.getTags());
     }
 
     @Override

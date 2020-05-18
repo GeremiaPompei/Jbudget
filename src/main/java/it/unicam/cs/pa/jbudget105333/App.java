@@ -21,7 +21,7 @@ public class App {
     public static void main(String[] args) {
         try {
             createAppBase().start();
-        }catch (Exception e){
+        }catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -46,12 +46,14 @@ public class App {
     private static Map<String, Consumer<Controller<BudgetReport>>> createBasicCommands(){
         Map<String, Consumer<Controller<BudgetReport>>> commands = new HashMap<>();
         commands.put("exit",c->c.shutdown());
-        commands.put("newaccount",c->System.out.println("createAccount name,description,openingBalance,accountType"));
-        commands.put("newtag",c->System.out.println("createTag name,description"));
-        commands.put("newbudget",c->System.out.println("createBudget tagID,value"));
-        commands.put("showtag",c->c.getBudgetReport().getLedger().getTags().stream()
+        commands.put("newitransaction",c->System.out.println("instantTransactionMode"));
+        commands.put("newptransaction",c->System.out.println("newptransaction date(AAAA-MM-DD)"));
+        commands.put("newaccount",c->System.out.println("newAccount name,description,openingBalance,accountType"));
+        commands.put("newtag",c->System.out.println("newTag name,description"));
+        commands.put("newbudget",c->System.out.println("newBudget tagID,value"));
+        commands.put("showtags",c->c.getBudgetReport().getLedger().getTags().stream()
                     .forEach(t->System.out.println(new TagBasePrinter<Tag>().stringOf(t))));
-        commands.put("showbudget",c->System.out.println
+        commands.put("showbudgets",c->System.out.println
                 (new BudgetBasePrinter().stringOf(c.getBudgetReport().getBudget())));
         commands.put("showtransactions",c->c.getBudgetReport().getLedger().getTransactions().stream()
                 .forEach(t->System.out.println(new TransactionPrinter().stringOf(t))));
