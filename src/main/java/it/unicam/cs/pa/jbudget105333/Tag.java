@@ -1,6 +1,8 @@
 package it.unicam.cs.pa.jbudget105333;
 
-public interface Tag {
+import java.io.Serializable;
+
+public interface Tag extends Serializable {
     String getName();
     String getDescription();
     int getID();

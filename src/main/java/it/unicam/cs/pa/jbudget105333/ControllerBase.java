@@ -1,25 +1,32 @@
 package it.unicam.cs.pa.jbudget105333;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-public class ControllerBase implements Controller{
+public class ControllerBase<B extends BudgetReport> implements Controller<B>{
 
-    private Map<String,Consumer<Controller>> commands = null;
-    private BudgetReport budgetReport = null;
+    private Map<String,Consumer<Controller<B>>> commands = null;
+    private B budgetReport = null;
     private boolean state = false;
+    private Store store = null;
 
-    public ControllerBase(BudgetReport budgetReport) {
+    public ControllerBase(B budgetReport,Store store) {
         this.commands = new HashMap<>();
         this.budgetReport = budgetReport;
         this.state = true;
+        this.store = store;
     }
 
     @Override
-    public void processCommand(String command) {
+    public void processCommand(String command) throws IOException {
         try {
+            if(command.equalsIgnoreCase("newitransaction"))
+                createInstantTransaction();
+            else
             if(command.substring(0,6).toLowerCase().equals("newtag"))
                 this.budgetReport.getLedger()
                         .addTag(new TagBaseScanner().scanOf(command.substring(6)));
@@ -33,13 +40,14 @@ public class ControllerBase implements Controller{
             else
                 throw new Exception();
         }catch (Exception e) {
-            Consumer<Controller> action = (Consumer)this.commands.get(command);
+            Consumer<Controller<B>> action = this.commands.get(command);
             if(action == null)
                 System.err.println("Command unknown: "+command);
             else
                 action.accept( this);
         }finally {
             this.budgetReport.getLedger().update();
+            this.store.write(this.budgetReport);
         }
     }
 
@@ -49,17 +57,17 @@ public class ControllerBase implements Controller{
     }
 
     @Override
-    public BudgetReport getBudgetReport() {
+    public B getBudgetReport() {
         return this.budgetReport;
     }
 
     @Override
-    public void addCommand(String string, Consumer<Controller> command) {
+    public void addCommand(String string, Consumer<Controller<B>> command) {
         this.commands.put(string,command);
     }
 
     @Override
-    public void addCommands(Map<String, Consumer<Controller>> commands) {
+    public void addCommands(Map<String, Consumer<Controller<B>>> commands) {
         this.commands.putAll(commands);
     }
 
@@ -71,5 +79,28 @@ public class ControllerBase implements Controller{
     @Override
     public void shutdown() {
         this.state = false;
+    }
+
+    private void createInstantTransaction() throws IOException {
+        InstantTransaction transaction = new InstantTransaction();
+        ControllerTransaction<Ledger,InstantTransaction> controller =
+                new ControllerTransaction<>(this.budgetReport.getLedger(),transaction);
+        controller.addCommand("exit",c->c.shutdown());
+        controller.addCommand("help",c->System.out.println(c.getCommands().toString()));
+        controller.addCommand("createMovement"
+                ,c->System.out.println("movementType,amount,account,tag,description"));
+        controller.addCommand("showMovType",m-> Arrays.stream(MovementType.values())
+                .forEach(n->System.out.println(n.toString())));
+        controller.addCommand("showTags"
+                ,c->this.budgetReport.getLedger().getTags().stream()
+                        .forEach(t->System.out.println(new TagBasePrinter<>().stringOf(t))));
+        controller.addCommand("showAccounts"
+                ,c->this.budgetReport.getLedger().getAccounts().stream()
+                        .forEach(a->System.out.println(new AccountBasePrinter<>().stringOf(a))));
+        ConsoleViewTransaction<ControllerTransaction> view =
+                new ConsoleViewTransaction<>(transaction);
+        view.open(controller);
+        if(!transaction.getMovements().isEmpty())
+            this.budgetReport.getLedger().addTransaction(transaction);
     }
 }

@@ -24,7 +24,7 @@ public class ProgramTransaction implements Transaction{
 
     @Override
     public void addMovement(Movement movement){
-        if(this.localDate.isBefore(movement.getDate()))
+        if(this.localDate.isBefore(LocalDate.now()))
             throw new IllegalArgumentException();
         else
             this.movements.add(movement);

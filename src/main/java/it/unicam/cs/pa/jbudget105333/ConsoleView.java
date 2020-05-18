@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class ConsoleView implements View<ControllerBase>{
+public class ConsoleView<B extends  BudgetReport,C extends Controller<B>> implements View<C>{
 
     private BufferedReader reader = null;
 
@@ -13,7 +13,7 @@ public class ConsoleView implements View<ControllerBase>{
     }
 
     @Override
-    public void open(ControllerBase controller) throws IOException {
+    public void open(C controller) throws IOException {
         hello();
         while(controller.isOn()){
             printState(controller);
@@ -45,7 +45,7 @@ public class ConsoleView implements View<ControllerBase>{
         System.out.println("See you next time!\n");
     }
 
-    private void printState(ControllerBase controller){
+    private void printState(C controller){
         System.out.println();
         if(controller.getBudgetReport().getLedger().getAccounts().isEmpty())
             System.out.println("NO ACCOUNTS");

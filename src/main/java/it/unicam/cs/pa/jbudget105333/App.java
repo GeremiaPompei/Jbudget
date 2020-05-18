@@ -10,8 +10,8 @@ import java.util.function.Consumer;
 
 public class App {
 
-    private Controller controller = null;
-    private View view = null;
+    private Controller<BudgetReport> controller = null;
+    private View<Controller<BudgetReport>> view = null;
 
     public App(Controller controller, View view) {
         this.controller = controller;
@@ -31,19 +31,20 @@ public class App {
         this.view.close();
     }
 
-    private static App createAppBase(){
-        Ledger ledger = new LedgerBase();
+    private static App createAppBase() throws IOException {
         Budget budget = new BudgetBase();
-        BudgetReport budgetReport = new BudgetReportBase(ledger,budget);
-        Controller controller = new ControllerBase(budgetReport);
+        Ledger ledger = new LedgerBase();
+        BudgetReportBase budgetReport = new BudgetReportBase(ledger,budget);
+        FileStore<BudgetReportBase> store = new FileStore(budgetReport);
+        Controller<BudgetReport> controller = new ControllerBase(store.read(),store);
         View view = new ConsoleView();
         controller.addCommands(createBasicCommands());
         controller.addCommand("help",c->System.out.println(c.getCommands().toString()));
         return  new App(controller,view);
     }
 
-    private static Map<String, Consumer<Controller>> createBasicCommands(){
-        Map<String, Consumer<Controller>> commands = new HashMap<>();
+    private static Map<String, Consumer<Controller<BudgetReport>>> createBasicCommands(){
+        Map<String, Consumer<Controller<BudgetReport>>> commands = new HashMap<>();
         commands.put("exit",c->c.shutdown());
         commands.put("newaccount",c->System.out.println("createAccount name,description,openingBalance,accountType"));
         commands.put("newtag",c->System.out.println("createTag name,description"));
@@ -52,6 +53,8 @@ public class App {
                     .forEach(t->System.out.println(new TagBasePrinter<Tag>().stringOf(t))));
         commands.put("showbudget",c->System.out.println
                 (new BudgetBasePrinter().stringOf(c.getBudgetReport().getBudget())));
+        commands.put("showtransactions",c->c.getBudgetReport().getLedger().getTransactions().stream()
+                .forEach(t->System.out.println(new TransactionPrinter().stringOf(t))));
         return commands;
     }
 

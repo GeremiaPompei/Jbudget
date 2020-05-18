@@ -1,8 +1,9 @@
 package it.unicam.cs.pa.jbudget105333;
 
+import java.io.Serializable;
 import java.util.List;
 
-public interface Account {
+public interface Account extends Serializable {
 
     String getName();
     String getDescription();

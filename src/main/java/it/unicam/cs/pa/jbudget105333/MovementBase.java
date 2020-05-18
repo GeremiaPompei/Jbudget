@@ -10,20 +10,21 @@ public class MovementBase implements Movement{
     private double amount = 0.0;
     private Transaction transaction = null;
     private Account account = null;
-    private static int ID = 0;
+    private int ID = 0;
+    private static int IDStatic = 0;
     private LocalDate localDate = null;
     private Tag tag = null;
 
     public MovementBase(MovementType movementType, double amount, Transaction transaction
-            , Account account, LocalDate localDate, Tag tag, String descrizione) {
+            , Account account, Tag tag, String descrizione) {
         this.descrizione = descrizione;
         this.movementType = movementType;
         this.amount = amount;
         this.transaction = transaction;
         this.account = account;
-        this.localDate = localDate;
+        this.localDate = transaction.getDate();
         this.tag = tag;
-        this.ID++;
+        this.ID = this.IDStatic++;
         transaction.addMovement(this);
         account.addMovement(this);
     }

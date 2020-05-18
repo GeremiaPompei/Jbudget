@@ -25,7 +25,6 @@ public class InstantTransaction implements Transaction{
     @Override
     public void addMovement(Movement movement) {
         this.movements.add(movement);
-        this.localDate = movement.getDate();
     }
 
     @Override
