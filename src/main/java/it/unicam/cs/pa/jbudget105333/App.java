@@ -52,10 +52,10 @@ public class App {
         commands.put("newtag",c->System.out.println("newTag name,description"));
         commands.put("newbudget",c->System.out.println("newBudget tagID,value"));
         commands.put("showtags",c->c.getBudgetReport().getLedger().getTags().stream()
-                    .forEach(t->System.out.println(new TagBasePrinter<Tag>().stringOf(t))));
+                    .forEach(t->System.out.println(new TagBasePrinter<>().stringOf(t))));
         commands.put("showbudgets",c->System.out.println
                 (new BudgetBasePrinter().stringOf(c.getBudgetReport().getBudget())));
-        commands.put("showtransactions",c->c.getBudgetReport().getLedger().getTransactions().stream()
+        commands.put("showalltransactions",c->c.getBudgetReport().getLedger().getTransactions().stream()
                 .forEach(t->System.out.println(new TransactionPrinter().stringOf(t))));
         return commands;
     }

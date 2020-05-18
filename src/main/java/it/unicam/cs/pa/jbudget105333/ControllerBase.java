@@ -4,10 +4,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 public class ControllerBase<B extends BudgetReport> implements Controller<B>{
@@ -31,6 +29,14 @@ public class ControllerBase<B extends BudgetReport> implements Controller<B>{
                 InstantTransaction transaction = new InstantTransaction();
                 createTransaction(transaction);
             }else
+            if(command.substring(0,16).equalsIgnoreCase("showtransactions")) {
+                try{
+                    scheduleTransactionsDate(command.substring(16).trim());
+                }catch (Exception e) {
+                    scheduleTransactionsTag(command.substring(16).trim());
+                }
+            }
+            else
             if(command.substring(0,15).equalsIgnoreCase("newptransaction")) {
                 ProgramTransaction transaction =
                         new ProgramTransaction(LocalDateTime.of(
@@ -38,16 +44,16 @@ public class ControllerBase<B extends BudgetReport> implements Controller<B>{
                 if(transaction.getDate().isAfter(LocalDateTime.now()))
                     createTransaction(transaction);
             }else
-            if(command.substring(0,6).toLowerCase().equals("newtag"))
-                this.budgetReport.getLedger()
-                        .addTag(new TagBaseScanner().scanOf(command.substring(6)));
-            else
             if(command.substring(0,10).toLowerCase().equals("newaccount"))
                 this.budgetReport.getLedger()
                         .addAccount(new AccountBaseScanner().scanOf(command.substring(10)));
             else
             if(command.substring(0,9).toLowerCase().equals("newbudget"))
                 new BudgetBaseScanner(this.budgetReport).scanOf(command.substring(9));
+            else
+            if(command.substring(0,6).toLowerCase().equals("newtag"))
+                this.budgetReport.getLedger()
+                        .addTag(new TagBaseScanner().scanOf(command.substring(6)));
             else
                 throw new Exception();
         }catch (Exception e) {
@@ -112,6 +118,28 @@ public class ControllerBase<B extends BudgetReport> implements Controller<B>{
         view.open(controller);
         if(!transaction.getMovements().isEmpty())
             this.budgetReport.getLedger().addTransaction(transaction);
+    }
+
+    private void scheduleTransactionsDate(String string){
+        StringTokenizer stringTokenizer = new StringTokenizer(string,",");
+        this.budgetReport.getLedger().scheduleDate(
+                LocalDate.parse(stringTokenizer.nextToken().trim()),
+                LocalDate.parse(stringTokenizer.nextToken().trim()))
+                .stream()
+                .forEach(t->System.out.println(new TransactionPrinter<>().stringOf(t)));
+    }
+
+    private void scheduleTransactionsTag(String string){
+        AtomicReference<Tag> tag = new AtomicReference<>();
+        this.budgetReport.getLedger().getTags().stream()
+                .filter(t->t.getName().equalsIgnoreCase(string.trim()))
+                .forEach(t->tag.set(t));
+        this.budgetReport.getLedger()
+                .scheduleTag(tag.get())
+                .stream()
+                .filter(t->t.getTags().contains(tag.get()))
+                .forEach(t-> System.out.println
+                        (new TransactionPrinter<>().stringOf(t)));
     }
 
 }
