@@ -51,12 +51,13 @@ public class ConsoleView<B extends  BudgetReport,C extends Controller<B>> implem
         if(controller.getBudgetReport().getLedger().getAccounts().isEmpty())
             System.out.println("NO ACCOUNTS");
         else{
+            System.out.println("ACCOUNTS:");
             controller.getBudgetReport().getLedger().getAccounts().stream()
                     .forEach(a -> System.out.println
-                            (new AccountBasePrinter<>().stringOf(a)));
+                            ("   "+new AccountBasePrinter<>().stringOf(a)));
             controller.getBudgetReport().check().keySet().stream()
                     .filter(t->controller.getBudgetReport().check().get(t)<0)
-                    .forEach(t->System.out.println(t.getName()
+                    .forEach(t->System.out.println("ATTENTION: "+t.getName()
                             +": "+controller.getBudgetReport().check().get(t)));
         }
         System.out.println(LocalDateTime.now());

@@ -35,7 +35,10 @@ public class LedgerBase implements Ledger{
                 amount = this.tagAmount.get(m.getTag());
                 this.tagAmount.remove(m.getTag());
             }
-            if (m.type().equals(MovementType.CREDITS))
+            if (m.type().equals(MovementType.CREDITS)
+                    &&m.getAccount().getAccountType().equals(AccountType.ASSETS)
+                    ||m.type().equals(MovementType.DEBIT)
+                    &&m.getAccount().getAccountType().equals(AccountType.LIABILITIES))
                 this.tagAmount.put(m.getTag(), amount + m.amount());
             else
                 this.tagAmount.put(m.getTag(), amount - m.amount());

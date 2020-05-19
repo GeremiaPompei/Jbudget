@@ -31,13 +31,13 @@ public class App {
         this.view.close();
     }
 
-    private static App createAppBase() throws IOException {
+    private static App createAppBase() throws Exception {
         Budget budget = new BudgetBase();
         Ledger ledger = new LedgerBase();
         BudgetReportBase budgetReport = new BudgetReportBase(ledger,budget);
         FileStore<BudgetReportBase> store = new FileStore(budgetReport);
         Controller<BudgetReport> controller = new ControllerBase(store.read(),store);
-        View view = new ConsoleView();
+        View view = new GUIView();
         controller.addCommands(createBasicCommands());
         controller.addCommand("help",c->System.out.println(c.getCommands().toString()));
         return  new App(controller,view);
