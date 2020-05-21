@@ -2,7 +2,7 @@ package it.unicam.cs.pa.jbudget105333;
 
 import java.io.IOException;
 
-public interface View <C extends Controller>{
-    void open(C controller) throws IOException;
+public interface View <O extends Object>{
+    void open(O controller) throws IOException;
     void close();
 }

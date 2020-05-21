@@ -1,7 +1,6 @@
 package it.unicam.cs.pa.jbudget105333;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,8 +14,6 @@ public interface Ledger extends Serializable {
     Set<Tag> getTags();
     void addTag(Tag tag);
     void removeTag(int ID);
-    Set<Transaction> scheduleDate(LocalDate start,LocalDate stop);
-    Set<Transaction> scheduleTag(Tag t);
     IDGenerator getIDGenerator();
     Map<Tag,Double> getTagsAmount();
     void update();

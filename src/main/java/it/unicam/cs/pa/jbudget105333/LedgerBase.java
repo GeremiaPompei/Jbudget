@@ -1,9 +1,9 @@
 package it.unicam.cs.pa.jbudget105333;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class LedgerBase implements Ledger{
@@ -98,25 +98,6 @@ public class LedgerBase implements Ledger{
     }
 
     @Override
-    public Set<Transaction> scheduleDate(LocalDate start, LocalDate stop) {
-        Set<Transaction> transactions = new TreeSet<>();
-        this.transactions.stream()
-                .filter(t->t.getDate().isAfter(LocalDateTime.of(start, LocalTime.MIN)))
-                .filter(t->t.getDate().isBefore(LocalDateTime.of(stop, LocalTime.MIN)))
-                .forEach(t->transactions.add(t));
-        return transactions;
-    }
-
-    @Override
-    public Set<Transaction> scheduleTag(Tag tag) {
-        Set<Transaction> transaction = new TreeSet<>();
-        this.transactions.stream()
-                .filter(t->t.getTags().contains(tag))
-                .forEach(t->transaction.add(t));
-        return transactions;
-    }
-
-    @Override
     public Map<Tag,Double> getTagsAmount() {
         return tagAmount;
     }
@@ -129,7 +110,8 @@ public class LedgerBase implements Ledger{
 
     @Override
     public void update() {
-        this.account.stream().forEach(a->a.update());
+        if(!this.account.isEmpty())
+            this.account.stream().forEach(a->a.update());
     }
 
 }
