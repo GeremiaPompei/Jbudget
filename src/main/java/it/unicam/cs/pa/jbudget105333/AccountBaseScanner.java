@@ -6,12 +6,35 @@ public class AccountBaseScanner implements Scanner<AccountBase>{
 
     @Override
     public AccountBase scanOf(String string) {
-        StringTokenizer stringTokenizer = new StringTokenizer(string,",");
-        AccountBase account = new AccountBase(
-                stringTokenizer.nextToken().trim()
-                ,stringTokenizer.nextToken().trim()
-                ,Double.parseDouble(stringTokenizer.nextToken().trim())
-                ,AccountType.valueOf(stringTokenizer.nextToken().trim().toUpperCase()));
+        StringTokenizer st = new StringTokenizer(string, ",");
+        AccountBase account = null;
+        try {
+            account = new AccountBase(
+                    st.nextToken().trim()
+                    , st.nextToken().trim()
+                    , Double.parseDouble(st.nextToken().trim())
+                    , AccountType.valueOf(st.nextToken().trim().toUpperCase())
+                    , Integer.parseInt(st.nextToken().trim()));
+        }catch (Exception e){
+            account = null;
+        }
+        return account;
+    }
+
+    @Override
+    public AccountBase scanOf(String string,IDGenerator idGenerator) {
+        StringTokenizer st = new StringTokenizer(string, ",");
+        AccountBase account = null;
+        try {
+            account = new AccountBase(
+                    st.nextToken().trim()
+                    , st.nextToken().trim()
+                    , Double.parseDouble(st.nextToken().trim())
+                    , AccountType.valueOf(st.nextToken().trim().toUpperCase())
+                    , idGenerator);
+        }catch (Exception e){
+            account = null;
+        }
         return account;
     }
 }

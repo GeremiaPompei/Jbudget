@@ -6,14 +6,24 @@ import java.util.Set;
 
 public class BudgetBase implements Budget{
 
-    private Map<Tag,Double> budget = null;
+    private final Map<Tag,Double> budget;
+    private final int ID;
 
-    public BudgetBase() {
+    public BudgetBase(IDGenerator idGenerator) {
+        this.ID = idGenerator.generate();
+        this.budget = new HashMap<>();
+        idGenerator.store(this);
+    }
+
+    public BudgetBase(int ID) {
+        this.ID = ID;
         this.budget = new HashMap<>();
     }
 
     @Override
     public void add(Tag tag, double value) {
+        if(this.budget.containsKey(tag))
+            this.budget.remove(tag);
         this.budget.put(tag,value);
     }
 
@@ -30,5 +40,15 @@ public class BudgetBase implements Budget{
     @Override
     public Set<Tag> getTags() {
         return this.budget.keySet();
+    }
+
+    @Override
+    public int getID() {
+        return this.ID;
+    }
+
+    @Override
+    public int compareTo(Budget o) {
+        return this.ID-o.getID();
     }
 }

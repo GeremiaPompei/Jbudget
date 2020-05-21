@@ -6,9 +6,9 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 public interface Controller <O extends Object>{
-    void processCommand(String command) throws IOException;
+    String processCommand(String command) throws IOException;
     Set getCommands();
-    O getBudgetReport();
+    O getObject();
     void addCommand(String string, Consumer<Controller<O>> command);
     void addCommands(Map<String, Consumer<Controller<O>>> commands);
     boolean isOn();

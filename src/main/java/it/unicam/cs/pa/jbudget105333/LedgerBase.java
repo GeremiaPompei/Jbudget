@@ -3,28 +3,35 @@ package it.unicam.cs.pa.jbudget105333;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class LedgerBase implements Ledger{
 
-    private List<Account> account = null;
-    private  List<Transaction> transactions = null;
-    private List<Tag> tags = null;
-    private Map<Tag,Double> tagAmount = null;
+    private final Set<Account> account;
+    private  final Set<Transaction> transactions;
+    private final Set<Tag> tags;
+    private final Map<Tag,Double> tagAmount;
 
     public LedgerBase() {
-        this.account = new ArrayList<>();
-        this.transactions = new ArrayList<>();
-        this.tags = new ArrayList<>();
+        this.account = new TreeSet<>();
+        this.transactions = new TreeSet<>();
+        this.tags = new TreeSet<>();
         this.tagAmount = new HashMap<>();
     }
 
     @Override
-    public List<Account> getAccounts() {
+    public Set<Account> getAccounts() {
         return this.account;
+    }
+
+    @Override
+    public void addAccount(Account account) {
+        this.account.add(account);
+    }
+
+    @Override
+    public Set<Transaction> getTransactions() {
+        return this.transactions;
     }
 
     @Override
@@ -35,40 +42,20 @@ public class LedgerBase implements Ledger{
                 amount = this.tagAmount.get(m.getTag());
                 this.tagAmount.remove(m.getTag());
             }
-            if (m.type().equals(MovementType.CREDITS)
+            if (m.getType().equals(MovementType.CREDITS)
                     &&m.getAccount().getAccountType().equals(AccountType.ASSETS)
-                    ||m.type().equals(MovementType.DEBIT)
+                    ||m.getType().equals(MovementType.DEBIT)
                     &&m.getAccount().getAccountType().equals(AccountType.LIABILITIES))
-                this.tagAmount.put(m.getTag(), amount + m.amount());
+                this.tagAmount.put(m.getTag(), amount + m.getAmount());
             else
-                this.tagAmount.put(m.getTag(), amount - m.amount());
+                this.tagAmount.put(m.getTag(), amount - m.getAmount());
         }
         this.transactions.add(transaction);
     }
 
     @Override
-    public List<Transaction> getTransactions() {
-        return this.transactions;
-    }
-
-    @Override
-    public List<Tag> getTags() {
+    public Set<Tag> getTags() {
         return this.tags;
-    }
-
-    @Override
-    public Map<Tag,Double> getTagsAmount() {
-        return tagAmount;
-    }
-
-    @Override
-    public void addAccount(Account account) {
-        this.account.add(account);
-    }
-
-    @Override
-    public void update() {
-        this.account.stream().forEach(a->a.update());
     }
 
     @Override
@@ -77,8 +64,8 @@ public class LedgerBase implements Ledger{
     }
 
     @Override
-    public List<Transaction> scheduleDate(LocalDate start, LocalDate stop) {
-        List<Transaction> transactions = new ArrayList<>();
+    public Set<Transaction> scheduleDate(LocalDate start, LocalDate stop) {
+        Set<Transaction> transactions = new TreeSet<>();
         this.transactions.stream()
                 .filter(t->t.getDate().isAfter(LocalDateTime.of(start, LocalTime.MIN)))
                 .filter(t->t.getDate().isBefore(LocalDateTime.of(stop, LocalTime.MIN)))
@@ -87,12 +74,22 @@ public class LedgerBase implements Ledger{
     }
 
     @Override
-    public List<Transaction> scheduleTag(Tag tag) {
-        List<Transaction> transaction = new ArrayList<>();
+    public Set<Transaction> scheduleTag(Tag tag) {
+        Set<Transaction> transaction = new TreeSet<>();
         this.transactions.stream()
                 .filter(t->t.getTags().contains(tag))
                 .forEach(t->transaction.add(t));
         return transactions;
+    }
+
+    @Override
+    public Map<Tag,Double> getTagsAmount() {
+        return tagAmount;
+    }
+
+    @Override
+    public void update() {
+        this.account.stream().forEach(a->a.update());
     }
 
 }

@@ -2,8 +2,7 @@ package it.unicam.cs.pa.jbudget105333;
 
 import java.io.IOException;
 
-public interface Store<O extends Object>{
-    O read() throws IOException;
+public interface Writer <O extends Object> {
     void write(O object) throws IOException;
-    void close();
+    void close() throws IOException;
 }

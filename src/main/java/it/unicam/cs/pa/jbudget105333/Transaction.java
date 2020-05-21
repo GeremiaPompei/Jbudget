@@ -1,13 +1,13 @@
 package it.unicam.cs.pa.jbudget105333;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
-public interface Transaction extends Serializable {
+public interface Transaction extends Serializable,Comparable<Transaction> {
     void addMovement(Movement movement);
-    List<Movement> getMovements();
-    List<Tag> getTags();
+    Set<Movement> getMovements();
+    Set<Tag> getTags();
     LocalDateTime getDate();
+    int getID();
 }

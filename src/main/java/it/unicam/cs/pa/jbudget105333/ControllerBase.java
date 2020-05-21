@@ -1,71 +1,71 @@
 package it.unicam.cs.pa.jbudget105333;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 
 public class ControllerBase<B extends BudgetReport> implements Controller<B>{
 
-    private Map<String,Consumer<Controller<B>>> commands = null;
-    private B budgetReport = null;
+    private final Map<String,Consumer<Controller<B>>> commands;
+    private final B budgetReport;
     private boolean state = false;
-    private Store store = null;
+    private final Processor processor;
+    private final Writer<B> writerB;
+    private final Writer<IDGenerator> writerI;
+    private final IDGenerator idGenerator;
 
-    public ControllerBase(B budgetReport,Store store) {
-        this.commands = new HashMap<>();
+    public ControllerBase(B budgetReport, Processor processor, IDGenerator idGenerator
+            , Writer<B> writerB, Writer<IDGenerator> writerI) {
         this.budgetReport = budgetReport;
-        this.state = true;
-        this.store = store;
+        this.processor = processor;
+        this.idGenerator = idGenerator;
+        this.writerB = writerB;
+        this.writerI = writerI;
+        this.state = true;this.commands = new HashMap<>();
     }
 
     @Override
-    public void processCommand(String command) throws IOException {
-        try {
-            if(command.equalsIgnoreCase("newitransaction")) {
-                InstantTransaction transaction = new InstantTransaction();
-                createTransaction(transaction);
-            }else
-            if(command.substring(0,16).equalsIgnoreCase("showtransactions")) {
-                try{
-                    scheduleTransactionsDate(command.substring(16).trim());
-                }catch (Exception e) {
-                    scheduleTransactionsTag(command.substring(16).trim());
-                }
+    public String processCommand(String command) throws IOException {
+        String result = "";
+        if(command.contains(" ")){
+            String intro = command.substring(0, command.indexOf(' ')).trim();
+            String coda = command.substring(command.indexOf(' ')).trim();
+            switch (intro) {
+                case "showtransactionsd":
+                    result = this.processor.scheduleTransactionsDate(coda);
+                    break;
+                case "showtransactionst":
+                    result = this.processor.scheduleTransactionsTag(coda);
+                    break;
+                case "newitransaction":
+                    result = this.processor.newITransaction(coda);
+                    break;
+                case "newptransaction":
+                    result = this.processor.newPTransaction(coda);
+                    break;
+                case "newaccount":
+                    result = this.processor.newAccount(coda);
+                    break;
+                case "newbudget":
+                    result = this.processor.newBudgetRecord(coda);
+                    break;
+                case "newtag":
+                    result = this.processor.newTag(coda);
+                    break;
+                default:
             }
-            else
-            if(command.substring(0,15).equalsIgnoreCase("newptransaction")) {
-                ProgramTransaction transaction =
-                        new ProgramTransaction(LocalDateTime.of(
-                                LocalDate.parse(command.substring(15).trim()), LocalTime.MIN));
-                if(transaction.getDate().isAfter(LocalDateTime.now()))
-                    createTransaction(transaction);
-            }else
-            if(command.substring(0,10).toLowerCase().equals("newaccount"))
-                this.budgetReport.getLedger()
-                        .addAccount(new AccountBaseScanner().scanOf(command.substring(10)));
-            else
-            if(command.substring(0,9).toLowerCase().equals("newbudget"))
-                new BudgetBaseScanner(this.budgetReport).scanOf(command.substring(9));
-            else
-            if(command.substring(0,6).toLowerCase().equals("newtag"))
-                this.budgetReport.getLedger()
-                        .addTag(new TagBaseScanner().scanOf(command.substring(6)));
-            else
-                throw new Exception();
-        }catch (Exception e) {
-            Consumer<Controller<B>> action = this.commands.get(command);
-            if(action == null)
-                System.err.println("Command unknown: "+command);
-            else
-                action.accept( this);
-        }finally {
-            this.budgetReport.getLedger().update();
-            this.store.write(this.budgetReport);
         }
+        Consumer<Controller<B>> action = this.commands.get(command);
+        if(result == "")
+            if (action == null)
+                result = "Command unknown: " + command;
+            else
+                action.accept(this);
+        this.budgetReport.getLedger().update();
+        save();
+        return result;
     }
 
     @Override
@@ -74,7 +74,7 @@ public class ControllerBase<B extends BudgetReport> implements Controller<B>{
     }
 
     @Override
-    public B getBudgetReport() {
+    public B getObject() {
         return this.budgetReport;
     }
 
@@ -98,48 +98,25 @@ public class ControllerBase<B extends BudgetReport> implements Controller<B>{
         this.state = false;
     }
 
-    private void createTransaction(Transaction transaction) throws IOException {
-        ControllerTransaction<Ledger,Transaction> controller =
-                new ControllerTransaction<>(this.budgetReport.getLedger(),transaction);
-        controller.addCommand("exit",c->c.shutdown());
-        controller.addCommand("help",c->System.out.println(c.getCommands().toString()));
-        controller.addCommand("newmovement"
-                ,c->System.out.println("movementType,amount,accountName,tagName,description"));
-        controller.addCommand("showmovtype",m-> Arrays.stream(MovementType.values())
-                .forEach(n->System.out.println(n.toString())));
-        controller.addCommand("showtags"
-                ,c->this.budgetReport.getLedger().getTags().stream()
-                        .forEach(t->System.out.println(new TagBasePrinter<>().stringOf(t))));
-        controller.addCommand("showaccounts"
-                ,c->this.budgetReport.getLedger().getAccounts().stream()
-                        .forEach(a->System.out.println(new AccountBasePrinter<>().stringOf(a))));
-        ConsoleViewTransaction<ControllerTransaction> view =
-                new ConsoleViewTransaction<>(transaction);
-        view.open(controller);
-        if(!transaction.getMovements().isEmpty())
-            this.budgetReport.getLedger().addTransaction(transaction);
-    }
-
-    private void scheduleTransactionsDate(String string){
-        StringTokenizer stringTokenizer = new StringTokenizer(string,",");
-        this.budgetReport.getLedger().scheduleDate(
-                LocalDate.parse(stringTokenizer.nextToken().trim()),
-                LocalDate.parse(stringTokenizer.nextToken().trim()))
-                .stream()
-                .forEach(t->System.out.println(new TransactionPrinter<>().stringOf(t)));
-    }
-
-    private void scheduleTransactionsTag(String string){
-        AtomicReference<Tag> tag = new AtomicReference<>();
-        this.budgetReport.getLedger().getTags().stream()
-                .filter(t->t.getName().equalsIgnoreCase(string.trim()))
-                .forEach(t->tag.set(t));
-        this.budgetReport.getLedger()
-                .scheduleTag(tag.get())
-                .stream()
-                .filter(t->t.getTags().contains(tag.get()))
-                .forEach(t-> System.out.println
-                        (new TransactionPrinter<>().stringOf(t)));
+    private void save() throws IOException {
+        if (this.writerB != null) {
+            this.writerB.write(this.budgetReport);
+            if(this.state==false)
+                try {
+                    this.writerB.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+        }
+        if (this.writerI != null) {
+            this.writerI.write(this.idGenerator);
+            if(this.state==false)
+                try {
+                    this.writerI.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+        }
     }
 
 }

@@ -1,27 +1,41 @@
 package it.unicam.cs.pa.jbudget105333;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class AccountBase implements Account{
 
-    private String name = "";
-    private String description = "";
+    private final int ID;
+    private final String name;
+    private final String description;
     private final double openingBalance;
+    private final AccountType accountType;
     private double balance = 0.0;
-    private List<Movement> movements = null;
-    private AccountType accountType = null;
+    private SortedSet<Movement> movements = null;
     private LocalDateTime lastUpdate = null;
 
-    public AccountBase(String name, String description, double openingBalance, AccountType accountType) {
+    public AccountBase(String name, String description, double openingBalance, AccountType accountType
+            ,int ID) {
         this.name = name;
         this.description = description;
         this.openingBalance = openingBalance;
         this.balance = openingBalance;
         this.accountType = accountType;
-        this.movements = new ArrayList<>();
+        this.movements = new TreeSet<>();
+        this.ID = ID;
+    }
+
+    public AccountBase(String name, String description, double openingBalance, AccountType accountType
+            ,IDGenerator idGenerator) {
+        this.name = name;
+        this.description = description;
+        this.openingBalance = openingBalance;
+        this.balance = openingBalance;
+        this.accountType = accountType;
+        this.movements = new TreeSet<>();
+        this.ID = idGenerator.generate();
+        idGenerator.store(this);
     }
 
     @Override
@@ -45,42 +59,41 @@ public class AccountBase implements Account{
     }
 
     @Override
-    public void incrementBalance(double value) {
-        this.balance += value;
-    }
-
-    @Override
-    public void decrementBalance(double value) {
-        this.balance -= value;
-    }
-
-    @Override
     public void addMovement(Movement movement) {
         this.movements.add(movement);
     }
 
     @Override
     public void update(){
-        this.movements.parallelStream()
-                .filter(m->m.getDate().compareTo(LocalDateTime.now())<=0
-                        &&m.getDate().compareTo(this.lastUpdate)>=0
-                        &&m.type().equals(MovementType.DEBIT))
-                .forEach(m->this.balance-=m.amount());
-        this.movements.parallelStream()
-                .filter(m->m.getDate().compareTo(LocalDateTime.now())<=0
-                        &&m.getDate().compareTo(this.lastUpdate)>=0
-                        &&m.type().equals(MovementType.CREDITS))
-                .forEach(m->this.balance+=m.amount());
+        for(Movement m : this.movements)
+            if(m.getDate().isBefore(LocalDateTime.now())&&m.getDate().isAfter(this.lastUpdate))
+                if(m.getType().equals(MovementType.DEBIT))
+                    this.balance-=m.getAmount();
+                else
+                    this.balance+=m.getAmount();
         this.lastUpdate = LocalDateTime.now();
     }
 
     @Override
-    public List<Movement> getMovements() {
+    public SortedSet<Movement> getMovements() {
         return this.movements;
     }
 
     @Override
     public AccountType getAccountType() {
         return this.accountType;
+    }
+
+    @Override
+    public int getID() {
+        return this.ID;
+    }
+
+    @Override
+    public int compareTo(Account o) {
+        int comparator = this.name.compareTo(o.getName());
+        if (comparator == 0)
+            comparator = this.ID-o.getID();
+        return comparator;
     }
 }

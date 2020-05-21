@@ -1,18 +1,17 @@
 package it.unicam.cs.pa.jbudget105333;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.SortedSet;
 
-public interface Account extends Serializable {
+public interface Account extends Serializable,Comparable<Account> {
 
     String getName();
     String getDescription();
     double getOpeningBalance();
     double getBalance();
-    void incrementBalance(double value);
-    void decrementBalance(double value);
     void addMovement(Movement movement);
     void update();
-    List<Movement> getMovements();
+    SortedSet<Movement> getMovements();
     AccountType getAccountType();
+    int getID();
 }

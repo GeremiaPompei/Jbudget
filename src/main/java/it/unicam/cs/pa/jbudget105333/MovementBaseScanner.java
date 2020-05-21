@@ -1,13 +1,12 @@
 package it.unicam.cs.pa.jbudget105333;
 
-import java.time.LocalDate;
 import java.util.StringTokenizer;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class MovementBaseScanner implements Scanner<MovementBase>{
 
-    private Transaction transaction = null;
-    private Ledger ledger = null;
+    private final Transaction transaction;
+    private final Ledger ledger;
 
     public MovementBaseScanner(Transaction transaction,Ledger ledger) {
         this.transaction = transaction;
@@ -16,29 +15,54 @@ public class MovementBaseScanner implements Scanner<MovementBase>{
 
     @Override
     public MovementBase scanOf(String string) {
-        StringTokenizer stringTokenizer = new StringTokenizer(string,",");
-        MovementBase movementBase = new MovementBase(
-                MovementType.valueOf(stringTokenizer.nextToken().trim().toUpperCase())
-                ,Double.parseDouble(stringTokenizer.nextToken().trim())
-                ,this.transaction
-                ,checkAccount(stringTokenizer.nextToken().trim())
-                ,checkTag(stringTokenizer.nextToken().trim())
-                ,stringTokenizer.nextToken().trim());
+        StringTokenizer st = new StringTokenizer(string,",");
+        MovementBase movementBase = null;
+        try {
+            movementBase = new MovementBase(
+                    MovementType.valueOf(st.nextToken().trim().toUpperCase())
+                    , Double.parseDouble(st.nextToken().trim())
+                    , this.transaction
+                    , parseAccount(st.nextToken().trim())
+                    , parseTag(st.nextToken().trim())
+                    , st.nextToken().trim()
+                    , Integer.parseInt(st.nextToken().trim()));
+        }catch (Exception e){
+            movementBase = null;
+        }
         return movementBase;
     }
 
-    private Account checkAccount(String string){
+    @Override
+    public MovementBase scanOf(String string,IDGenerator idGenerator) {
+        StringTokenizer st = new StringTokenizer(string,",");
+        MovementBase movementBase;
+        try {
+            movementBase = new MovementBase(
+                    MovementType.valueOf(st.nextToken().trim().toUpperCase())
+                    , Double.parseDouble(st.nextToken().trim())
+                    , this.transaction
+                    , parseAccount(st.nextToken().trim())
+                    , parseTag(st.nextToken().trim())
+                    , st.nextToken().trim()
+                    , idGenerator);
+        }catch (Exception e){
+            movementBase = null;
+        }
+        return movementBase;
+    }
+
+    private Account parseAccount(String string) throws Exception {
         AtomicReference<Account> account = new AtomicReference<>();
         this.ledger.getAccounts().stream()
-                .filter(a->a.getName().equalsIgnoreCase(string))
+                .filter(a->a.getID()==Integer.parseInt(string))
                 .forEach(a-> account.set(a));
         return account.get();
     }
 
-    private Tag checkTag(String string){
+    private Tag parseTag(String string) throws Exception {
         AtomicReference<Tag> tag = new AtomicReference<>();
         this.ledger.getTags().stream()
-                .filter(t->t.getName().equalsIgnoreCase(string))
+                .filter(t->t.getID()==Integer.parseInt(string))
                 .forEach(t-> tag.set(t));
         return tag.get();
     }

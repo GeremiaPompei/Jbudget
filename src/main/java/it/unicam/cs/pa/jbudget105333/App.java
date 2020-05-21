@@ -31,13 +31,46 @@ public class App {
         this.view.close();
     }
 
-    private static App createAppBase() throws Exception {
-        Budget budget = new BudgetBase();
+    private static App createAppBase() {
+        String pathIDG = "src/file/IDGenerator.txt";
+        String pathBR = "src/file/BudgetReport.txt";
         Ledger ledger = new LedgerBase();
-        BudgetReportBase budgetReport = new BudgetReportBase(ledger,budget);
-        FileStore<BudgetReportBase> store = new FileStore(budgetReport);
-        Controller<BudgetReport> controller = new ControllerBase(store.read(),store);
-        View view = new GUIView();
+        IDGenerator idGenerator = null;
+        try {
+            idGenerator = new IDGeneratorReader<>(pathIDG).read();
+        } catch (IOException e) {
+            idGenerator = new IDGeneratorBase();
+        } catch (ClassNotFoundException e) {
+            idGenerator = new IDGeneratorBase();
+        }
+        Budget budget = new BudgetBase(idGenerator);
+        BudgetReport<Ledger,Budget> budgetReport = null;
+        try{
+            Reader<BudgetReportBase> reader = new BudgetReportReader(pathBR);
+            budgetReport = reader.read();
+        } catch (IOException e) {
+            budgetReport = new BudgetReportBase(ledger,budget);
+        } catch (ClassNotFoundException e) {
+            budgetReport = new BudgetReportBase(ledger,budget);
+        }
+        Printer<Tag> tagp = new TagBasePrinter();
+        Printer<Account> accountp = new AccountBasePrinter();
+        Printer<Movement> movementp = new MovementBasePrinter(accountp,tagp);
+        Printer<Transaction> transactionp = new TransactionBasePrinter(movementp);
+        Scanner<TagBase> tags = new TagBaseScanner();
+        Scanner<AccountBase> accounts = new AccountBaseScanner();
+        Scanner<InstantTransaction> instantts = new InstantTransactionScanner(budgetReport.getLedger());
+        Scanner<ProgramTransaction> programts = new ProgramTransactionScanner(budgetReport.getLedger());
+        Processor<AccountBase,InstantTransaction,ProgramTransaction,TagBase> processor =
+                new ProcessorBase(budgetReport,idGenerator,transactionp,accounts,programts,instantts,tags);
+        Controller<BudgetReport> controller = null;
+        try {
+            controller = new ControllerBase(budgetReport,processor,idGenerator,new BudgetReportWriter(pathBR)
+                    ,new IDGeneratorWriter(pathIDG));
+        } catch (IOException e) {
+            controller = new ControllerBase(budgetReport,processor,idGenerator,null,null);
+        }
+        View view = new ConsoleView();
         controller.addCommands(createBasicCommands());
         controller.addCommand("help",c->System.out.println(c.getCommands().toString()));
         return  new App(controller,view);
@@ -46,17 +79,24 @@ public class App {
     private static Map<String, Consumer<Controller<BudgetReport>>> createBasicCommands(){
         Map<String, Consumer<Controller<BudgetReport>>> commands = new HashMap<>();
         commands.put("exit",c->c.shutdown());
-        commands.put("newitransaction",c->System.out.println("instantTransactionMode"));
-        commands.put("newptransaction",c->System.out.println("newptransaction date(AAAA-MM-DD)"));
+        commands.put("newitransaction",c->System.out.println
+                ("newitransaction movType1,amount1,accountName1,tagName1,description1" +
+                        ";movType2,amount2,accountName2,tagName2,description2;..."));
+        commands.put("newptransaction",c->System.out.println
+                ("newptransaction date(AAAA-MM-DD)" +
+                ";movType1,amount1,accountName1,tagName1,description1" +
+                        ";movType2,amount2,accountName2,tagName2,description2;...\""));
         commands.put("newaccount",c->System.out.println("newAccount name,description,openingBalance,accountType"));
         commands.put("newtag",c->System.out.println("newTag name,description"));
-        commands.put("newbudget",c->System.out.println("newBudget tagID,value"));
-        commands.put("showtags",c->c.getBudgetReport().getLedger().getTags().stream()
-                    .forEach(t->System.out.println(new TagBasePrinter<>().stringOf(t))));
-        commands.put("showbudgets",c->System.out.println
-                (new BudgetBasePrinter().stringOf(c.getBudgetReport().getBudget())));
-        commands.put("showalltransactions",c->c.getBudgetReport().getLedger().getTransactions().stream()
-                .forEach(t->System.out.println(new TransactionPrinter().stringOf(t))));
+        commands.put("newbudget",c->System.out.println("newBudget tagName,value"));
+        commands.put("showtags",c->c.getObject().getLedger().getTags().stream()
+                    .forEach(t->System.out.println(new TagBasePrinter().stringOf(t))));
+        commands.put("showaccounts",t->t.getObject().getLedger().getAccounts().stream()
+                .forEach(s->System.out.println(new AccountBasePrinter().stringOf(s))));
+        /*commands.put("showbudgets",c->System.out.println
+                (new BudgetBasePrinter().stringOf(c.getObject().getBudget())));
+        commands.put("showtransactions",c->c.getObject().getLedger().getTransactions().stream()
+                .forEach(t->System.out.println(new TransactionBasePrinter().stringOf(t))));*/
         return commands;
     }
 

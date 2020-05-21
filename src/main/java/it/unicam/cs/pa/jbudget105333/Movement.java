@@ -3,12 +3,14 @@ package it.unicam.cs.pa.jbudget105333;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public interface Movement extends Serializable {
+public interface Movement<TA extends Tag,TR extends Transaction,A extends Account>
+        extends Serializable,Comparable<Movement> {
     String getDescription();
-    MovementType type();
-    double amount();
-    Transaction getTransaction();
-    Account getAccount();
+    MovementType getType();
+    double getAmount();
+    TR getTransaction();
+    A getAccount();
     LocalDateTime getDate();
-    Tag getTag();
+    TA getTag();
+    int getID();
 }

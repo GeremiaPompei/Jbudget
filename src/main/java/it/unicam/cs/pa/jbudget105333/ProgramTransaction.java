@@ -4,8 +4,12 @@ import java.time.LocalDateTime;
 
 public class ProgramTransaction extends TransactionBase{
 
-    public ProgramTransaction(LocalDateTime localDate) {
-        super(localDate);
+    public ProgramTransaction(LocalDateTime localDate, IDGenerator idGenerator) {
+        super(localDate, idGenerator);
+    }
+
+    public ProgramTransaction(LocalDateTime localDate, int ID) {
+        super(localDate, ID);
     }
 
     @Override

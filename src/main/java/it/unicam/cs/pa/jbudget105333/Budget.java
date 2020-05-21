@@ -4,9 +4,10 @@ import java.io.Serializable;
 import java.util.Set;
 import java.util.Map;
 
-public interface Budget extends Serializable {
+public interface Budget extends Serializable,Comparable<Budget> {
     void add(Tag tag,double value);
     Map<Tag,Double> getBudget();
     double getValue(Tag tag);
     Set<Tag> getTags();
+    int getID();
 }

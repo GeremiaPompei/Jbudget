@@ -1,9 +1,9 @@
 package it.unicam.cs.pa.jbudget105333;
 
-public class TagBasePrinter<T extends Tag> implements Printer<T>{
+public class TagBasePrinter implements Printer<Tag>{
 
     @Override
-    public String stringOf(T tag) {
-        return tag.getName()+"("+tag.getDescription()+")";
+    public String stringOf(Tag tag) {
+        return tag.getName()+"("+tag.getDescription()+")[ID:"+tag.getID()+"]";
     }
 }

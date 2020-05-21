@@ -3,23 +3,23 @@ package it.unicam.cs.pa.jbudget105333;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BudgetReportBase implements BudgetReport{
+public class BudgetReportBase<L extends Ledger,B extends Budget> implements BudgetReport<L,B>{
 
-    private Ledger ledger = null;
-    private Budget budget = null;
+    private final L ledger;
+    private final B budget;
 
-    public BudgetReportBase(Ledger ledger, Budget budget) {
+    public BudgetReportBase(L ledger, B budget) {
         this.ledger = ledger;
         this.budget = budget;
     }
 
     @Override
-    public Ledger getLedger() {
+    public L getLedger() {
         return this.ledger;
     }
 
     @Override
-    public Budget getBudget() {
+    public B getBudget() {
         return this.budget;
     }
 
