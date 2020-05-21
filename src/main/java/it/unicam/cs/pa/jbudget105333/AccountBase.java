@@ -30,9 +30,12 @@ public class AccountBase implements Account{
             ,IDGenerator idGenerator) {
         this.name = name;
         this.description = description;
-        this.openingBalance = openingBalance;
-        this.balance = openingBalance;
         this.accountType = accountType;
+        if(accountType.equals(AccountType.ASSETS))
+            this.openingBalance = openingBalance;
+        else
+            this.openingBalance = -openingBalance;
+        this.balance = this.openingBalance;
         this.movements = new TreeSet<>();
         this.ID = idGenerator.generate();
         idGenerator.store(this);
@@ -67,10 +70,13 @@ public class AccountBase implements Account{
     public void update(){
         for(Movement m : this.movements)
             if(m.getDate().isBefore(LocalDateTime.now())&&m.getDate().isAfter(this.lastUpdate))
-                if(m.getType().equals(MovementType.DEBIT))
-                    this.balance-=m.getAmount();
-                else
+                if(m.getType().equals(MovementType.CREDITS)
+                        && m.getAccount().getAccountType().equals(AccountType.ASSETS)
+                        ||m.getType().equals(MovementType.DEBIT)
+                        && m.getAccount().getAccountType().equals(AccountType.LIABILITIES))
                     this.balance+=m.getAmount();
+                else
+                    this.balance-=m.getAmount();
         this.lastUpdate = LocalDateTime.now();
     }
 

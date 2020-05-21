@@ -56,6 +56,20 @@ public abstract class TransactionBase implements Transaction{
     }
 
     @Override
+    public double getTotalAmount() {
+        Double value = 0.0;
+        for(Movement m : this.movements)
+            if(m.getType().equals(MovementType.CREDITS)
+                    && m.getAccount().getAccountType().equals(AccountType.ASSETS)
+                    ||m.getType().equals(MovementType.DEBIT)
+                    && m.getAccount().getAccountType().equals(AccountType.LIABILITIES))
+                value += m.getAmount();
+            else
+                value -= m.getAmount();
+        return value;
+    }
+
+    @Override
     public int getID(){
         return this.ID;
     }

@@ -18,11 +18,11 @@ public class InstantTransactionScanner implements Scanner<InstantTransaction>{
         try {
             while (st.hasMoreTokens())
                 it.addMovement(movementS.scanOf(st.nextToken()));
+            if(!it.getMovements().isEmpty())
+                this.ledger.addTransaction(it);
         }catch (Exception e){
             it = null;
         }
-        if(!it.getMovements().isEmpty())
-            this.ledger.addTransaction(it);
         return it;
     }
 
@@ -34,11 +34,11 @@ public class InstantTransactionScanner implements Scanner<InstantTransaction>{
         try {
             while (st.hasMoreTokens())
                 it.addMovement(movementS.scanOf(st.nextToken(),idGenerator));
+            if(!it.getMovements().isEmpty())
+                this.ledger.addTransaction(it);
         }catch (Exception e){
             it = null;
         }
-        if(!it.getMovements().isEmpty())
-            this.ledger.addTransaction(it);
         return it;
     }
 }

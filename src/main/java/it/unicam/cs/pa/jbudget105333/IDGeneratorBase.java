@@ -22,4 +22,9 @@ public class IDGeneratorBase implements IDGenerator, Serializable {
     public void store(Object o){
         this.history.put(nextID,o);
     }
+
+    @Override
+    public Map<Integer, Object> getMap() {
+        return this.history;
+    }
 }

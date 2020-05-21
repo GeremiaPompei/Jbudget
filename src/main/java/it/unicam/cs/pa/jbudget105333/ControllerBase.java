@@ -13,16 +13,11 @@ public class ControllerBase<B extends BudgetReport> implements Controller<B>{
     private boolean state = false;
     private final Processor processor;
     private final Writer<B> writerB;
-    private final Writer<IDGenerator> writerI;
-    private final IDGenerator idGenerator;
 
-    public ControllerBase(B budgetReport, Processor processor, IDGenerator idGenerator
-            , Writer<B> writerB, Writer<IDGenerator> writerI) {
+    public ControllerBase(B budgetReport, Processor processor, Writer<B> writerB) {
         this.budgetReport = budgetReport;
         this.processor = processor;
-        this.idGenerator = idGenerator;
         this.writerB = writerB;
-        this.writerI = writerI;
         this.state = true;this.commands = new HashMap<>();
     }
 
@@ -104,15 +99,6 @@ public class ControllerBase<B extends BudgetReport> implements Controller<B>{
             if(this.state==false)
                 try {
                     this.writerB.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-        }
-        if (this.writerI != null) {
-            this.writerI.write(this.idGenerator);
-            if(this.state==false)
-                try {
-                    this.writerI.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

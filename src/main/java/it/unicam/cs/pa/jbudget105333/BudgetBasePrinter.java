@@ -13,7 +13,7 @@ public class BudgetBasePrinter implements Printer<Budget>{
     @Override
     public String stringOf(Budget budget) {
         AtomicReference<String> ar = new AtomicReference<>();
-        ar.set("[ID"+budget.getID()+"]\n");
+        ar.set("");
         budget.getTags().stream().
                 forEach(t->ar.set(ar.get()+this.tag.stringOf(t) +": "+ budget.getValue(t)+"\n"));
         return ar.get();

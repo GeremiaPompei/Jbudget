@@ -9,5 +9,6 @@ public interface Transaction extends Serializable,Comparable<Transaction> {
     Set<Movement> getMovements();
     Set<Tag> getTags();
     LocalDateTime getDate();
+    double getTotalAmount();
     int getID();
 }

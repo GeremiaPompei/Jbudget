@@ -32,27 +32,24 @@ public class App {
     }
 
     private static App createAppBase() {
-        String pathIDG = "src/file/IDGenerator.txt";
         String pathBR = "src/file/BudgetReport.txt";
-        Ledger ledger = new LedgerBase();
-        IDGenerator idGenerator = null;
+        BudgetReport<Ledger,Budget> budgetReport =
+                BudgetManager.generateReport();
+        IDGenerator idGenerator = budgetReport.getLedger().getIDGenerator();
+        Processor<AccountBase,InstantTransaction,ProgramTransaction,TagBase> processor = createProcessorBase(budgetReport);
+        Controller<BudgetReport> controller = null;
         try {
-            idGenerator = new IDGeneratorReader<>(pathIDG).read();
+            controller = new ControllerBase(budgetReport,processor,new BudgetReportWriter(pathBR));
         } catch (IOException e) {
-            idGenerator = new IDGeneratorBase();
-        } catch (ClassNotFoundException e) {
-            idGenerator = new IDGeneratorBase();
+            controller = new ControllerBase(budgetReport,processor,null);
         }
-        Budget budget = new BudgetBase(idGenerator);
-        BudgetReport<Ledger,Budget> budgetReport = null;
-        try{
-            Reader<BudgetReportBase> reader = new BudgetReportReader(pathBR);
-            budgetReport = reader.read();
-        } catch (IOException e) {
-            budgetReport = new BudgetReportBase(ledger,budget);
-        } catch (ClassNotFoundException e) {
-            budgetReport = new BudgetReportBase(ledger,budget);
-        }
+        View view = new ConsoleView();
+        controller.addCommands(createBasicCommands());
+        controller.addCommand("help",c->System.out.println(c.getCommands().toString()));
+        return  new App(controller,view);
+    }
+
+    private static ProcessorBase createProcessorBase(BudgetReport budgetReport){
         Printer<Tag> tagp = new TagBasePrinter();
         Printer<Account> accountp = new AccountBasePrinter();
         Printer<Movement> movementp = new MovementBasePrinter(accountp,tagp);
@@ -61,19 +58,7 @@ public class App {
         Scanner<AccountBase> accounts = new AccountBaseScanner();
         Scanner<InstantTransaction> instantts = new InstantTransactionScanner(budgetReport.getLedger());
         Scanner<ProgramTransaction> programts = new ProgramTransactionScanner(budgetReport.getLedger());
-        Processor<AccountBase,InstantTransaction,ProgramTransaction,TagBase> processor =
-                new ProcessorBase(budgetReport,idGenerator,transactionp,accounts,programts,instantts,tags);
-        Controller<BudgetReport> controller = null;
-        try {
-            controller = new ControllerBase(budgetReport,processor,idGenerator,new BudgetReportWriter(pathBR)
-                    ,new IDGeneratorWriter(pathIDG));
-        } catch (IOException e) {
-            controller = new ControllerBase(budgetReport,processor,idGenerator,null,null);
-        }
-        View view = new ConsoleView();
-        controller.addCommands(createBasicCommands());
-        controller.addCommand("help",c->System.out.println(c.getCommands().toString()));
-        return  new App(controller,view);
+        return new ProcessorBase(budgetReport,budgetReport.getLedger().getIDGenerator(),transactionp,accounts,programts,instantts,tags);
     }
 
     private static Map<String, Consumer<Controller<BudgetReport>>> createBasicCommands(){

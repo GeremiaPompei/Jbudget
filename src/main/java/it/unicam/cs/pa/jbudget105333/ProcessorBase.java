@@ -104,8 +104,9 @@ public class ProcessorBase <A extends Account,I extends Transaction
         AtomicReference<Tag> tag = new AtomicReference<>();
         double value = 0.0;
         try {
+            String tmp = st.nextToken();
             this.budgetReport.getLedger().getTags().stream()
-                    .filter(t -> t.getID() == (Integer.parseInt(st.nextToken())))
+                    .filter(t -> t.getID() == (Integer.parseInt(tmp)))
                     .forEach(t -> tag.set(t));
             value = Double.parseDouble(st.nextToken());
         }catch (Exception e){

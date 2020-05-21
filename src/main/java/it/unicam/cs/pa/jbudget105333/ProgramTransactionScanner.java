@@ -25,11 +25,12 @@ public class ProgramTransactionScanner implements Scanner<ProgramTransaction>{
             Scanner<MovementBase> movementS = new MovementBaseScanner(pt,this.ledger);
             while (st1.hasMoreTokens())
                 pt.addMovement(movementS.scanOf(st1.nextToken()));
+            if(!pt.getMovements().isEmpty())
+                this.ledger.addTransaction(pt);
         }catch (Exception e){
             pt = null;
         }
-        if(!pt.getMovements().isEmpty())
-            this.ledger.addTransaction(pt);
+
         return pt;
     }
 
@@ -43,11 +44,11 @@ public class ProgramTransactionScanner implements Scanner<ProgramTransaction>{
             Scanner<MovementBase> movementS = new MovementBaseScanner(pt,this.ledger);
             while (st.hasMoreTokens())
                 pt.addMovement(movementS.scanOf(st.nextToken(),idGenerator));
+            if(!pt.getMovements().isEmpty())
+                this.ledger.addTransaction(pt);
         }catch (Exception e){
             pt = null;
         }
-        if(!pt.getMovements().isEmpty())
-            this.ledger.addTransaction(pt);
         return pt;
     }
 }
