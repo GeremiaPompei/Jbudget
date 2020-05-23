@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class LedgerBase implements Ledger{
 
@@ -14,12 +13,13 @@ public class LedgerBase implements Ledger{
     private final Map<Tag,Double> tagAmount;
     private final IDGenerator idGenerator;
 
-    public LedgerBase(IDGenerator idGenerator) {
+    //Il costruttore inizializza ogni variabile di instanza
+    public LedgerBase() {
         this.account = new TreeSet<>();
         this.transactions = new TreeSet<>();
         this.tags = new TreeSet<>();
         this.tagAmount = new HashMap<>();
-        this.idGenerator = idGenerator;
+        this.idGenerator = new IDGeneratorBase();
     }
 
     @Override
@@ -33,15 +33,8 @@ public class LedgerBase implements Ledger{
     }
 
     @Override
-    public void removeAccount(int ID) {
-        AtomicReference<Account> account = new AtomicReference<>();
-        this.account.stream()
-                .filter(a->a.getID()==ID)
-                .forEach(a->account.set(a));
-        this.transactions.stream()
-                .filter(a->a.getTags().contains(account.get()))
-                .forEach(a->this.transactions.remove(a));
-        this.account.remove(account.get());
+    public void removeAccount(Account account) {
+        this.account.remove(account);
     }
 
     @Override
@@ -49,6 +42,9 @@ public class LedgerBase implements Ledger{
         return this.transactions;
     }
 
+    /*Quando viene aggiunta una transazione viene aggiurnata la mappa tagsAmount con la somma dei
+    valori dei movimenti per ogni tag
+     */
     @Override
     public void addTransaction(Transaction transaction) {
         for (Movement m : transaction.getMovements()) {
@@ -69,10 +65,8 @@ public class LedgerBase implements Ledger{
     }
 
     @Override
-    public void removeTransaction(int ID) {
-        this.transactions.stream()
-                .filter(t->t.getID()==ID)
-                .forEach(t->this.transactions.remove(t));
+    public void removeTransaction(Transaction transaction) {
+        this.transactions.remove(transaction);
     }
 
     @Override
@@ -86,15 +80,8 @@ public class LedgerBase implements Ledger{
     }
 
     @Override
-    public void removeTag(int ID) {
-        AtomicReference<Tag> tag = new AtomicReference<>();
-        this.tags.stream()
-                .filter(t->t.getID()==ID)
-                .forEach(t->tag.set(t));
-        this.transactions.stream()
-                .filter(t->t.getTags().contains(tag.get()))
-                .forEach(t->this.transactions.remove(t));
-        this.tags.remove(tag.get());
+    public void removeTag(Tag tag) {
+        this.tags.remove(tag);
     }
 
     @Override
@@ -102,12 +89,12 @@ public class LedgerBase implements Ledger{
         return tagAmount;
     }
 
-
     @Override
     public IDGenerator getIDGenerator() {
         return idGenerator;
     }
 
+    //Aggiorna il bilancio degli account se vi sono
     @Override
     public void update() {
         if(!this.account.isEmpty())

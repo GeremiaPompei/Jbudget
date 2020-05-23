@@ -2,14 +2,14 @@ package it.unicam.cs.pa.jbudget105333;
 
 public class InstantTransaction extends TransactionBase{
 
+    /*Il costruttore prende solo l'idGenerator perchè la data viene fissata direttamente quella
+    del momento
+     */
     public InstantTransaction(IDGenerator idGenerator) {
         super(idGenerator);
     }
 
-    public InstantTransaction(int ID) {
-        super(ID);
-    }
-
+    //Viene aggiunto un movimento alla transazione
     @Override
     public void addMovement(Movement movement) {
         this.getMovements().add(movement);

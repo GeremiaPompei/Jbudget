@@ -23,18 +23,6 @@ public abstract class TransactionBase implements Transaction{
         idGenerator.store(this);
     }
 
-    public TransactionBase(int ID) {
-        this.ID = ID;
-        this.localDate = LocalDateTime.now();
-        this.movements = new TreeSet<>();
-    }
-
-    public TransactionBase(LocalDateTime localDate,int ID) {
-        this.ID = ID;
-        this.localDate = localDate;
-        this.movements = new TreeSet<>();
-    }
-
     @Override
     public abstract void addMovement(Movement movement);
 

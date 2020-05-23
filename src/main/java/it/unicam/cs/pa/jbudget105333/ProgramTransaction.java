@@ -8,10 +8,6 @@ public class ProgramTransaction extends TransactionBase{
         super(localDate, idGenerator);
     }
 
-    public ProgramTransaction(LocalDateTime localDate, int ID) {
-        super(localDate, ID);
-    }
-
     @Override
     public void addMovement(Movement movement){
         if(super.getDate().isBefore(LocalDateTime.now()))

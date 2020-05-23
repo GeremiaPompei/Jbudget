@@ -7,7 +7,7 @@ import java.util.Map;
 public interface Budget extends Serializable {
     void add(Tag tag,double value);
     void remove(Tag tag);
-    Map<Tag,Double> getBudget();
+    Map<Tag,Double> getBudgetMap();
     double getValue(Tag tag);
     Set<Tag> getTags();
 }

@@ -7,4 +7,5 @@ public interface IDGenerator extends Serializable {
     int generate();
     void store(Object o);
     Map<Integer,Object> getMap();
+    Object IDSearch(int id);
 }

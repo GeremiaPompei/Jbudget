@@ -12,6 +12,7 @@ public class BudgetBase implements Budget{
         this.budget = new HashMap<>();
     }
 
+    //Aggiunta di un record
     @Override
     public void add(Tag tag, double value) {
         if(this.budget.containsKey(tag))
@@ -19,21 +20,25 @@ public class BudgetBase implements Budget{
         this.budget.put(tag,value);
     }
 
+    //Eliminazione di un record
     @Override
     public void remove(Tag tag) {
         this.budget.remove(tag);
     }
 
+    //Getter di tutta la mappa
     @Override
-    public Map<Tag, Double> getBudget() {
+    public Map<Tag, Double> getBudgetMap() {
         return this.budget;
     }
 
+    //Getter del valore corrispondente al tag
     @Override
     public double getValue(Tag tag) {
         return this.budget.get(tag);
     }
 
+    //Getter del set di tag
     @Override
     public Set<Tag> getTags() {
         return this.budget.keySet();

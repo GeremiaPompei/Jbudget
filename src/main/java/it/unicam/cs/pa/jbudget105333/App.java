@@ -10,26 +10,32 @@ public class App {
     private final BudgetReportController controller;
     private final View view;
 
+    //Costruttore di App che prende un Controller di budgetReport e una View
     public App(BudgetReportController controller, View view) {
         this.controller = controller;
         this.view = view;
     }
 
+    //Metodo main che genera un'App con un factory method e vi esegue il metodo start
     public static void main(String[] args) {
-        try {
-            createAppBase().start();
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
+        createAppBase().start();
     }
 
-    private void start() throws IOException {
-        this.view.open(new ViewController(this.controller));
+    //Metodo start che fa partire il metodo open con parametro un viewController e metodo close della view
+    private void start() {
+        try {
+            this.view.open(new ViewController(this.controller));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.view.close();
     }
 
-    private static App createAppBase() throws IOException {
-        BudgetReportController brcontroller = new BudgetReportController();
+    //Factory method che crea l'App da un budgetReportController e una View
+    private static App createAppBase() {
+        LedgerController lcontroller = new LedgerBaseController();
+        BudgetController bcontroller = new BudgetBaseController(lcontroller);
+        BudgetReportController brcontroller = new BudgetReportBaseController(lcontroller,bcontroller);
         View view = new ConsoleView();
         return  new App(brcontroller,view);
     }

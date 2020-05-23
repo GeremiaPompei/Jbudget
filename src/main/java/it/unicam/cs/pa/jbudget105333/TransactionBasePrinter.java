@@ -13,7 +13,7 @@ public class TransactionBasePrinter implements Printer<Transaction>{
     @Override
     public String stringOf(Transaction transaction) {
         AtomicReference<String> ar = new AtomicReference<>();
-        ar.set("\n"+transaction.getDate().toLocalDate().toString()+" , [ID:"+transaction.getID()
+        ar.set(transaction.getDate().toLocalDate().toString()+" , [ID:"+transaction.getID()
                 +"] , TotalAmount: "+transaction.getTotalAmount());
         transaction.getMovements().stream()
                         .forEach(m->ar.set(ar.get()+this.movement.stringOf(m)));

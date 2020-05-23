@@ -5,19 +5,6 @@ import java.util.StringTokenizer;
 public class TagBaseScanner implements Scanner<TagBase>{
 
     @Override
-    public TagBase scanOf(String string) {
-        StringTokenizer st = new StringTokenizer(string,",");
-        TagBase tag = null;
-        try{
-            tag = new TagBase(st.nextToken().trim(),st.nextToken().trim()
-                    ,Integer.parseInt(st.nextToken().trim()));
-        }catch (Exception e){
-            tag = null;
-        }
-        return tag;
-    }
-
-    @Override
     public TagBase scanOf(String string, IDGenerator idGenerator) {
         StringTokenizer st = new StringTokenizer(string,",");
         TagBase tag = null;
