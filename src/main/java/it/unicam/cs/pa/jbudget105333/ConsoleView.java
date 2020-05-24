@@ -8,6 +8,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class ConsoleView implements View<ViewController>{
 
@@ -72,13 +74,22 @@ public class ConsoleView implements View<ViewController>{
         this.commands.put("newbudget","newbudget tagID,amount");
         this.commands.put("newtag","newtag name,description");
         this.commands.put("exit","\nGoodBye!!\n");
-        this.commands.put("help",this.commands.keySet().toString());
+        Set<String> com = new TreeSet<>();
+        com.addAll(this.commands.keySet());
+        com.add("showtags");
+        com.add("showaccounts");
+        com.add("showtransactions");
+        com.add("showbudgets");
+        this.commands.put("help",com.toString());
     }
 
     //Processore dei comandi che usa i metodi del viewController per processarli uno ad uno
     private String processCommand(ViewController controller,String string) throws IOException {
         String command = "";
         String argument = "";
+        command = this.commands.get(string);
+        if(command != null)
+            return command;
         try {
             command = string.substring(0, string.indexOf(' ')).trim();
             argument = string.substring(string.indexOf(' ')).trim();
@@ -120,9 +131,7 @@ public class ConsoleView implements View<ViewController>{
                 command = controller.newTag(argument);
                 break;
             default:
-                command = this.commands.get(command);
-                if(command == null)
-                    command = "Command unknown: " + string;
+                command = "Command unknown: " + string;
             }
         return command;
     }

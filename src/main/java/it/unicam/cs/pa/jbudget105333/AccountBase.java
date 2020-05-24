@@ -59,6 +59,16 @@ public class AccountBase implements Account{
     //Aggiunta di un movimento all'account
     @Override
     public void addMovement(Movement movement) {
+        for(Movement m : this.movements)
+            if(m.getDate().compareTo(LocalDateTime.now())<=0
+                    && m.getDate().compareTo(this.lastUpdate)>=0)
+                if(m.getType().equals(MovementType.CREDITS)
+                        && m.getAccount().getAccountType().equals(AccountType.ASSETS)
+                        ||m.getType().equals(MovementType.DEBIT)
+                        && m.getAccount().getAccountType().equals(AccountType.LIABILITIES))
+                    this.balance+=m.getAmount();
+                else
+                    this.balance-=m.getAmount();
         this.movements.add(movement);
     }
 

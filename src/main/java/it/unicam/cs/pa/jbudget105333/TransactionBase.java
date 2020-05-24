@@ -10,12 +10,14 @@ public abstract class TransactionBase implements Transaction{
     private final LocalDateTime localDate;
     private final int ID;
 
+    //Costruttore utilizzato da classi con transazioni eseguite al momento
     public TransactionBase(IDGenerator idGenerator) {
         this.ID = idGenerator.generate();
         this.localDate = LocalDateTime.now();
         this.movements = new TreeSet<>();
     }
 
+    //Costruttore utilizzato da classi con transazioni eseguite nella data specificata
     public TransactionBase(LocalDateTime localDate,IDGenerator idGenerator) {
         this.ID = idGenerator.generate();
         this.localDate = localDate;
@@ -24,7 +26,9 @@ public abstract class TransactionBase implements Transaction{
     }
 
     @Override
-    public abstract void addMovement(Movement movement);
+    public void addMovement(Movement movement) {
+        this.getMovements().add(movement);
+    }
 
     @Override
     public Set<Movement> getMovements() {
@@ -43,6 +47,7 @@ public abstract class TransactionBase implements Transaction{
         return this.localDate;
     }
 
+    //Metodo che permette di restituire la somma del saldo dei movimenti per un resoconto
     @Override
     public double getTotalAmount() {
         Double value = 0.0;
@@ -62,6 +67,7 @@ public abstract class TransactionBase implements Transaction{
         return this.ID;
     }
 
+    //Metodo che compara due transazioni tramite data e poi id per garantirne l'univocità
     @Override
     public int compareTo(Transaction o) {
         int comparator = this.localDate.compareTo(o.getDate());

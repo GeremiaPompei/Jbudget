@@ -4,19 +4,20 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class TransactionBasePrinter implements Printer<Transaction>{
 
-    private final Printer<Movement> movement;
+    private final Printer<Movement> movementP;
 
-    public TransactionBasePrinter(Printer<Movement> movement) {
-        this.movement = movement;
+    public TransactionBasePrinter(Printer<Movement> movementP) {
+        this.movementP = movementP;
     }
 
+    //Converte una transazione in stringa
     @Override
     public String stringOf(Transaction transaction) {
         AtomicReference<String> ar = new AtomicReference<>();
         ar.set(transaction.getDate().toLocalDate().toString()+" , [ID:"+transaction.getID()
                 +"] , TotalAmount: "+transaction.getTotalAmount());
         transaction.getMovements().stream()
-                        .forEach(m->ar.set(ar.get()+this.movement.stringOf(m)));
+                        .forEach(m->ar.set(ar.get()+this.movementP.stringOf(m)));
         return ar.get();
     }
 }

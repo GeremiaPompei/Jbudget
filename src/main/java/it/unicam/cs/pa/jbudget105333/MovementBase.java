@@ -13,6 +13,11 @@ public class MovementBase implements Movement{
     private final Tag tag;
     private final int ID;
 
+    /*Il costruttore prende i parametri per inizializzare le sue variabili di istanza oltre a collegare
+    gli oggetti stessi passati come parametri a questo oggetto, in particolare transaction e account. Quindi
+    appena istanziamo un movimento tramite tale costruttore esso punta alla propria transazione e questa
+    punta a lui e succede lo stesso con l'account
+     */
     public MovementBase(MovementType movementType, double amount, Transaction transaction
             , Account account, Tag tag, String descrizione, IDGenerator idGenerator) {
         this.descrizione = descrizione;
@@ -68,6 +73,7 @@ public class MovementBase implements Movement{
         return this.ID;
     }
 
+    //I movimenti vengono ordinati per data e poi per id per garantirne l'univocità
     @Override
     public int compareTo(Movement o) {
         int comparator = this.localDate.compareTo(o.getDate());

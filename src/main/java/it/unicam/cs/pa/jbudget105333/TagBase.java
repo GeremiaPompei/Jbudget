@@ -28,6 +28,7 @@ public class TagBase implements Tag{
         return this.ID;
     }
 
+    //I tag vengono riordinati per nome e per descrizione per garantirne l'univocità
     @Override
     public int compareTo(Tag o) {
         int comparator = this.name.compareTo(o.getName());

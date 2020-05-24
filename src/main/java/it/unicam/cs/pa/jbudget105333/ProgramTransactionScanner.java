@@ -6,6 +6,7 @@ import java.time.LocalTime;
 
 public class ProgramTransactionScanner implements Scanner<ProgramTransaction>{
 
+    //Tale metodo converte una stringa e un idGenerator in ProgramTransaction
     @Override
     public ProgramTransaction scanOf(String string, IDGenerator idGenerator) {
         ProgramTransaction pt = null;

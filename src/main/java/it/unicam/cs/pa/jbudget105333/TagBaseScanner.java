@@ -4,6 +4,7 @@ import java.util.StringTokenizer;
 
 public class TagBaseScanner implements Scanner<TagBase>{
 
+    //Tale metodo converte una stringa e un idgenerator in tagBase
     @Override
     public TagBase scanOf(String string, IDGenerator idGenerator) {
         StringTokenizer st = new StringTokenizer(string,",");

@@ -10,8 +10,8 @@ public class LedgerBaseController implements LedgerController {
 
     private Ledger ledger;
 
+    //Il costruttore crea un ledger grazie al factory method dell'interfaccia ledgerManager
     public LedgerBaseController() {
-        String path = "src/file/Ledger.txt";
         this.ledger = LedgerManager.generateLedger();
     }
 
@@ -20,6 +20,9 @@ public class LedgerBaseController implements LedgerController {
         return ledger;
     }
 
+    /*Metodo che permette di schedulare le transazioni restituendo quelle comprese tra le
+    date start e stop
+     */
     @Override
     public Set<Transaction> scheduleTransactionsDate(LocalDateTime start, LocalDateTime stop) {
         Set<Transaction> stransactions = new TreeSet();
@@ -31,6 +34,9 @@ public class LedgerBaseController implements LedgerController {
         return stransactions;
     }
 
+    /*Metodo che permette di schedulare le transazioni restituendo quelle con un certo
+    tag identificato dal tagID
+     */
     @Override
     public Set<Transaction> scheduleTransactionsTag(int tagID){
         Set<Transaction> stransactions = new TreeSet();
@@ -42,15 +48,17 @@ public class LedgerBaseController implements LedgerController {
         return stransactions;
     }
 
+    //Metodo che restituisce tutte le transazioni
     @Override
-    public Set<Transaction> showTransactions(){
+    public Set<Transaction> getTransactions(){
         Set<Transaction> stransactions = new TreeSet();
         this.ledger.getTransactions().stream().forEach(t->stransactions.add(t));
         return stransactions;
     }
 
+    //Data una transazione e un set di metodi permette di creare una transazione
     @Override
-    public boolean newTransaction(Transaction transaction, Set<Movement> movements){
+    public boolean addTransaction(Transaction transaction, Set<Movement> movements){
         if(movements!= null && !movements.isEmpty()){
             movements.stream().forEach(m->transaction.addMovement(m));
             this.ledger.addTransaction(transaction);
@@ -59,18 +67,21 @@ public class LedgerBaseController implements LedgerController {
         return false;
     }
 
+    //Metodo che restituisce tutti gli account
     @Override
-    public Set<Account> showAccounts(){
+    public Set<Account> getAccounts(){
         Set<Account> accounts = new TreeSet();
         this.ledger.getAccounts().stream().forEach(a->accounts.add(a));
         return accounts;
     }
 
+    //Metodo che permette di aggiungere un account
     @Override
-    public void newAccount(Account account){
+    public void addAccount(Account account){
         this.ledger.addAccount(account);
     }
 
+    //Metodo che restituisce un account dato il suo ID
     @Override
     public Account getAccount(int accountID){
         AtomicReference<Account> account = new AtomicReference<>();
@@ -80,18 +91,21 @@ public class LedgerBaseController implements LedgerController {
         return account.get();
     }
 
+    //Metodo che restituisce tutti i tag
     @Override
-    public Set<Tag> showTags(){
+    public Set<Tag> getTags(){
         Set<Tag> tags = new TreeSet();
         this.ledger.getTags().stream().forEach(t->tags.add(t));
         return tags;
     }
 
+    //Metodo che permette di aggiungere un tag
     @Override
-    public void newTag(Tag tag){
+    public void addTag(Tag tag){
         this.ledger.addTag(tag);
     }
 
+    //Metodo che restituisce un tag dato il suo id
     @Override
     public Tag getTag(int tagID){
         AtomicReference<Tag> tag = new AtomicReference<>();
@@ -101,6 +115,7 @@ public class LedgerBaseController implements LedgerController {
         return tag.get();
     }
 
+    //Metodo per aggiornare il ledger
     @Override
     public void update(){
         this.ledger.update();
@@ -111,6 +126,7 @@ public class LedgerBaseController implements LedgerController {
         return this.ledger.getIDGenerator();
     }
 
+    //Metodo che permette di salvare il ledger su file
     @Override
     public void save() {
         try {

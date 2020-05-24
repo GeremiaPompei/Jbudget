@@ -62,7 +62,7 @@ class BudgetReportBaseControllerTest {
     void save() {
         try {
             Tag sport = new TagBase("Sport","tennis",new IDGeneratorBase());
-            this.budRepC.getLedgerC().newTag(sport);
+            this.budRepC.getLedgerC().addTag(sport);
             this.budRepC.getBudgetC().addBudgetRecord(sport.getID(),60.0);
             this.budRepC.save();
             Reader<Ledger> reader1 = new LedgerReader("src/file/Ledger.txt");
@@ -97,10 +97,10 @@ class BudgetReportBaseControllerTest {
                 , fondoCassa,sport,"movimento1",idGenerator);
         Movement debito2 = new MovementBase(MovementType.DEBIT,80,transaction
                 , fondoCassa,benzina,"movimento2",idGenerator);
-        this.ledgerC.newTag(sport);
-        this.ledgerC.newTag(benzina);
-        this.ledgerC.newAccount(fondoCassa);
-        this.ledgerC.newTransaction(transaction,transaction.getMovements());
+        this.ledgerC.addTag(sport);
+        this.ledgerC.addTag(benzina);
+        this.ledgerC.addAccount(fondoCassa);
+        this.ledgerC.addTransaction(transaction,transaction.getMovements());
         this.budgetC.addBudgetRecord(sport.getID(),100.0);
         this.budgetC.addBudgetRecord(benzina.getID(),100.0);
         assertEquals(this.budRepC.check().get(sport)

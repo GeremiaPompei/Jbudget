@@ -24,7 +24,7 @@ public class App {
     //Metodo start che fa partire il metodo open con parametro un viewController e metodo close della view
     private void start() {
         try {
-            this.view.open(new ViewController(this.controller));
+            this.view.open(new ViewBaseController(this.controller));
         } catch (IOException e) {
             e.printStackTrace();
         }

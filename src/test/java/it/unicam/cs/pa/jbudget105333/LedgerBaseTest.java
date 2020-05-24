@@ -11,10 +11,8 @@ class LedgerBaseTest {
     private IDGenerator idGenerator;
     private Transaction transaction;
     private Account fondoCassa;
+    private AccountBase prepagata;
     private Tag sport;
-    private Tag benzina;
-    private Movement debito1;
-    private Movement debito2;
 
     @BeforeEach
     void createLedgerBase(){
@@ -23,12 +21,9 @@ class LedgerBaseTest {
         this.transaction = new InstantTransaction(idGenerator);
         this.fondoCassa = new AccountBase("FondoCassa","personale"
                 ,500,AccountType.ASSETS,idGenerator);
+        this.prepagata = new AccountBase("Prepagata","personale"
+                ,200,AccountType.LIABILITIES,idGenerator);
         this.sport = new TagBase("Sport","tennis",idGenerator);
-        this.benzina = new TagBase("Viaggio","macchina",idGenerator);
-        this.debito1 = new MovementBase(MovementType.DEBIT,800,new InstantTransaction(idGenerator)
-                , fondoCassa,sport,"movimento",idGenerator);
-        this.debito2 = new MovementBase(MovementType.DEBIT,80,new InstantTransaction(idGenerator)
-                , fondoCassa,benzina,"movimento",idGenerator);
     }
 
     @Test
@@ -102,13 +97,58 @@ class LedgerBaseTest {
 
     @Test
     void getTagsAmount() {
+        /*Aggiungo movimenti per lo stesso tag e vedo se il valore della tabella è uguale alla
+        somma dei saldi dei tag
+         */
+        Movement credito1 = new MovementBase(MovementType.CREDITS,88,this.transaction
+                , this.fondoCassa,sport,"movimento",idGenerator);
+        this.ledger.addAccount(this.prepagata);
+        this.ledger.addTag(this.sport);
+        this.ledger.addTransaction(this.transaction);
+        this.ledger.update();
+        assertEquals(this.ledger.getTagsAmount().get(this.sport),credito1.getAmount());
+        Transaction transaction2 = new InstantTransaction(this.idGenerator);
+        Movement credito2 = new MovementBase(MovementType.CREDITS,30,transaction2
+                , this.fondoCassa,sport,"movimento",idGenerator);
+        Movement credito3 = new MovementBase(MovementType.CREDITS,78,transaction2
+                , this.prepagata,sport,"movimento",idGenerator);
+        this.ledger.addTransaction(transaction2);
+        this.ledger.update();
+        assertEquals(this.ledger.getTagsAmount().get(this.sport),credito1.getAmount()+
+                credito2.getAmount()-credito3.getAmount());
     }
 
     @Test
     void getIDGenerator() {
+        assertTrue(this.ledger.getIDGenerator() instanceof IDGenerator);
+        assertFalse(this.ledger.getIDGenerator() instanceof Ledger);
     }
 
     @Test
     void update() {
+        //Creo e aggiungo il primo movimento credito aggiornando
+        Movement credito1 = new MovementBase(MovementType.CREDITS,88,this.transaction
+                , this.prepagata,sport,"movimento credito aggiornando",idGenerator);
+        this.ledger.addAccount(this.prepagata);
+        this.ledger.addTag(this.sport);
+        this.ledger.addTransaction(this.transaction);
+        this.ledger.update();
+        assertEquals(this.ledger.getAccounts().stream().iterator().next().getBalance()
+                ,this.prepagata.getOpeningBalance()-credito1.getAmount());
+        //Creo e aggiungo il secondo movimento credito non aggiornando
+        Transaction transaction2 = new InstantTransaction(this.idGenerator);
+        Movement credito2 = new MovementBase(MovementType.CREDITS,30,transaction2
+                , this.prepagata,sport,"movimento credito non aggiornando",idGenerator);
+        this.ledger.addTransaction(transaction2);
+        ;
+        //Senza update
+        assertNotEquals(this.ledger.getAccounts().stream().iterator().next().getBalance()
+                ,this.prepagata.getOpeningBalance()-credito1.getAmount()-credito2.getAmount());
+        assertEquals(this.ledger.getAccounts().stream().iterator().next().getBalance()
+                ,this.prepagata.getOpeningBalance()-credito1.getAmount());
+        //Con update
+        this.ledger.update();
+        assertEquals(this.ledger.getAccounts().stream().iterator().next().getBalance()
+                ,this.prepagata.getOpeningBalance()-credito1.getAmount()-credito2.getAmount());
     }
 }

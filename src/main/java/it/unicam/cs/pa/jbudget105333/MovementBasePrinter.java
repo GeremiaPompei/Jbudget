@@ -10,6 +10,7 @@ public class MovementBasePrinter implements Printer<Movement>{
         this.tagPrinter = tagPrinter;
     }
 
+    //Converte movement in stringa
     @Override
     public String stringOf(Movement movement) {
         return "\n[ID:"+movement.getID()+"] , "+movement.getType()+" , "+movement.getAmount()+" , "+

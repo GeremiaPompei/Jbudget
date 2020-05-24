@@ -9,9 +9,4 @@ public class InstantTransaction extends TransactionBase{
         super(idGenerator);
     }
 
-    //Viene aggiunto un movimento alla transazione
-    @Override
-    public void addMovement(Movement movement) {
-        this.getMovements().add(movement);
-    }
 }
