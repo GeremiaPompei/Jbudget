@@ -4,7 +4,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,6 +36,12 @@ class BudgetReportBaseControllerTest {
 
     @BeforeEach
     void createBudgetReportBaseController(){
+        try {
+            new ObjectOutputStream(new FileOutputStream("src/file/Ledger.txt"));
+            new ObjectOutputStream(new FileOutputStream("src/file/Budget.txt"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.ledgerC = new LedgerBaseController();
         this.budgetC = new BudgetBaseController(this.ledgerC);
         this.budRepC = new BudgetReportBaseController(this.ledgerC,this.budgetC);

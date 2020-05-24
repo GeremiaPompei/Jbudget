@@ -9,7 +9,7 @@ public class MovementBase implements Movement{
     private final double amount;
     private final Transaction transaction;
     private final Account account;
-    private final LocalDateTime localDate;
+    private final LocalDateTime date;
     private final Tag tag;
     private final int ID;
 
@@ -25,7 +25,7 @@ public class MovementBase implements Movement{
         this.amount = amount;
         this.transaction = transaction;
         this.account = account;
-        this.localDate = transaction.getDate();
+        this.date = transaction.getDate();
         this.tag = tag;
         this.ID = idGenerator.generate();
         idGenerator.store(this);
@@ -60,7 +60,7 @@ public class MovementBase implements Movement{
 
     @Override
     public LocalDateTime getDate() {
-        return this.localDate;
+        return this.date;
     }
 
     @Override
@@ -76,7 +76,7 @@ public class MovementBase implements Movement{
     //I movimenti vengono ordinati per data e poi per id per garantirne l'univocità
     @Override
     public int compareTo(Movement o) {
-        int comparator = this.localDate.compareTo(o.getDate());
+        int comparator = this.date.compareTo(o.getDate());
         if(comparator==0)
             comparator = this.ID-o.getID();
         return comparator;

@@ -176,7 +176,7 @@ public class ViewBaseController implements ViewController{
 
     //Restituisce una stringa con tutti i budgetRecords
     @Override
-    public String showBudgets(){
+    public String showBudgetRecords(){
         AtomicReference<String> result = new AtomicReference<>();
         result.set("");
         this.budgetC.getBudgetMap().keySet().stream()

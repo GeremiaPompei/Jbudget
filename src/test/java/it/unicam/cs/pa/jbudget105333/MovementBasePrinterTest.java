@@ -18,7 +18,7 @@ class MovementBasePrinterTest {
         Transaction transaction = new InstantTransaction(idGenerator);
         Movement movement = new MovementBase(MovementType.CREDITS,870,transaction
                 , fondoCassa,sport,"movimento",idGenerator);
-        String movementS = "\n[ID:"+movement.getID()+"] , "+movement.getType()+" , "+movement.getAmount()+" , "+
+        String movementS = "\n   [ID:"+movement.getID()+"] , "+movement.getType()+" , "+movement.getAmount()+" , "+
                 accountP.stringOf(movement.getAccount())
                 +" , "+tagP.stringOf(movement.getTag())
                 +" , " +movement.getDate().toLocalDate().toString()+" , "

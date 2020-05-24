@@ -23,7 +23,7 @@ class TransactionBasePrinterTest {
                 +"] , TotalAmount: "+transaction.getTotalAmount());
         transaction.getMovements().stream()
                 .forEach(m->ar.set(ar.get()+movementP.stringOf(m)));
-        String transactionS = ar.get();
+        String transactionS = "\n"+ar.get();
         Printer<Transaction> transactionP = new TransactionBasePrinter(movementP);
         assertEquals(transactionP.stringOf(transaction),transactionS);
     }

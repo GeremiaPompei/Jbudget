@@ -18,7 +18,7 @@ public class App {
 
     //Metodo main che genera un'App con un factory method e vi esegue il metodo start
     public static void main(String[] args) {
-        createAppBase().start();
+        createApp().start();
     }
 
     //Metodo start che fa partire il metodo open con parametro un viewController e metodo close della view
@@ -32,7 +32,7 @@ public class App {
     }
 
     //Factory method che crea l'App da un budgetReportController e una View
-    private static App createAppBase() {
+    private static App createApp() {
         LedgerController lcontroller = new LedgerBaseController();
         BudgetController bcontroller = new BudgetBaseController(lcontroller);
         BudgetReportController brcontroller = new BudgetReportBaseController(lcontroller,bcontroller);

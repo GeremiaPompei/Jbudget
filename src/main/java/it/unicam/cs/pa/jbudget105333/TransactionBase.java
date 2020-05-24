@@ -6,21 +6,21 @@ import java.util.TreeSet;
 
 public abstract class TransactionBase implements Transaction{
 
-    private Set<Movement> movements = null;
-    private final LocalDateTime localDate;
+    private final Set<Movement> movements;
+    private final LocalDateTime date;
     private final int ID;
 
     //Costruttore utilizzato da classi con transazioni eseguite al momento
     public TransactionBase(IDGenerator idGenerator) {
         this.ID = idGenerator.generate();
-        this.localDate = LocalDateTime.now();
+        this.date = LocalDateTime.now();
         this.movements = new TreeSet<>();
     }
 
     //Costruttore utilizzato da classi con transazioni eseguite nella data specificata
-    public TransactionBase(LocalDateTime localDate,IDGenerator idGenerator) {
+    public TransactionBase(LocalDateTime date, IDGenerator idGenerator) {
         this.ID = idGenerator.generate();
-        this.localDate = localDate;
+        this.date = date;
         this.movements = new TreeSet<>();
         idGenerator.store(this);
     }
@@ -44,7 +44,7 @@ public abstract class TransactionBase implements Transaction{
 
     @Override
     public LocalDateTime getDate() {
-        return this.localDate;
+        return this.date;
     }
 
     //Metodo che permette di restituire la somma del saldo dei movimenti per un resoconto
@@ -70,7 +70,7 @@ public abstract class TransactionBase implements Transaction{
     //Metodo che compara due transazioni tramite data e poi id per garantirne l'univocità
     @Override
     public int compareTo(Transaction o) {
-        int comparator = this.localDate.compareTo(o.getDate());
+        int comparator = this.date.compareTo(o.getDate());
         if(comparator == 0)
             comparator = this.ID-o.getID();
         return comparator;

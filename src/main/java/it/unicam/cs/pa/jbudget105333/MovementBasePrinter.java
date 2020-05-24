@@ -13,7 +13,7 @@ public class MovementBasePrinter implements Printer<Movement>{
     //Converte movement in stringa
     @Override
     public String stringOf(Movement movement) {
-        return "\n[ID:"+movement.getID()+"] , "+movement.getType()+" , "+movement.getAmount()+" , "+
+        return "\n   [ID:"+movement.getID()+"] , "+movement.getType()+" , "+movement.getAmount()+" , "+
                 this.accountPrinter.stringOf(movement.getAccount())
                 +" , "+this.tagPrinter.stringOf(movement.getTag())
                 +" , " +movement.getDate().toLocalDate().toString()+" , "

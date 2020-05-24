@@ -4,7 +4,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.TreeSet;
@@ -45,6 +47,12 @@ class LedgerBaseControllerTest {
 
     @BeforeEach
     void createLedgerBaseController(){
+        try {
+            new ObjectOutputStream(new FileOutputStream("src/file/Ledger.txt"));
+            new ObjectOutputStream(new FileOutputStream("src/file/Budget.txt"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.ledgerC = new LedgerBaseController();
         this.idGenerator = new IDGeneratorBase();
         this.transaction1 = new InstantTransaction(idGenerator);

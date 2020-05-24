@@ -73,6 +73,8 @@ public class ConsoleView implements View<ViewController>{
         this.commands.put("newaccount","newaccount name,description,initialBalance,accountType");
         this.commands.put("newbudget","newbudget tagID,amount");
         this.commands.put("newtag","newtag name,description");
+        this.commands.put("accountType",AccountType.ASSETS.toString()+" , "+AccountType.LIABILITIES.toString());
+        this.commands.put("movementType",MovementType.CREDITS.toString()+" , "+MovementType.DEBIT.toString());
         this.commands.put("exit","\nGoodBye!!\n");
         Set<String> com = new TreeSet<>();
         com.addAll(this.commands.keySet());
@@ -119,7 +121,7 @@ public class ConsoleView implements View<ViewController>{
                 command = controller.newAccount(argument);
                 break;
             case "showbudgets":
-                command = controller.showBudgets();
+                command = controller.showBudgetRecords();
                 break;
             case "newbudget":
                 command = controller.newBudgetRecord(argument);

@@ -1,6 +1,8 @@
 package it.unicam.cs.pa.jbudget105333;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -33,12 +35,6 @@ class ViewBaseControllerTest {
         LedgerController lcontroller = new LedgerBaseController();
         BudgetController bcontroller = new BudgetBaseController(lcontroller);
         brcontroller = new BudgetReportBaseController(lcontroller,bcontroller);
-        try {
-            new ObjectOutputStream(new FileOutputStream("src/file/Ledger.txt"));
-            new ObjectOutputStream(new FileOutputStream("src/file/Budget.txt"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @AfterEach
@@ -52,6 +48,12 @@ class ViewBaseControllerTest {
 
     @BeforeEach
     void createViewBaseController(){
+        try {
+            new ObjectOutputStream(new FileOutputStream("src/file/Ledger.txt"));
+            new ObjectOutputStream(new FileOutputStream("src/file/Budget.txt"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.ledgerC = new LedgerBaseController();
         this.budgetC = new BudgetBaseController(ledgerC);
         this.budgetReportC = new BudgetReportBaseController(ledgerC,budgetC);
@@ -217,7 +219,7 @@ class ViewBaseControllerTest {
         this.viewController.newBudgetRecord(tag.getID()+",60");
         Printer<Tag> tagP = new TagBasePrinter();
         String budgetS = "\n"+tagP.stringOf(tag)+": 60.0";
-        assertEquals(this.viewController.showBudgets(),budgetS);
+        assertEquals(this.viewController.showBudgetRecords(),budgetS);
     }
 
     @Test
