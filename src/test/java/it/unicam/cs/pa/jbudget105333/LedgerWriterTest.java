@@ -51,7 +51,7 @@ class LedgerWriterTest {
             Tag sport = new TagBase("Sport","Tennis",new IDGeneratorBase());
             ledger1.addTag(sport);
             this.writer.write(ledger1);
-            Reader<Ledger> reader = new LedgerReader<>(this.path);
+            Reader<Ledger> reader = new LedgerReader(this.path);
             Ledger ledger2 = reader.read();
             reader.close();
             assertEquals(ledger1.getTags().iterator().next().getName()

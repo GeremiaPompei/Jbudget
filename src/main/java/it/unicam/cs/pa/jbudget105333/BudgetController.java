@@ -5,6 +5,7 @@ import java.util.Map;
 
 public interface BudgetController {
     Budget getBudget();
+
     Map<Tag, Double> getBudgetMap();
     boolean addBudgetRecord(int tagID, Double amount);
     void save() throws IOException;

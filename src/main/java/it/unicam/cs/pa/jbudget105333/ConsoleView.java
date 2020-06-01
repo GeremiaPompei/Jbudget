@@ -36,7 +36,7 @@ public class ConsoleView implements View<ViewController>{
             System.out.flush();
             command = this.reader.readLine();
             System.out.println(processCommand(controller,command));
-            controller.update();
+            //controller.update();
             controller.save();
         }while(!command.equals("exit"));
     }
@@ -57,8 +57,8 @@ public class ConsoleView implements View<ViewController>{
     private void printState(ViewController controller){
         String check = controller.check();
         if(!check.isEmpty())
-            System.out.print("\nATTENTION:"+check);
-        System.out.println("["+ LocalDateTime.now().format(
+            System.out.print("\n\nATTENTION:"+check);
+        System.out.println("\n["+ LocalDateTime.now().format(
                 DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)) +"]");
     }
 

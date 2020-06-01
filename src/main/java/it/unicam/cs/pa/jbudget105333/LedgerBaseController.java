@@ -17,12 +17,12 @@ public class LedgerBaseController implements LedgerController {
 
     @Override
     public Ledger getLedger() {
-        return ledger;
+        return this.ledger;
     }
 
     /*Metodo che permette di schedulare le transazioni restituendo quelle comprese tra le
-    date start e stop
-     */
+        date start e stop
+         */
     @Override
     public Set<Transaction> scheduleTransactionsDate(LocalDateTime start, LocalDateTime stop) {
         Set<Transaction> stransactions = new TreeSet();
@@ -51,9 +51,7 @@ public class LedgerBaseController implements LedgerController {
     //Metodo che restituisce tutte le transazioni
     @Override
     public Set<Transaction> getTransactions(){
-        Set<Transaction> stransactions = new TreeSet();
-        this.ledger.getTransactions().stream().forEach(t->stransactions.add(t));
-        return stransactions;
+        return this.ledger.getTransactions();
     }
 
     //Data una transazione e un set di metodi permette di creare una transazione
@@ -70,9 +68,7 @@ public class LedgerBaseController implements LedgerController {
     //Metodo che restituisce tutti gli account
     @Override
     public Set<Account> getAccounts(){
-        Set<Account> accounts = new TreeSet();
-        this.ledger.getAccounts().stream().forEach(a->accounts.add(a));
-        return accounts;
+        return this.ledger.getAccounts();
     }
 
     //Metodo che permette di aggiungere un account
@@ -94,9 +90,7 @@ public class LedgerBaseController implements LedgerController {
     //Metodo che restituisce tutti i tag
     @Override
     public Set<Tag> getTags(){
-        Set<Tag> tags = new TreeSet();
-        this.ledger.getTags().stream().forEach(t->tags.add(t));
-        return tags;
+        return this.ledger.getTags();
     }
 
     //Metodo che permette di aggiungere un tag
@@ -130,7 +124,7 @@ public class LedgerBaseController implements LedgerController {
     @Override
     public void save() {
         try {
-            Writer<Ledger> writerL = new LedgerWriter("src/file/Ledger.txt");
+            Writer<Ledger> writerL = new LedgerWriterG("src/file/Ledger");
             writerL.write(this.ledger);
             writerL.close();
         } catch (IOException e) {

@@ -4,19 +4,19 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
-public class LedgerReader<L extends Ledger> implements Reader<L> {
+public class LedgerReader implements Reader<Ledger> {
 
     private final ObjectInputStream in;
 
     //Preso un path viene creato l'oggetto ObjectInputStream in
     public LedgerReader(String path) throws IOException {
-        in = new ObjectInputStream(new FileInputStream(path));
+        in = new ObjectInputStream(new FileInputStream(path+".txt"));
     }
 
-    //Metodo che viene usato per leggere da un file un oggetto L che estende Ledger
+    //Metodo che viene usato per leggere da un file un oggetto Ledger
     @Override
-    public L read() throws IOException, ClassNotFoundException {
-        return (L)in.readObject();
+    public Ledger read() throws IOException, ClassNotFoundException {
+        return (Ledger) in.readObject();
     }
 
     //Chiude l'oggetto ObjectInputStream in

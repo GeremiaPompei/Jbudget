@@ -3,9 +3,9 @@ package it.unicam.cs.pa.jbudget105333;
 public interface LedgerManager {
     static Ledger generateLedger(){
        Ledger ledger;
-       String path = "src/file/Ledger.txt";
+       String path = "src/file/Ledger";
        try{
-           Reader<Ledger> reader = new LedgerReader(path);
+           Reader<Ledger> reader = new LedgerReaderG(path);
            ledger = reader.read();
            reader.close();
        } catch (Exception e) {

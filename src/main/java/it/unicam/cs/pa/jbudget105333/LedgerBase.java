@@ -8,7 +8,7 @@ import java.util.TreeSet;
 public class LedgerBase implements Ledger{
 
     private final Set<Account> account;
-    private  final Set<Transaction> transactions;
+    private final Set<Transaction> transactions;
     private final Set<Tag> tags;
     private final Map<Tag,Double> tagAmount;
     private final IDGenerator idGenerator;

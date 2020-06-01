@@ -17,8 +17,8 @@ public class BudgetBaseController implements BudgetController{
     }
 
     @Override
-    public Budget getBudget() {
-        return budget;
+    public Budget getBudget(){
+        return this.budget;
     }
 
     //Ritorna la mappa del budget con un valore associato ad ogni tag
@@ -44,7 +44,7 @@ public class BudgetBaseController implements BudgetController{
     @Override
     public void save() throws IOException {
         try {
-            Writer<Budget> writerB = new BudgetWriter("src/file/Budget.txt");
+            Writer<Budget> writerB = new BudgetWriter("src/file/Budget");
             writerB.write(this.budget);
             writerB.close();
         } catch (IOException e) {

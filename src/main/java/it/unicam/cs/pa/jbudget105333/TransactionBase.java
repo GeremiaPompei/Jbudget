@@ -27,7 +27,7 @@ public abstract class TransactionBase implements Transaction{
 
     @Override
     public void addMovement(Movement movement) {
-        this.getMovements().add(movement);
+        this.movements.add(movement);
     }
 
     @Override
