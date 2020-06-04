@@ -1,5 +1,7 @@
 package it.unicam.cs.pa.jbudget105333;
 
-public interface Scanner <O extends Object>{
-    O scanOf(String string,IDGenerator idGenerator);
+import it.unicam.cs.pa.jbudget105333.IDGenerator.IDGenerator;
+
+public interface Scanner <O>{
+    O scanOf(String string, IDGenerator idGenerator);
 }

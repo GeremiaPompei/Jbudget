@@ -3,6 +3,18 @@
  */
 package it.unicam.cs.pa.jbudget105333;
 
+import it.unicam.cs.pa.jbudget105333.Budget.BudgetBase.BudgetBaseController;
+import it.unicam.cs.pa.jbudget105333.Budget.BudgetController;
+import it.unicam.cs.pa.jbudget105333.BudgetReport.BudgetReportBase.BudgetReportBaseController;
+import it.unicam.cs.pa.jbudget105333.BudgetReport.BudgetReportController;
+import it.unicam.cs.pa.jbudget105333.Ledger.LedgerBase.LedgerBaseController;
+import it.unicam.cs.pa.jbudget105333.Ledger.LedgerController;
+import it.unicam.cs.pa.jbudget105333.View.ConsoleView.ConsoleView;
+import it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewStart;
+import it.unicam.cs.pa.jbudget105333.View.View;
+import it.unicam.cs.pa.jbudget105333.View.ViewBaseController;
+
+import javafx.application.Application;
 import java.io.IOException;
 
 public class App {
@@ -10,15 +22,24 @@ public class App {
     private final BudgetReportController controller;
     private final View view;
 
-    //Costruttore di App che prende un Controller di budgetReport e una View
+    /**
+     * Costruttore di App che prende un Controller di budgetReport e una View
+     */
     public App(BudgetReportController controller, View view) {
         this.controller = controller;
         this.view = view;
     }
 
-    //Metodo main che genera un'App con un factory method e vi esegue il metodo start
+    /**
+     * Metodo main che genera un'App con un factory method e vi esegue il metodo start
+     */
     public static void main(String[] args) {
-        createApp().start();
+        launchGui();
+        //createApp().start();
+    }
+
+    private static void launchGui() {
+        Application.launch(GUIViewStart.class);
     }
 
     //Metodo start che fa partire il metodo open con parametro un viewController e metodo close della view
