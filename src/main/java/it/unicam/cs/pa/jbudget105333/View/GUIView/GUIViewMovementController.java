@@ -58,7 +58,9 @@ public class GUIViewMovementController implements Initializable {
     }
 
     public void removeMovement(ActionEvent actionEvent) {
-        transaction.getMovements().remove(this.tableNewMovements.getSelectionModel().getSelectedItem());
+        Movement m = this.tableNewMovements.getSelectionModel().getSelectedItem();
+        if(!olMovements.isEmpty()&&m!=null)
+                transaction.getMovements().remove(m);
         initializeMovement();
     }
 

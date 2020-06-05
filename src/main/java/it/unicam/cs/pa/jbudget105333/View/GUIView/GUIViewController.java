@@ -183,9 +183,9 @@ public class GUIViewController implements Initializable {
 
     @FXML
     public void removeBudget(ActionEvent actionEvent) throws IOException {
-        Tag t = tableBudget.getSelectionModel().getSelectedItem().getKey();
-        if(!tableBudget.getItems().isEmpty()&&t!=null) {
-            budgetController.getBudgetMap().remove(t);
+        Map.Entry b = tableBudget.getSelectionModel().getSelectedItem();
+        if(!tableBudget.getItems().isEmpty()&&b!=null) {
+            budgetController.getBudgetMap().remove(b.getKey());
             initializeBudget();
             this.viewController.save();
         }
