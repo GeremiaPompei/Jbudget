@@ -12,6 +12,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -34,24 +35,39 @@
                                  <children>
                                     <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <center>
-                                          <TableView fx:id="tableAccount" prefHeight="317.0" prefWidth="1026.0" BorderPane.alignment="CENTER">
+                                          <TableView fx:id="tableAccount" onMouseClicked="#tableAccountClicked" prefHeight="317.0" prefWidth="1026.0" BorderPane.alignment="CENTER">
                                             <columns>
                                                 <TableColumn fx:id="accountID" prefWidth="86.0" text="ID" />
                                               <TableColumn fx:id="accountName" prefWidth="75.0" text="Name" />
                                               <TableColumn fx:id="accountBalance" prefWidth="75.0" text="Balance" />
                                                 <TableColumn fx:id="accountOpeningBalance" prefWidth="109.0" text="OpeningBalance" />
                                                 <TableColumn fx:id="accountType" prefWidth="95.0" text="Type" />
-                                                <TableColumn fx:id="accountDescription" prefWidth="75.0" text="Description" />
+                                                <TableColumn fx:id="accountDescription" prefWidth="134.0" text="Description" />
                                             </columns>
                                           </TableView>
                                        </center>
                                        <top>
-                                          <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                                            <buttons>
-                                                <Button mnemonicParsing="false" onAction="#removeAccount" text="REMOVE" />
-                                              <Button mnemonicParsing="false" onAction="#newAccount" text="NEW" />
-                                            </buttons>
-                                          </ButtonBar>
+                                          <GridPane BorderPane.alignment="CENTER">
+                                            <columnConstraints>
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <Button mnemonicParsing="false" onAction="#removeAccount" prefHeight="27.0" prefWidth="194.0" text="REMOVE" GridPane.columnIndex="5" />
+                                                <Button mnemonicParsing="false" onAction="#addAccount" prefHeight="27.0" prefWidth="171.0" text="ADD" GridPane.columnIndex="4" />
+                                                <TextField fx:id="accountNewName" promptText="Name" />
+                                                <TextField fx:id="accountNewDescription" promptText="Description" GridPane.columnIndex="1" />
+                                                <TextField fx:id="accountNewOpeningBalance" promptText="Opening Balance" GridPane.columnIndex="2" />
+                                                <ChoiceBox fx:id="accountNewType" prefHeight="27.0" prefWidth="187.0" GridPane.columnIndex="3" />
+                                             </children>
+                                          </GridPane>
                                        </top>
                                     </BorderPane>
                                  </children>
@@ -63,23 +79,36 @@
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
                                     <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <top>
-                                          <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                                             <buttons>
-                                                <Button mnemonicParsing="false" onAction="#removeTag" text="REMOVE" />
-                                                <Button mnemonicParsing="false" onAction="#newTag" text="NEW" />
-                                             </buttons>
-                                          </ButtonBar>
-                                       </top>
                                        <center>
                                           <TableView fx:id="tableTag" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                              <columns>
                                                 <TableColumn fx:id="tagID" prefWidth="75.0" text="ID" />
                                                 <TableColumn fx:id="tagName" prefWidth="75.0" text="Name" />
-                                                <TableColumn fx:id="tagDescription" prefWidth="75.0" text="Description" />
+                                                <TableColumn fx:id="tagDescription" prefWidth="130.0" text="Description" />
                                              </columns>
                                           </TableView>
                                        </center>
+                                       <top>
+                                          <GridPane BorderPane.alignment="CENTER">
+                                             <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                             </columnConstraints>
+                                             <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                             </rowConstraints>
+                                             <children>
+                                                <Button mnemonicParsing="false" onAction="#removeTag" prefHeight="27.0" prefWidth="194.0" text="REMOVE" GridPane.columnIndex="5" />
+                                                <Button mnemonicParsing="false" onAction="#addTag" prefHeight="27.0" prefWidth="171.0" text="ADD" GridPane.columnIndex="4" />
+                                                <TextField fx:id="tagNewName" promptText="Name" />
+                                                <TextField fx:id="tagNewDescription" promptText="Description" GridPane.columnIndex="1" />
+                                             </children>
+                                          </GridPane>
+                                       </top>
                                     </BorderPane>
                                  </children>
                               </AnchorPane>
@@ -91,11 +120,11 @@
                                  <children>
                                     <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <center>
-                                          <TableView fx:id="tableTransaction" prefHeight="232.0" prefWidth="1026.0" BorderPane.alignment="CENTER">
+                                          <TableView fx:id="tableTransaction" onMouseClicked="#tableTransactionClicked" prefHeight="232.0" prefWidth="1026.0" BorderPane.alignment="CENTER">
                                             <columns>
                                               <TableColumn fx:id="transactionID" prefWidth="75.0" text="ID" />
-                                              <TableColumn fx:id="transactionDate" prefWidth="75.0" text="Date" />
-                                                <TableColumn fx:id="transactionTAmount" prefWidth="95.0" text="Total Amount" />
+                                              <TableColumn fx:id="transactionDate" prefWidth="122.0" text="Date" />
+                                                <TableColumn fx:id="transactionTAmount" prefWidth="112.0" text="Total Amount" />
                                             </columns>
                                           </TableView>
                                        </center>
@@ -112,10 +141,10 @@
                                                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="171.0191650390625" minWidth="10.0" prefWidth="171.0191650390625" />
                                                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="109.0" minWidth="10.0" prefWidth="40.9808349609375" />
                                                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="180.81231689453125" minWidth="10.0" prefWidth="169.79315185546875" />
-                                                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="89.49041748046875" minWidth="10.0" prefWidth="55.9061279296875" />
-                                                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="89.49041748046875" minWidth="10.0" prefWidth="55.9061279296875" />
-                                                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="101.07672119140625" minWidth="10.0" prefWidth="81.79315185546875" />
-                                                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="89.49041748046875" minWidth="10.0" prefWidth="30.1322021484375" />
+                                                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="89.49041748046875" minWidth="10.0" prefWidth="35.0" />
+                                                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="89.49041748046875" minWidth="10.0" prefWidth="26.0" />
+                                                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="126.0" minWidth="10.0" prefWidth="79.0" />
+                                                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="89.49041748046875" minWidth="10.0" prefWidth="16.5" />
                                                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="89.49041748046875" minWidth="10.0" prefWidth="33.3677978515625" />
                                                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                                   </columnConstraints>
@@ -123,7 +152,7 @@
                                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                   </rowConstraints>
                                                    <children>
-                                                    <Button mnemonicParsing="false" onAction="#schedule" text="Schedule" GridPane.columnIndex="13" />
+                                                    <Button mnemonicParsing="false" onAction="#schedule" prefHeight="27.0" prefWidth="76.0" text="Schedule" GridPane.columnIndex="10" />
                                                       <ChoiceBox fx:id="tagSchedChoice" prefHeight="27.0" prefWidth="97.0" GridPane.columnIndex="1" />
                                                       <RadioButton fx:id="scheduleTag" mnemonicParsing="false" text="TAG">
                                                          <toggleGroup>
@@ -132,22 +161,40 @@
                                                       <RadioButton fx:id="scheduleDate" mnemonicParsing="false" text="DATE" toggleGroup="$scheduleType" GridPane.columnIndex="4" />
                                                       <DatePicker fx:id="dateStart" prefHeight="27.0" prefWidth="162.0" GridPane.columnIndex="5" />
                                                       <DatePicker fx:id="dateStop" prefHeight="27.0" prefWidth="155.0" GridPane.columnIndex="7" />
-                                                      <RadioButton fx:id="showAll" mnemonicParsing="false" prefHeight="18.0" prefWidth="85.0" text="ALL" toggleGroup="$scheduleType" GridPane.columnIndex="10" />
                                                       <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="3" />
                                                       <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="9" />
                                                       <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="12" />
+                                                      <Button mnemonicParsing="false" onAction="#showAll" text="Show All" GridPane.columnIndex="13" />
                                                    </children>
                                                 </GridPane>
                                             </buttons>
                                           </ButtonBar>
                                        </bottom>
                                        <top>
-                                          <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                                             <buttons>
-                                                <Button mnemonicParsing="false" onAction="#removeTransaction" text="REMOVE" />
-                                                <Button mnemonicParsing="false" onAction="#newTransaction" text="NEW" />
-                                             </buttons>
-                                          </ButtonBar>
+                                          <GridPane BorderPane.alignment="CENTER">
+                                             <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                             </columnConstraints>
+                                             <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                             </rowConstraints>
+                                             <children>
+                                                <Button mnemonicParsing="false" onAction="#removeTransaction" prefHeight="27.0" prefWidth="194.0" text="REMOVE" GridPane.columnIndex="5" />
+                                                <Button mnemonicParsing="false" onAction="#addTransaction" prefHeight="27.0" prefWidth="171.0" text="ADD" GridPane.columnIndex="4" />
+                                                <DatePicker fx:id="transactionNewDate" GridPane.columnIndex="1" />
+                                                <RadioButton fx:id="programTransaction" mnemonicParsing="false" text="Program Transaction">
+                                                   <toggleGroup>
+                                                      <ToggleGroup fx:id="transactionType" />
+                                                   </toggleGroup>
+                                                </RadioButton>
+                                                <RadioButton fx:id="instantTransaction" mnemonicParsing="false" text="Instant Transaction" toggleGroup="$transactionType" GridPane.columnIndex="3" />
+                                             </children>
+                                          </GridPane>
                                        </top>
                                     </BorderPane>
                                  </children>
@@ -162,14 +209,6 @@
                                  </padding>
                                  <children>
                                     <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <top>
-                                          <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                                             <buttons>
-                                                <Button mnemonicParsing="false" onAction="#removeBudget" text="REMOVE" />
-                                                <Button mnemonicParsing="false" onAction="#newBudget" text="NEW" />
-                                             </buttons>
-                                          </ButtonBar>
-                                       </top>
                                        <center>
                                           <TableView fx:id="tableBudget" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                              <columns>
@@ -178,6 +217,27 @@
                                              </columns>
                                           </TableView>
                                        </center>
+                                       <top>
+                                          <GridPane BorderPane.alignment="CENTER">
+                                             <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                             </columnConstraints>
+                                             <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                             </rowConstraints>
+                                             <children>
+                                                <Button mnemonicParsing="false" onAction="#removeBudget" prefHeight="27.0" prefWidth="194.0" text="REMOVE" GridPane.columnIndex="5" />
+                                                <Button mnemonicParsing="false" onAction="#addBudget" prefHeight="27.0" prefWidth="171.0" text="ADD" GridPane.columnIndex="4" />
+                                                <TextField fx:id="budgetNewValue" promptText="Value" GridPane.columnIndex="1" />
+                                                <ChoiceBox fx:id="budgetNewTagId" prefHeight="27.0" prefWidth="187.0" />
+                                             </children>
+                                          </GridPane>
+                                       </top>
                                     </BorderPane>
                                  </children>
                               </AnchorPane>
@@ -194,11 +254,11 @@
                       <TableColumn fx:id="movementID" prefWidth="75.0" text="ID" />
                       <TableColumn fx:id="movementAmount" prefWidth="75.0" text="Amount" />
                         <TableColumn fx:id="movementType" prefWidth="75.0" text="Type" />
-                        <TableColumn fx:id="movementDate" prefWidth="75.0" text="Date" />
-                        <TableColumn fx:id="movementTagID" prefWidth="75.0" text="Tag ID" />
-                        <TableColumn fx:id="movementTransactionID" prefWidth="137.0" text="Transaction ID" />
-                        <TableColumn fx:id="movementAccountID" prefWidth="75.0" text="Account ID" />
-                        <TableColumn fx:id="movementDescription" prefWidth="75.0" text="Description" />
+                        <TableColumn fx:id="movementDate" prefWidth="104.60305786132812" text="Date" />
+                        <TableColumn fx:id="movementTagID" prefWidth="85.624755859375" text="Tag ID" />
+                        <TableColumn fx:id="movementTransactionID" prefWidth="117.1663818359375" text="Transaction ID" />
+                        <TableColumn fx:id="movementAccountID" prefWidth="111.64556884765625" text="Account ID" />
+                        <TableColumn fx:id="movementDescription" prefWidth="141.35443115234375" text="Description" />
                     </columns>
                   </TableView>
                </children>

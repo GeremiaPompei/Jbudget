@@ -121,4 +121,9 @@ public class AccountBase implements Account {
             comparator = this.ID-o.getID();
         return comparator;
     }
+
+    @Override
+    public String toString(){
+        return this.ID+": "+this.name;
+    }
 }

@@ -36,7 +36,7 @@ public class TagBase implements Tag {
     public int compareTo(Tag o) {
         int comparator = this.name.compareTo(o.getName());
         if(comparator == 0)
-            comparator = this.description.compareTo(o.getDescription());
+            comparator = this.ID-o.getID();
         return comparator;
     }
 

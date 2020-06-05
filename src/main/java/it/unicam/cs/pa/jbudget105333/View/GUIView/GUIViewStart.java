@@ -12,7 +12,7 @@ public class GUIViewStart extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/JBudgetHome.fxml"));
         stage.setTitle("JBudget");
-        stage.setScene(new Scene(root, 1000, 500));
+        stage.setScene(new Scene(root, 1050, 500));
         stage.show();
     }
 }
