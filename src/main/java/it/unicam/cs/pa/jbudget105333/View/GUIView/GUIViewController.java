@@ -1,21 +1,17 @@
 package it.unicam.cs.pa.jbudget105333.View.GUIView;
 
 import it.unicam.cs.pa.jbudget105333.Account.Account;
+import it.unicam.cs.pa.jbudget105333.Account.AccountManager;
 import it.unicam.cs.pa.jbudget105333.Account.AccountType;
-import it.unicam.cs.pa.jbudget105333.Budget.BudgetBase.BudgetBaseController;
-import it.unicam.cs.pa.jbudget105333.Budget.BudgetController;
-import it.unicam.cs.pa.jbudget105333.BudgetReport.BudgetReportBase.BudgetReportBaseController;
-import it.unicam.cs.pa.jbudget105333.BudgetReport.BudgetReportController;
-import it.unicam.cs.pa.jbudget105333.Ledger.LedgerBase.LedgerBaseController;
-import it.unicam.cs.pa.jbudget105333.Ledger.LedgerController;
+import it.unicam.cs.pa.jbudget105333.Controller.MainController;
+import it.unicam.cs.pa.jbudget105333.Controller.MainControllerBase;
 import it.unicam.cs.pa.jbudget105333.Movement.Movement;
 import it.unicam.cs.pa.jbudget105333.Movement.MovementType;
 import it.unicam.cs.pa.jbudget105333.Tag.Tag;
+import it.unicam.cs.pa.jbudget105333.Tag.TagManager;
 import it.unicam.cs.pa.jbudget105333.Transaction.Transaction;
-import it.unicam.cs.pa.jbudget105333.Transaction.TransactionBase.InstantTransaction.InstantTransaction;
-import it.unicam.cs.pa.jbudget105333.Transaction.TransactionBase.ProgramTransaction.ProgramTransaction;
-import it.unicam.cs.pa.jbudget105333.View.ViewBaseController;
-import it.unicam.cs.pa.jbudget105333.View.ViewController;
+import it.unicam.cs.pa.jbudget105333.Transaction.InstantTransaction;
+import it.unicam.cs.pa.jbudget105333.Transaction.ProgramTransaction;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -40,10 +36,7 @@ import java.util.ResourceBundle;
 
 public class GUIViewController implements Initializable {
 
-    private LedgerController ledgerController;
-    private BudgetController budgetController;
-    private BudgetReportController budgetReportController;
-    private ViewController viewController;
+    private MainController mainController;
 
     @FXML TableView<Account> tableAccount;
     @FXML TableColumn<Account,Integer> accountID;
@@ -105,23 +98,29 @@ public class GUIViewController implements Initializable {
     public void removeAccount(ActionEvent actionEvent) throws IOException {
         Account a = tableAccount.getSelectionModel().getSelectedItem();
         if(!tableAccount.getItems().isEmpty()&&a!=null) {
-            ledgerController.getLedger().removeAccount(a);
+            this.mainController.removeAccount(a);
             initializeAccount();
-            this.viewController.save();
+            this.mainController.save();
         }
     }
 
     @FXML
-    public void addAccount(ActionEvent actionEvent) throws IOException {
-        if(accountNewType.getValue()!=null) {
-            String account = accountNewName.getText() + "," + accountNewDescription.getText() + ","
-                    + accountNewOpeningBalance.getText() + "," + accountNewType.getValue().toString();
-            this.viewController.newAccount(account);
+    public void addAccount(ActionEvent actionEvent) {
+        try {
+            if (accountNewType.getValue() != null) {
+                Account account = AccountManager.generateAccount(accountNewName.getText(), accountNewDescription.getText()
+                        , Double.parseDouble(accountNewOpeningBalance.getText()), accountNewType.getValue()
+                        ,this.mainController.idGenerator().generate());
+                this.mainController.addAccount(account);
+                this.mainController.save();
+            }
+        }catch (Exception e){
+
+        }finally {
             initializeAccount();
             accountNewName.clear();
             accountNewDescription.clear();
             accountNewOpeningBalance.clear();
-            this.viewController.save();
         }
     }
 
@@ -129,30 +128,30 @@ public class GUIViewController implements Initializable {
     public void removeTag(ActionEvent actionEvent) throws IOException {
         Tag t = tableTag.getSelectionModel().getSelectedItem();
         if(!tableTag.getItems().isEmpty()&&t!=null) {
-            ledgerController.getLedger().removeTag(t);
+            this.mainController.removeTag(t);
             initializeTag();
             initializeBudget();
-            this.viewController.save();
+            this.mainController.save();
         }
     }
 
     @FXML
     public void addTag(ActionEvent actionEvent) throws IOException {
-        String tag = tagNewName.getText()+","+tagNewDescription.getText();
-        this.viewController.newTag(tag);
+        this.mainController.addTag(TagManager.generateTag(tagNewName.getText(),tagNewDescription.getText()
+                ,this.mainController.idGenerator().generate()));
         initializeTag();
         tagNewName.clear();
         tagNewDescription.clear();
-        this.viewController.save();
+        this.mainController.save();
     }
 
     @FXML
     public void removeTransaction(ActionEvent actionEvent) throws IOException {
         Transaction t = tableTransaction.getSelectionModel().getSelectedItem();
         if(!tableTransaction.getItems().isEmpty()&&t!=null) {
-            ledgerController.getLedger().removeTransaction(t);
+            this.mainController.removeTransaction(t);
             initializeTransaction();
-            this.viewController.save();
+            this.mainController.save();
         }
     }
 
@@ -160,12 +159,12 @@ public class GUIViewController implements Initializable {
     public void addTransaction(ActionEvent actionEvent) throws IOException {
         Transaction transaction = null;
         if(instantTransaction.isSelected()){
-            transaction = new InstantTransaction(this.ledgerController.getIDGenerator());
+            transaction = new InstantTransaction(this.mainController.idGenerator().generate());
         }
         if(programTransaction.isSelected() && transactionNewDate.getValue()!=null){
             transaction = new ProgramTransaction
                     (LocalDateTime.of(transactionNewDate.getValue(),LocalTime.MIN)
-                            ,this.ledgerController.getIDGenerator());
+                            ,this.mainController.idGenerator().generate());
         }
         if(transaction!=null) {
             Stage stage = new Stage();
@@ -173,32 +172,37 @@ public class GUIViewController implements Initializable {
             stage.setResizable(false);
             stage.initModality(Modality.APPLICATION_MODAL);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/JBudgetNewMovements.fxml"));
-            loader.setController(new GUIViewMovementController(this.viewController, this.budgetReportController
+            loader.setController(new GUIViewMovementController(this.mainController
                     , transaction,stage,this));
             Parent root = loader.load();
-            stage.setScene(new Scene(root, 600, 400));
+            stage.setScene(new Scene(root, 610, 400));
             stage.show();
         }
     }
 
     @FXML
     public void removeBudget(ActionEvent actionEvent) throws IOException {
-        Map.Entry b = tableBudget.getSelectionModel().getSelectedItem();
+        Map.Entry<Tag,Double> b = tableBudget.getSelectionModel().getSelectedItem();
         if(!tableBudget.getItems().isEmpty()&&b!=null) {
-            budgetController.getBudgetMap().remove(b.getKey());
+            this.mainController.removeBudgetRecord(b.getKey());
             initializeBudget();
-            this.viewController.save();
+            this.mainController.save();
         }
     }
 
     @FXML
-    public void addBudget(ActionEvent actionEvent) throws IOException {
-        if(budgetNewTagId.getValue()!=null) {
-            String budget = budgetNewTagId.getValue().getID() + "," + budgetNewValue.getText();
-            this.viewController.newBudgetRecord(budget);
+    public void addBudget(ActionEvent actionEvent) {
+        try {
+            if (budgetNewTagId.getValue() != null) {
+                this.mainController.addBudgetRecord(budgetNewTagId.getValue()
+                        , Double.parseDouble(budgetNewValue.getText()));
+                this.mainController.save();
+            }
+        }catch (Exception e){
+
+        }finally {
             initializeBudget();
             budgetNewValue.clear();
-            this.viewController.save();
         }
     }
 
@@ -206,12 +210,13 @@ public class GUIViewController implements Initializable {
     public void schedule(ActionEvent actionEvent) {
         if(scheduleTag.isSelected() && tagSchedChoice.getValue()!=null) {
             olTransaction.removeAll(olTransaction);
-            olTransaction.addAll(ledgerController.scheduleTransactionsTag(tagSchedChoice.getValue().getID()));
+            olTransaction.addAll(this.mainController
+                    .scheduleTransactionsTag(tagSchedChoice.getValue()));
             tableTransaction.refresh();
         }
         if(scheduleDate.isSelected()&&dateStart.getValue()!=null&&dateStop.getValue()!=null) {
             olTransaction.removeAll(olTransaction);
-            olTransaction.addAll(ledgerController
+            olTransaction.addAll(this.mainController
                     .scheduleTransactionsDate(LocalDateTime.of(dateStart.getValue(), LocalTime.MIN)
                             ,LocalDateTime.of(dateStop.getValue(), LocalTime.MIN)));
             tableTransaction.refresh();
@@ -225,8 +230,8 @@ public class GUIViewController implements Initializable {
 
     @FXML
     public void tableAccountClicked(javafx.scene.input.MouseEvent mouseEvent) {
-        if(!tableAccount.getItems().isEmpty()) {
-            Account a = tableAccount.getSelectionModel().getSelectedItem();
+        Account a = tableAccount.getSelectionModel().getSelectedItem();
+        if(!tableAccount.getItems().isEmpty()&&a!=null) {
             initializeMovement(a.getMovements());
             tableMovement.refresh();
         }
@@ -234,8 +239,8 @@ public class GUIViewController implements Initializable {
 
     @FXML
     public void tableTransactionClicked(javafx.scene.input.MouseEvent mouseEvent) {
-        if(!tableTransaction.getItems().isEmpty()) {
-            Transaction t = tableTransaction.getSelectionModel().getSelectedItem();
+        Transaction t = tableTransaction.getSelectionModel().getSelectedItem();
+        if(!tableTransaction.getItems().isEmpty()&&t!=null) {
             initializeMovement(t.getMovements());
             tableMovement.refresh();
         }
@@ -243,11 +248,7 @@ public class GUIViewController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.ledgerController = new LedgerBaseController();
-        this.budgetController = new BudgetBaseController(this.ledgerController);
-        this.budgetReportController =
-                new BudgetReportBaseController(this.ledgerController,this.budgetController);
-        this.viewController = new ViewBaseController(this.budgetReportController);
+        this.mainController = new MainControllerBase();
         olAccount = FXCollections.observableArrayList();
         olTag = FXCollections.observableArrayList();
         olBudget = FXCollections.observableArrayList();
@@ -271,7 +272,7 @@ public class GUIViewController implements Initializable {
 
     public void initializeAccount(){
         olAccount.removeAll(olAccount);
-        olAccount.addAll(this.ledgerController.getAccounts());
+        olAccount.addAll(this.mainController.getAccounts());
         tableAccount.setItems(olAccount);
         accountID.setCellValueFactory
                 (cellData -> new SimpleObjectProperty<>(cellData.getValue().getID()));
@@ -290,7 +291,7 @@ public class GUIViewController implements Initializable {
 
     public void initializeTag(){
         olTag.removeAll(olTag);
-        olTag.addAll(this.ledgerController.getTags());
+        olTag.addAll(this.mainController.getTags());
         tableTag.setItems(olTag);
         tagID.setCellValueFactory
                 (cellData -> new SimpleObjectProperty<>(cellData.getValue().getID()));
@@ -303,7 +304,7 @@ public class GUIViewController implements Initializable {
 
     public void initializeBudget() {
         olBudget.removeAll(olBudget);
-        olBudget.addAll(this.budgetController.getBudget().getBudgetMap().entrySet());
+        olBudget.addAll(this.mainController.getBudgetRecords().entrySet());
         tableBudget.setItems(olBudget);
         budgetTagID.setCellValueFactory
                 (cellData -> new SimpleObjectProperty<>(cellData.getValue().getKey().getID()));
@@ -314,7 +315,7 @@ public class GUIViewController implements Initializable {
 
     public void initializeTransaction() {
         olTransaction.removeAll(olTransaction);
-        olTransaction.addAll(this.ledgerController.getTransactions());
+        olTransaction.addAll(this.mainController.getTransactions());
         tableTransaction.setItems(olTransaction);
         transactionID.setCellValueFactory
                 (cellData -> new SimpleObjectProperty<>(cellData.getValue().getID()));
@@ -323,7 +324,7 @@ public class GUIViewController implements Initializable {
         transactionTAmount.setCellValueFactory
                 (cellData -> new SimpleObjectProperty<>(cellData.getValue().getTotalAmount()));
         tableTransaction.refresh();
-        avviso();
+        attention();
     }
 
     private void initializeMovement(Collection<Movement> movements) {
@@ -349,13 +350,14 @@ public class GUIViewController implements Initializable {
         tableMovement.refresh();
     }
 
-    private void avviso(){
-        String check = this.viewController.check();
-        if(check!=""){
+    private void attention(){
+        Map<Tag,Double> check = this.mainController.check();
+        if(!check.isEmpty()){
             Stage stage = new Stage();
             stage.setTitle("ATTENTION");
-            stage.setScene(new Scene(new TextArea(check)));
+            stage.setScene(new Scene(new TextArea(check.toString())));
             stage.setResizable(false);
+            stage.setAlwaysOnTop(true);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setWidth(300);
             stage.setHeight(300);

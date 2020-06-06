@@ -3,7 +3,7 @@ package it.unicam.cs.pa.jbudget105333.Account;
 import it.unicam.cs.pa.jbudget105333.Movement.Movement;
 
 import java.io.Serializable;
-import java.util.SortedSet;
+import java.util.Set;
 
 public interface Account extends Serializable,Comparable<Account> {
 
@@ -12,8 +12,8 @@ public interface Account extends Serializable,Comparable<Account> {
     double getOpeningBalance();
     double getBalance();
     void addMovement(Movement movement);
-    void update();
-    SortedSet<Movement> getMovements();
+    Set<Movement> getMovements();
     AccountType getAccountType();
     int getID();
+    void update();
 }

@@ -9,6 +9,7 @@ import java.util.Set;
 
 public interface Transaction extends Serializable,Comparable<Transaction> {
     void addMovement(Movement movement);
+    void addMovements(Set<Movement> movement);
     Set<Movement> getMovements();
     Set<Tag> getTags();
     LocalDateTime getDate();

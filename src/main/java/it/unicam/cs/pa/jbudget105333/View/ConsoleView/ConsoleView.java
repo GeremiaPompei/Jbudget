@@ -1,22 +1,26 @@
 package it.unicam.cs.pa.jbudget105333.View.ConsoleView;
 
 import it.unicam.cs.pa.jbudget105333.Account.AccountType;
+import it.unicam.cs.pa.jbudget105333.Controller.MainController;
 import it.unicam.cs.pa.jbudget105333.Movement.MovementType;
+import it.unicam.cs.pa.jbudget105333.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.View.View;
-import it.unicam.cs.pa.jbudget105333.View.ViewController;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.atomic.AtomicReference;
 
-public class ConsoleView implements View<ViewController> {
+public class ConsoleView implements View {
 
     private final BufferedReader reader;
     private final Map<String,String> commands;
@@ -31,7 +35,7 @@ public class ConsoleView implements View<ViewController> {
     a console
      */
     @Override
-    public void open(ViewController controller) throws IOException {
+    public void open(MainController controller) throws IOException {
         String command = "";
         addCommands();
         System.out.print("\n\n * JBUDGET * \n\n");
@@ -59,10 +63,10 @@ public class ConsoleView implements View<ViewController> {
     /*Metodo utilizzato per stampare la data dell'ultimo aggiornamento e i tag dei budget superati
     se presenti
      */
-    private void printState(ViewController controller){
-        String check = controller.check();
+    private void printState(MainController controller){
+        Map<Tag,Double> check = controller.check();
         if(!check.isEmpty())
-            System.out.print("\n\nATTENTION:"+check);
+            System.out.print("\n\nATTENTION:"+check.toString());
         System.out.println("\n["+ LocalDateTime.now().format(
                 DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)) +"]");
     }
@@ -91,7 +95,7 @@ public class ConsoleView implements View<ViewController> {
     }
 
     //Processore dei comandi che usa i metodi del viewController per processarli uno ad uno
-    private String processCommand(ViewController controller,String string) throws IOException {
+    private String processCommand(MainController controller,String string) throws IOException {
         String command = "";
         String argument = "";
         command = this.commands.get(string);
@@ -105,37 +109,52 @@ public class ConsoleView implements View<ViewController> {
         }
         switch (command) {
             case "showtransactionsd":
-                command = controller.scheduleTransactionsDate(argument);
+                try{
+                    LocalDateTime start = LocalDateTime.of(LocalDate.parse(argument.substring
+                            (0,argument.indexOf(',')).trim()), LocalTime.MIN);
+                    LocalDateTime stop = LocalDateTime.of(LocalDate.parse(argument.substring
+                            (argument.indexOf(',')).trim()), LocalTime.MIN);
+                    command = controller.scheduleTransactionsDate(start,stop).toString();
+                }catch (Exception e){
+                    command = "Error in "+command;
+                }
                 break;
             case "showtransactionst":
-                command = controller.scheduleTransactionsTag(argument);
+                try{
+                    AtomicReference<Tag> tag = new AtomicReference<>();
+                    int tagId = Integer.parseInt(argument);
+                    controller.getTags().stream().filter(t->t.getID()==tagId).forEach(t->tag.set(t));
+                    command = controller.scheduleTransactionsTag(tag.get()).toString();
+                }catch (Exception e){
+                    command = "Error in "+command;
+                }
                 break;
             case "showtransactions":
-                command = controller.showTransactions();
+                command = controller.getTransactions().toString();
                 break;
             case "newitransaction":
-                command = controller.newITransaction(argument);
+                //command = controller.addTransaction(argument);
                 break;
             case "newptransaction":
-                command = controller.newPTransaction(argument);
+                //command = controller.addTransaction(argument);
                 break;
             case "showaccounts":
-                command = controller.showAccounts();
+                command = controller.getAccounts().toString();
                 break;
             case "newaccount":
-                command = controller.newAccount(argument);
+                //command = controller.addAccount(argument);
                 break;
             case "showbudgets":
-                command = controller.showBudgetRecords();
+                command = controller.getBudgetRecords().toString();
                 break;
             case "newbudget":
-                command = controller.newBudgetRecord(argument);
+                //command = controller.addBudgetRecord(argument);
                 break;
             case "showtags":
-                command = controller.showTags();
+                command = controller.getTags().toString();
                 break;
             case "newtag":
-                command = controller.newTag(argument);
+                //command = controller.addTag(argument);
                 break;
             default:
                 command = "Command unknown: " + string;

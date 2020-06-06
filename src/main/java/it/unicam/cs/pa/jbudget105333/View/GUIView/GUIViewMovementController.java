@@ -1,13 +1,12 @@
 package it.unicam.cs.pa.jbudget105333.View.GUIView;
 
 import it.unicam.cs.pa.jbudget105333.Account.Account;
-import it.unicam.cs.pa.jbudget105333.BudgetReport.BudgetReportController;
+import it.unicam.cs.pa.jbudget105333.Controller.MainController;
 import it.unicam.cs.pa.jbudget105333.Movement.Movement;
-import it.unicam.cs.pa.jbudget105333.Movement.MovementBase.MovementBase;
+import it.unicam.cs.pa.jbudget105333.Movement.MovementManager;
 import it.unicam.cs.pa.jbudget105333.Movement.MovementType;
 import it.unicam.cs.pa.jbudget105333.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Transaction.Transaction;
-import it.unicam.cs.pa.jbudget105333.View.ViewController;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -41,17 +40,14 @@ public class GUIViewMovementController implements Initializable {
     private ObservableList<Tag> olTags;
     private ObservableList<Account> olAccounts;
     private ObservableList<Movement> olMovements;
-    private ViewController viewController;
-    private BudgetReportController budgetReportController;
+    private MainController mainController;
     private Transaction transaction;
     private Stage stage;
     private GUIViewController guiViewController;
 
-    public GUIViewMovementController(ViewController viewController
-            , BudgetReportController budgetReportController, Transaction transaction
+    public GUIViewMovementController(MainController mainController, Transaction transaction
             , Stage stage, GUIViewController guiViewController) {
-        this.viewController = viewController;
-        this.budgetReportController = budgetReportController;
+        this.mainController = mainController;
         this.transaction = transaction;
         this.stage = stage;
         this.guiViewController = guiViewController;
@@ -66,9 +62,10 @@ public class GUIViewMovementController implements Initializable {
 
     public void addMovement(ActionEvent actionEvent) {
         try {
-            transaction.addMovement(new MovementBase(movementNewType.getValue(), Double.parseDouble(movementNewAmount.getText())
+            transaction.addMovement(MovementManager.generateMovement(movementNewType.getValue()
+                    , Double.parseDouble(movementNewAmount.getText())
                     , transaction, movementNewAccountId.getValue(), movementNewTagId.getValue()
-                    , movementNewDescription.getText(), this.budgetReportController.getLedgerC().getIDGenerator()));
+                    , movementNewDescription.getText(), this.mainController.idGenerator().generate()));
             initializeMovement();
         }catch (Exception e){ }
         movementNewAmount.clear();
@@ -77,11 +74,11 @@ public class GUIViewMovementController implements Initializable {
 
     public void saveMovements(ActionEvent actionEvent) throws IOException {
         if(!transaction.getMovements().isEmpty()) {
-            this.budgetReportController.getLedgerC().getLedger().addTransaction(transaction);
+            this.mainController.addTransaction(transaction);
             guiViewController.initializeTransaction();
             guiViewController.initializeAccount();
-            this.viewController.update();
-            this.viewController.save();
+            this.mainController.update();
+            this.mainController.save();
         }
         stage.close();
     }
@@ -90,10 +87,10 @@ public class GUIViewMovementController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         olMovements = FXCollections.observableArrayList();
         olTags = FXCollections.observableArrayList();
-        olTags.addAll(this.budgetReportController.getLedgerC().getTags());
+        olTags.addAll(this.mainController.getTags());
         movementNewTagId.setItems(olTags);
         olAccounts = FXCollections.observableArrayList();
-        olAccounts.addAll(this.budgetReportController.getLedgerC().getAccounts());
+        olAccounts.addAll(this.mainController.getAccounts());
         movementNewAccountId.setItems(olAccounts);
         olMovementsType = FXCollections.observableArrayList();
         olMovementsType.addAll(MovementType.CREDITS,MovementType.DEBIT);

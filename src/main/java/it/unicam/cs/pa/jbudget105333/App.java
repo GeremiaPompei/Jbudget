@@ -3,29 +3,23 @@
  */
 package it.unicam.cs.pa.jbudget105333;
 
-import it.unicam.cs.pa.jbudget105333.Budget.BudgetBase.BudgetBaseController;
-import it.unicam.cs.pa.jbudget105333.Budget.BudgetController;
-import it.unicam.cs.pa.jbudget105333.BudgetReport.BudgetReportBase.BudgetReportBaseController;
-import it.unicam.cs.pa.jbudget105333.BudgetReport.BudgetReportController;
-import it.unicam.cs.pa.jbudget105333.Ledger.LedgerBase.LedgerBaseController;
-import it.unicam.cs.pa.jbudget105333.Ledger.LedgerController;
+import it.unicam.cs.pa.jbudget105333.Controller.MainController;
+import it.unicam.cs.pa.jbudget105333.Controller.MainControllerBase;
 import it.unicam.cs.pa.jbudget105333.View.ConsoleView.ConsoleView;
-import it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewStart;
+import it.unicam.cs.pa.jbudget105333.View.GUIView.GUIView;
 import it.unicam.cs.pa.jbudget105333.View.View;
-import it.unicam.cs.pa.jbudget105333.View.ViewBaseController;
 
-import javafx.application.Application;
 import java.io.IOException;
 
 public class App {
 
-    private final BudgetReportController controller;
+    private final MainController controller;
     private final View view;
 
     /**
      * Costruttore di App che prende un Controller di budgetReport e una View
      */
-    public App(BudgetReportController controller, View view) {
+    public App(MainController controller, View view) {
         this.controller = controller;
         this.view = view;
     }
@@ -34,18 +28,17 @@ public class App {
      * Metodo main che genera un'App con un factory method e vi esegue il metodo start
      */
     public static void main(String[] args) {
-        launchGui();
-        //createApp().start();
-    }
-
-    private static void launchGui() {
-        Application.launch(GUIViewStart.class);
+        if(args.length == 0)
+            createApp(new GUIView()).start();
+        else
+            if(args[0].equalsIgnoreCase("console"))
+                createApp(new ConsoleView()).start();
     }
 
     //Metodo start che fa partire il metodo open con parametro un viewController e metodo close della view
     private void start() {
         try {
-            this.view.open(new ViewBaseController(this.controller));
+            this.view.open(this.controller);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,12 +46,8 @@ public class App {
     }
 
     //Factory method che crea l'App da un budgetReportController e una View
-    private static App createApp() {
-        LedgerController lcontroller = new LedgerBaseController();
-        BudgetController bcontroller = new BudgetBaseController(lcontroller);
-        BudgetReportController brcontroller = new BudgetReportBaseController(lcontroller,bcontroller);
-        View view = new ConsoleView();
-        return  new App(brcontroller,view);
+    private static App createApp(View view) {
+        MainController mainController= new MainControllerBase();
+        return  new App(mainController,view);
     }
-
 }

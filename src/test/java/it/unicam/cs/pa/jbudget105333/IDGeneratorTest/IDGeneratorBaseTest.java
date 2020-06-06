@@ -1,7 +1,7 @@
 package it.unicam.cs.pa.jbudget105333.IDGeneratorTest;
 
 import it.unicam.cs.pa.jbudget105333.IDGenerator.IDGenerator;
-import it.unicam.cs.pa.jbudget105333.IDGenerator.IDGeneratorBase.IDGeneratorBase;
+import it.unicam.cs.pa.jbudget105333.IDGenerator.IDGeneratorBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

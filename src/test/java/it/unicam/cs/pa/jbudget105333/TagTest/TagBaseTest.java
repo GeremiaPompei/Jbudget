@@ -1,9 +1,9 @@
 package it.unicam.cs.pa.jbudget105333.TagTest;
 
 import it.unicam.cs.pa.jbudget105333.IDGenerator.IDGenerator;
-import it.unicam.cs.pa.jbudget105333.IDGenerator.IDGeneratorBase.IDGeneratorBase;
+import it.unicam.cs.pa.jbudget105333.IDGenerator.IDGeneratorBase;
 import it.unicam.cs.pa.jbudget105333.Tag.Tag;
-import it.unicam.cs.pa.jbudget105333.Tag.TagBase.TagBase;
+import it.unicam.cs.pa.jbudget105333.Tag.TagBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,17 +1,10 @@
 package it.unicam.cs.pa.jbudget105333.BudgetTest;
 
 import it.unicam.cs.pa.jbudget105333.Budget.Budget;
-import it.unicam.cs.pa.jbudget105333.Budget.BudgetBase.BudgetBaseController;
-import it.unicam.cs.pa.jbudget105333.Budget.BudgetController;
-import it.unicam.cs.pa.jbudget105333.Budget.BudgetReader;
-import it.unicam.cs.pa.jbudget105333.BudgetReport.BudgetReportBase.BudgetReportBaseController;
-import it.unicam.cs.pa.jbudget105333.BudgetReport.BudgetReportController;
-import it.unicam.cs.pa.jbudget105333.IDGenerator.IDGeneratorBase.IDGeneratorBase;
-import it.unicam.cs.pa.jbudget105333.Ledger.LedgerBase.LedgerBaseController;
-import it.unicam.cs.pa.jbudget105333.Ledger.LedgerController;
+import it.unicam.cs.pa.jbudget105333.IDGenerator.IDGeneratorBase;
 import it.unicam.cs.pa.jbudget105333.Reader;
 import it.unicam.cs.pa.jbudget105333.Tag.Tag;
-import it.unicam.cs.pa.jbudget105333.Tag.TagBase.TagBase;
+import it.unicam.cs.pa.jbudget105333.Tag.TagBase;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;

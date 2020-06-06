@@ -1,14 +1,11 @@
 package it.unicam.cs.pa.jbudget105333.AccountTest;
 
 import it.unicam.cs.pa.jbudget105333.Account.Account;
-import it.unicam.cs.pa.jbudget105333.Account.AccountBase.AccountBase;
-import it.unicam.cs.pa.jbudget105333.Account.AccountBase.AccountBasePrinter;
+import it.unicam.cs.pa.jbudget105333.Account.AccountBase;
 import it.unicam.cs.pa.jbudget105333.Account.AccountType;
 import it.unicam.cs.pa.jbudget105333.IDGenerator.IDGenerator;
-import it.unicam.cs.pa.jbudget105333.IDGenerator.IDGeneratorBase.IDGeneratorBase;
+import it.unicam.cs.pa.jbudget105333.IDGenerator.IDGeneratorBase;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class AccountBasePrinterTest {
 

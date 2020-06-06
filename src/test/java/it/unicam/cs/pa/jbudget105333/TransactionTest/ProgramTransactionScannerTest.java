@@ -1,15 +1,12 @@
 package it.unicam.cs.pa.jbudget105333.TransactionTest;
 
 import it.unicam.cs.pa.jbudget105333.IDGenerator.IDGenerator;
-import it.unicam.cs.pa.jbudget105333.IDGenerator.IDGeneratorBase.IDGeneratorBase;
-import it.unicam.cs.pa.jbudget105333.Scanner;
-import it.unicam.cs.pa.jbudget105333.Transaction.TransactionBase.ProgramTransaction.ProgramTransaction;
-import it.unicam.cs.pa.jbudget105333.Transaction.TransactionBase.ProgramTransaction.ProgramTransactionScanner;
+import it.unicam.cs.pa.jbudget105333.IDGenerator.IDGeneratorBase;
+import it.unicam.cs.pa.jbudget105333.Transaction.ProgramTransaction;
+import it.unicam.cs.pa.jbudget105333.Transaction.ProgramTransaction.ProgramTransactionScanner;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ProgramTransactionScannerTest {
 
