@@ -1,17 +1,17 @@
 package it.unicam.cs.pa.jbudget105333.View.GUIView;
 
-import it.unicam.cs.pa.jbudget105333.Account.Account;
-import it.unicam.cs.pa.jbudget105333.Account.AccountManager;
-import it.unicam.cs.pa.jbudget105333.Account.AccountType;
 import it.unicam.cs.pa.jbudget105333.Controller.MainController;
 import it.unicam.cs.pa.jbudget105333.Controller.MainControllerBase;
-import it.unicam.cs.pa.jbudget105333.Movement.Movement;
-import it.unicam.cs.pa.jbudget105333.Movement.MovementType;
-import it.unicam.cs.pa.jbudget105333.Tag.Tag;
-import it.unicam.cs.pa.jbudget105333.Tag.TagManager;
-import it.unicam.cs.pa.jbudget105333.Transaction.Transaction;
-import it.unicam.cs.pa.jbudget105333.Transaction.InstantTransaction;
-import it.unicam.cs.pa.jbudget105333.Transaction.ProgramTransaction;
+import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
+import it.unicam.cs.pa.jbudget105333.Model.Account.AccountManager;
+import it.unicam.cs.pa.jbudget105333.Model.Account.AccountType;
+import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
+import it.unicam.cs.pa.jbudget105333.Model.Movement.MovementType;
+import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
+import it.unicam.cs.pa.jbudget105333.Model.Tag.TagManager;
+import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
+import it.unicam.cs.pa.jbudget105333.Model.Transaction.TransactionBase.InstantTransaction;
+import it.unicam.cs.pa.jbudget105333.Model.Transaction.TransactionBase.ProgramTransaction;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +22,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -93,6 +94,10 @@ public class GUIViewController implements Initializable {
     @FXML TableColumn<Movement,Integer> movementAccountID;
     @FXML TableColumn<Movement,String> movementDescription;
     private ObservableList<Movement> olMovement;
+
+    public GUIViewController() {
+        this.mainController = new MainControllerBase();
+    }
 
     @FXML
     public void removeAccount(ActionEvent actionEvent) throws IOException {
@@ -203,6 +208,7 @@ public class GUIViewController implements Initializable {
         }finally {
             initializeBudget();
             budgetNewValue.clear();
+            attention();
         }
     }
 
@@ -246,9 +252,24 @@ public class GUIViewController implements Initializable {
         }
     }
 
+    public void tableTagClicked(MouseEvent mouseEvent) {
+        Tag t = tableTag.getSelectionModel().getSelectedItem();
+        if(!tableTag.getItems().isEmpty()&&t!=null) {
+            initializeMovement(t.getMovements());
+            tableMovement.refresh();
+        }
+    }
+
+    public void budgetTableClicked(MouseEvent mouseEvent) {
+        Map.Entry<Tag, Double> t = tableBudget.getSelectionModel().getSelectedItem();
+        if(!tableBudget.getItems().isEmpty()&&t!=null) {
+            initializeMovement(t.getKey().getMovements());
+            tableMovement.refresh();
+        }
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.mainController = new MainControllerBase();
         olAccount = FXCollections.observableArrayList();
         olTag = FXCollections.observableArrayList();
         olBudget = FXCollections.observableArrayList();

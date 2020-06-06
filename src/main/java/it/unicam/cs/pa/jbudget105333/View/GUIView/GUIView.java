@@ -6,7 +6,8 @@ import javafx.application.Application;
 
 import java.io.IOException;
 
-public class GUIView implements View {
+public class GUIView implements View{
+
     @Override
     public void open(MainController controller) throws IOException {
         Application.launch(GUIViewStart.class);

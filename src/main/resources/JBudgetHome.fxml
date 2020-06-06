@@ -80,7 +80,7 @@
                                  <children>
                                     <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <center>
-                                          <TableView fx:id="tableTag" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                          <TableView fx:id="tableTag" onMouseClicked="#tableTagClicked" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                              <columns>
                                                 <TableColumn fx:id="tagID" prefWidth="75.0" text="ID" />
                                                 <TableColumn fx:id="tagName" prefWidth="75.0" text="Name" />
@@ -210,7 +210,7 @@
                                  <children>
                                     <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <center>
-                                          <TableView fx:id="tableBudget" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                          <TableView fx:id="tableBudget" onMouseClicked="#budgetTableClicked" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                              <columns>
                                                 <TableColumn fx:id="budgetTagID" prefWidth="75.0" text="Tag ID" />
                                                 <TableColumn fx:id="budgetValue" prefWidth="75.0" text="Value" />

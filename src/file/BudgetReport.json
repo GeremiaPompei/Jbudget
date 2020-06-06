@@ -1,37 +1,27 @@
 {
   "Ledger": {
     "IDGenerator": {
-      "nextID": 15
-    },
-    "TagAmounts": {
-      "1: a": -195.0
+      "nextID": 11
     },
     "Tags": [
       {
-        "name": "a",
-        "description": "a",
-        "ID": 1
+        "ID": 6,
+        "Name": "a",
+        "Description": "a"
       }
     ],
     "Accounts": [
       {
-        "ID": 2,
+        "ID": 7,
         "Name": "a",
         "Description": "a",
         "Type": "ASSETS",
-        "OpeningBalance": 4.0
-      },
-      {
-        "ID": 15,
-        "Name": "af",
-        "Description": "afg",
-        "Type": "LIABILITIES",
-        "OpeningBalance": -9.0
+        "OpeningBalance": 8.0
       }
     ],
     "Transactions": [
       {
-        "ID": 3,
+        "ID": 8,
         "Date": {
           "date": {
             "year": 2020,
@@ -39,129 +29,48 @@
             "day": 6
           },
           "time": {
-            "hour": 13,
-            "minute": 10,
-            "second": 19,
-            "nano": 700536000
-          }
-        },
-        "TotalAmounts": 5.0,
-        "Movements": [
-          {
-            "ID": 4,
-            "Type": "CREDITS",
-            "Amount": 5.0,
-            "Account": 2,
-            "Tag": 1,
-            "Description": "wef"
-          }
-        ]
-      },
-      {
-        "ID": 5,
-        "Date": {
-          "date": {
-            "year": 2020,
-            "month": 6,
-            "day": 6
-          },
-          "time": {
-            "hour": 13,
-            "minute": 10,
-            "second": 35,
-            "nano": 170002000
-          }
-        },
-        "TotalAmounts": 200.0,
-        "Movements": [
-          {
-            "ID": 6,
-            "Type": "DEBIT",
-            "Amount": 200.0,
-            "Account": 2,
-            "Tag": 1,
-            "Description": "rf"
-          }
-        ]
-      },
-      {
-        "ID": 7,
-        "Date": {
-          "date": {
-            "year": 2020,
-            "month": 6,
-            "day": 6
-          },
-          "time": {
-            "hour": 13,
-            "minute": 15,
-            "second": 24,
-            "nano": 944013000
-          }
-        },
-        "TotalAmounts": -700.0,
-        "Movements": [
-          {
-            "ID": 8,
-            "Type": "DEBIT",
-            "Amount": -700.0,
-            "Account": 2,
-            "Tag": 1,
-            "Description": "hkv"
-          }
-        ]
-      },
-      {
-        "ID": 11,
-        "Date": {
-          "date": {
-            "year": 2020,
-            "month": 6,
-            "day": 6
-          },
-          "time": {
-            "hour": 13,
-            "minute": 16,
-            "second": 26,
-            "nano": 517033000
-          }
-        },
-        "TotalAmounts": 30.0,
-        "Movements": [
-          {
-            "ID": 12,
-            "Type": "DEBIT",
-            "Amount": 30.0,
-            "Account": 2,
-            "Tag": 1,
-            "Description": "ewrg"
-          }
-        ]
-      },
-      {
-        "ID": 13,
-        "Date": {
-          "date": {
-            "year": 2020,
-            "month": 6,
-            "day": 6
-          },
-          "time": {
-            "hour": 13,
-            "minute": 23,
+            "hour": 16,
+            "minute": 51,
             "second": 23,
-            "nano": 468845000
+            "nano": 476738000
           }
         },
-        "TotalAmounts": -7.0,
+        "TotalAmounts": 90.0,
         "Movements": [
           {
-            "ID": 14,
+            "ID": 9,
+            "Type": "CREDITS",
+            "Amount": 90.0,
+            "Account": 7,
+            "Tag": 6,
+            "Description": "werth"
+          }
+        ]
+      },
+      {
+        "ID": 10,
+        "Date": {
+          "date": {
+            "year": 2020,
+            "month": 9,
+            "day": 9
+          },
+          "time": {
+            "hour": 0,
+            "minute": 0,
+            "second": 0,
+            "nano": 0
+          }
+        },
+        "TotalAmounts": -90.0,
+        "Movements": [
+          {
+            "ID": 11,
             "Type": "DEBIT",
-            "Amount": -7.0,
-            "Account": 2,
-            "Tag": 1,
-            "Description": "wteh"
+            "Amount": -90.0,
+            "Account": 7,
+            "Tag": 6,
+            "Description": "wget"
           }
         ]
       }
@@ -169,8 +78,8 @@
   },
   "Budget": [
     {
-      "Tag": 1,
-      "Value": 5.0
+      "Tag": 6,
+      "Value": 9.0
     }
   ]
 }

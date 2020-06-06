@@ -1,17 +1,17 @@
 package it.unicam.cs.pa.jbudget105333.Controller;
 
-import it.unicam.cs.pa.jbudget105333.Account.Account;
-import it.unicam.cs.pa.jbudget105333.Budget.Budget;
-import it.unicam.cs.pa.jbudget105333.Budget.BudgetManager;
-import it.unicam.cs.pa.jbudget105333.BudgetReport.BudgetReport;
-import it.unicam.cs.pa.jbudget105333.BudgetReport.BudgetReportManager;
-import it.unicam.cs.pa.jbudget105333.IDGenerator.IDGenerator;
-import it.unicam.cs.pa.jbudget105333.Ledger.Ledger;
-import it.unicam.cs.pa.jbudget105333.BudgetReport.BudgetReportWriterJson;
-import it.unicam.cs.pa.jbudget105333.Ledger.LedgerManager;
-import it.unicam.cs.pa.jbudget105333.Tag.Tag;
-import it.unicam.cs.pa.jbudget105333.Transaction.Transaction;
-import it.unicam.cs.pa.jbudget105333.Writer;
+import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
+import it.unicam.cs.pa.jbudget105333.Model.Budget.Budget;
+import it.unicam.cs.pa.jbudget105333.Model.Budget.BudgetManager;
+import it.unicam.cs.pa.jbudget105333.Model.BudgetReport.BudgetReport;
+import it.unicam.cs.pa.jbudget105333.Model.BudgetReport.BudgetReportManager;
+import it.unicam.cs.pa.jbudget105333.Model.IDGenerator.IDGenerator;
+import it.unicam.cs.pa.jbudget105333.Model.Ledger.Ledger;
+import it.unicam.cs.pa.jbudget105333.Model.Ledger.LedgerManager;
+import it.unicam.cs.pa.jbudget105333.Model.Store.Writer.BudgetReportWriterJson;
+import it.unicam.cs.pa.jbudget105333.Model.Store.Writer.Writer;
+import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
+import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -41,6 +41,11 @@ public class MainControllerBase implements MainController{
         return this.ledger.getAccounts();
     }
 
+    @Override
+    public Account getAccount(int ID){
+        return this.ledger.getAccount(ID);
+    }
+
     /**
      * Metodo che permette di aggiungere un account
      * @param account
@@ -62,6 +67,11 @@ public class MainControllerBase implements MainController{
     @Override
     public Set<Tag> getTags(){
         return this.ledger.getTags();
+    }
+
+    @Override
+    public Tag getTag(int ID){
+        return this.ledger.getTag(ID);
     }
 
     /**
@@ -87,6 +97,10 @@ public class MainControllerBase implements MainController{
         return this.ledger.getTransactions();
     }
 
+    @Override
+    public Transaction getTransaction(int ID){
+        return this.ledger.getTransaction(ID);
+    }
     /**
      * Data una transazione e un set di metodi permette di creare una transazione
      * @param transaction

@@ -1,12 +1,12 @@
 package it.unicam.cs.pa.jbudget105333.View.GUIView;
 
-import it.unicam.cs.pa.jbudget105333.Account.Account;
+import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
 import it.unicam.cs.pa.jbudget105333.Controller.MainController;
-import it.unicam.cs.pa.jbudget105333.Movement.Movement;
-import it.unicam.cs.pa.jbudget105333.Movement.MovementManager;
-import it.unicam.cs.pa.jbudget105333.Movement.MovementType;
-import it.unicam.cs.pa.jbudget105333.Tag.Tag;
-import it.unicam.cs.pa.jbudget105333.Transaction.Transaction;
+import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
+import it.unicam.cs.pa.jbudget105333.Model.Movement.MovementManager;
+import it.unicam.cs.pa.jbudget105333.Model.Movement.MovementType;
+import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
+import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

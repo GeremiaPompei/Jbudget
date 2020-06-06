@@ -29,10 +29,12 @@ public class App {
      */
     public static void main(String[] args) {
         if(args.length == 0)
-            createApp(new GUIView()).start();
+           createApp(new GUIView()).start();
         else
             if(args[0].equalsIgnoreCase("console"))
                 createApp(new ConsoleView()).start();
+            else
+                System.out.println("No View Found!");
     }
 
     //Metodo start che fa partire il metodo open con parametro un viewController e metodo close della view
