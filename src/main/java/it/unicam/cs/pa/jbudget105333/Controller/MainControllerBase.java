@@ -8,12 +8,13 @@ import it.unicam.cs.pa.jbudget105333.Model.BudgetReport.BudgetReportManager;
 import it.unicam.cs.pa.jbudget105333.Model.IDGenerator.IDGenerator;
 import it.unicam.cs.pa.jbudget105333.Model.Ledger.Ledger;
 import it.unicam.cs.pa.jbudget105333.Model.Ledger.LedgerManager;
-import it.unicam.cs.pa.jbudget105333.Model.Store.Writer.BudgetReportWriterJson;
+import it.unicam.cs.pa.jbudget105333.Model.Store.Reader.Reader;
 import it.unicam.cs.pa.jbudget105333.Model.Store.Writer.Writer;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,15 +23,21 @@ import java.util.TreeSet;
 
 public class MainControllerBase implements MainController{
 
-    private Ledger ledger;
-    private Budget budget;
-    private BudgetReport budgetReport;
+    private final Ledger ledger;
+    private final Budget budget;
+    private final BudgetReport budgetReport;
+    private final Writer<BudgetReport> writer;
 
     public MainControllerBase() {
+        this(null,null);
+    }
+
+    public MainControllerBase(Reader<BudgetReport> reader, Writer<BudgetReport> writer) {
         this.budgetReport = BudgetReportManager.generateReport(LedgerManager.generateLedger()
-                ,BudgetManager.generateBudget());
+                ,BudgetManager.generateBudget(),reader);
         this.ledger = this.budgetReport.getLedger();
         this.budget = this.budgetReport.getBudget();
+        this.writer = writer;
     }
 
     /**
@@ -108,7 +115,7 @@ public class MainControllerBase implements MainController{
      */
     @Override
     public boolean addTransaction(Transaction transaction){
-        if(!transaction.getMovements().isEmpty()){
+        if(!transaction.getMovements().isEmpty()&&transaction.getDate().toLocalDate().compareTo(LocalDate.now())>=0){
             this.ledger.addTransaction(transaction);
             return true;
         }
@@ -122,13 +129,16 @@ public class MainControllerBase implements MainController{
 
     @Override
     public Set<Transaction> scheduleTransactionsDate(LocalDateTime start, LocalDateTime stop) {
-        Set<Transaction> stransactions = new TreeSet();
-        this.ledger.getTransactions()
-                .stream()
-                .filter(t -> t.getDate().isAfter(start))
-                .filter(t -> t.getDate().isBefore(stop))
-                .forEach(t->stransactions.add(t));
-        return stransactions;
+        if(start.isBefore(stop)) {
+            Set<Transaction> stransactions = new TreeSet();
+            this.ledger.getTransactions()
+                    .stream()
+                    .filter(t -> t.getDate().isAfter(start))
+                    .filter(t -> t.getDate().isBefore(stop))
+                    .forEach(t -> stransactions.add(t));
+            return stransactions;
+        }
+        return null;
     }
 
     /*Metodo che permette di schedulare le transazioni restituendo quelle con un certo
@@ -185,14 +195,16 @@ public class MainControllerBase implements MainController{
     }
 
 
+
     @Override
     public void save() {
-        try {
-            Writer<BudgetReport> writerL = new BudgetReportWriterJson("src/file/BudgetReport");
-            writerL.write(this.budgetReport);
-            writerL.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(this.writer!= null) {
+            try {
+                this.writer.write(this.budgetReport);
+                this.writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

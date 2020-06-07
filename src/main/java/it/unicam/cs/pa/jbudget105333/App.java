@@ -4,52 +4,73 @@
 package it.unicam.cs.pa.jbudget105333;
 
 import it.unicam.cs.pa.jbudget105333.Controller.MainController;
-import it.unicam.cs.pa.jbudget105333.Controller.MainControllerBase;
-import it.unicam.cs.pa.jbudget105333.View.ConsoleView.ConsoleView;
+import it.unicam.cs.pa.jbudget105333.Controller.MainControllerManager;
 import it.unicam.cs.pa.jbudget105333.View.GUIView.GUIView;
 import it.unicam.cs.pa.jbudget105333.View.View;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
+/**
+ * Classe che ha la responsabilità di gestire la JBudget App.
+ */
 public class App {
 
+    /**
+     * Variabile utile alla gestione del log dell'App.
+     */
+    private Logger logger = new JBLogger(this.getClass()).getLogger();
+
+    /**
+     * Controller dell'App.
+     */
     private final MainController controller;
+
+    /**
+     * View dell'App.
+     */
     private final View view;
 
     /**
-     * Costruttore di App che prende un Controller di budgetReport e una View
+     * Costruttore di App che prende un Controller e una View.
+     * @param controller controller dell'App.
+     * @param view view dell'App.
      */
     public App(MainController controller, View view) {
         this.controller = controller;
         this.view = view;
+        this.logger.info("App created.");
     }
 
     /**
-     * Metodo main che genera un'App con un factory method e vi esegue il metodo start
+     * Metodo main.
+     * @param args
      */
     public static void main(String[] args) {
-        if(args.length == 0)
-           createApp(new GUIView()).start();
-        else
-            if(args[0].equalsIgnoreCase("console"))
-                createApp(new ConsoleView()).start();
-            else
-                System.out.println("No View Found!");
+        createApp().start();;
     }
 
-    //Metodo start che fa partire il metodo open con parametro un viewController e metodo close della view
+    /**
+     * Metodo responsabile di eseguire la view passandole il controller come parametro
+     * dopodiché chiudere la View.
+     */
     private void start() {
         try {
+            this.logger.info("App started.");
             this.view.open(this.controller);
         } catch (IOException e) {
             e.printStackTrace();
+        }finally {
+            this.view.close();
+            this.logger.info("App closed.");
         }
-        this.view.close();
     }
 
-    //Factory method che crea l'App da un budgetReportController e una View
-    private static App createApp(View view) {
-        MainController mainController= new MainControllerBase();
-        return  new App(mainController,view);
+    /**
+     * Factory Mathod responsabile di creare un'App.
+     * @return nuova App.
+     */
+    private static App createApp() {
+        return new App(MainControllerManager.generateMainController(),new GUIView());
     }
 }

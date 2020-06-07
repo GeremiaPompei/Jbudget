@@ -1,7 +1,7 @@
 package it.unicam.cs.pa.jbudget105333.View.GUIView;
 
 import it.unicam.cs.pa.jbudget105333.Controller.MainController;
-import it.unicam.cs.pa.jbudget105333.Controller.MainControllerBase;
+import it.unicam.cs.pa.jbudget105333.Controller.MainControllerManager;
 import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
 import it.unicam.cs.pa.jbudget105333.Model.Account.AccountManager;
 import it.unicam.cs.pa.jbudget105333.Model.Account.AccountType;
@@ -34,6 +34,7 @@ import java.time.LocalTime;
 import java.util.Collection;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 public class GUIViewController implements Initializable {
 
@@ -54,7 +55,7 @@ public class GUIViewController implements Initializable {
     private ObservableList<AccountType> olAccountType;
 
     @FXML TableView<Map.Entry<Tag,Double>> tableBudget;
-    @FXML TableColumn<Map.Entry<Tag,Double>,Integer> budgetTagID;
+    @FXML TableColumn<Map.Entry<Tag,Double>,Tag> budgetTagID;
     @FXML TableColumn<Map.Entry<Tag,Double>,Double> budgetValue;
     private ObservableList<Map.Entry<Tag,Double>> olBudget;
     @FXML ChoiceBox<Tag> budgetNewTagId;
@@ -89,14 +90,16 @@ public class GUIViewController implements Initializable {
     @FXML TableColumn<Movement,Double> movementAmount;
     @FXML TableColumn<Movement, MovementType> movementType;
     @FXML TableColumn<Movement, LocalDate> movementDate;
-    @FXML TableColumn<Movement,Integer> movementTagID;
+    @FXML TableColumn<Movement,Tag> movementTagID;
     @FXML TableColumn<Movement,Integer> movementTransactionID;
-    @FXML TableColumn<Movement,Integer> movementAccountID;
+    @FXML TableColumn<Movement,Account> movementAccountID;
     @FXML TableColumn<Movement,String> movementDescription;
     private ObservableList<Movement> olMovement;
 
+    @FXML Label notificationLabel;
+
     public GUIViewController() {
-        this.mainController = new MainControllerBase();
+        this.mainController = MainControllerManager.generateMainController();
     }
 
     @FXML
@@ -112,15 +115,14 @@ public class GUIViewController implements Initializable {
     @FXML
     public void addAccount(ActionEvent actionEvent) {
         try {
-            if (accountNewType.getValue() != null) {
-                Account account = AccountManager.generateAccount(accountNewName.getText(), accountNewDescription.getText()
-                        , Double.parseDouble(accountNewOpeningBalance.getText()), accountNewType.getValue()
-                        ,this.mainController.idGenerator().generate());
-                this.mainController.addAccount(account);
-                this.mainController.save();
-            }
+            Account account = AccountManager.generateAccount(accountNewName.getText(), accountNewDescription.getText()
+                    , Double.parseDouble(accountNewOpeningBalance.getText()), accountNewType.getValue()
+                    ,this.mainController.idGenerator().generate());
+            this.mainController.addAccount(account);
+            this.mainController.save();
+            notificationLabel.setText("Success!");
         }catch (Exception e){
-
+            notificationLabel.setText("Add Account Failed");
         }finally {
             initializeAccount();
             accountNewName.clear();
@@ -142,12 +144,18 @@ public class GUIViewController implements Initializable {
 
     @FXML
     public void addTag(ActionEvent actionEvent) throws IOException {
-        this.mainController.addTag(TagManager.generateTag(tagNewName.getText(),tagNewDescription.getText()
-                ,this.mainController.idGenerator().generate()));
-        initializeTag();
-        tagNewName.clear();
-        tagNewDescription.clear();
-        this.mainController.save();
+        try{
+            this.mainController.addTag(TagManager.generateTag(tagNewName.getText(),tagNewDescription.getText()
+                    ,this.mainController.idGenerator().generate()));
+            notificationLabel.setText("Success!");
+        }catch (Exception e){
+            notificationLabel.setText("Add Tag Failed");
+        }finally {
+            initializeTag();
+            tagNewName.clear();
+            tagNewDescription.clear();
+            this.mainController.save();
+        }
     }
 
     @FXML
@@ -163,26 +171,31 @@ public class GUIViewController implements Initializable {
     @FXML
     public void addTransaction(ActionEvent actionEvent) throws IOException {
         Transaction transaction = null;
-        if(instantTransaction.isSelected()){
+        if(instantTransaction.isSelected())
             transaction = new InstantTransaction(this.mainController.idGenerator().generate());
-        }
-        if(programTransaction.isSelected() && transactionNewDate.getValue()!=null){
+        if(programTransaction.isSelected() && transactionNewDate.getValue()!=null
+                &&transactionNewDate.getValue().compareTo(LocalDate.now())>=0)
             transaction = new ProgramTransaction
                     (LocalDateTime.of(transactionNewDate.getValue(),LocalTime.MIN)
                             ,this.mainController.idGenerator().generate());
-        }
         if(transaction!=null) {
-            Stage stage = new Stage();
-            stage.setTitle("New Movements");
-            stage.setResizable(false);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/JBudgetNewMovements.fxml"));
-            loader.setController(new GUIViewMovementController(this.mainController
-                    , transaction,stage,this));
-            Parent root = loader.load();
-            stage.setScene(new Scene(root, 610, 400));
-            stage.show();
-        }
+            transactionStage(transaction);
+            notificationLabel.setText("Success!");
+        }else
+            notificationLabel.setText("Add Transaction Failed");
+    }
+
+    private void transactionStage(Transaction transaction) throws IOException{
+        Stage stage = new Stage();
+        stage.setTitle("New Movements");
+        stage.setResizable(false);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/JBudgetNewMovements.fxml"));
+        loader.setController(new GUIViewMovementController(this.mainController
+                , transaction,stage,this));
+        Parent root = loader.load();
+        stage.setScene(new Scene(root, 610, 400));
+        stage.show();
     }
 
     @FXML
@@ -198,35 +211,30 @@ public class GUIViewController implements Initializable {
     @FXML
     public void addBudget(ActionEvent actionEvent) {
         try {
-            if (budgetNewTagId.getValue() != null) {
-                this.mainController.addBudgetRecord(budgetNewTagId.getValue()
-                        , Double.parseDouble(budgetNewValue.getText()));
-                this.mainController.save();
-            }
-        }catch (Exception e){
-
-        }finally {
+            this.mainController.addBudgetRecord(budgetNewTagId.getValue()
+                    , Double.parseDouble(budgetNewValue.getText()));
+            this.mainController.save();
             initializeBudget();
-            budgetNewValue.clear();
+        }catch (Exception e){
             attention();
+            notificationLabel.setText(notificationLabel.getText()+"Add Budget Failed");
+        }finally {
+            budgetNewValue.clear();
         }
     }
 
     @FXML
     public void schedule(ActionEvent actionEvent) {
-        if(scheduleTag.isSelected() && tagSchedChoice.getValue()!=null) {
-            olTransaction.removeAll(olTransaction);
-            olTransaction.addAll(this.mainController
-                    .scheduleTransactionsTag(tagSchedChoice.getValue()));
-            tableTransaction.refresh();
-        }
+        if(scheduleTag.isSelected() && tagSchedChoice.getValue()!=null)
+            olTransaction.setAll(this.mainController.scheduleTransactionsTag(tagSchedChoice.getValue()));
         if(scheduleDate.isSelected()&&dateStart.getValue()!=null&&dateStop.getValue()!=null) {
-            olTransaction.removeAll(olTransaction);
-            olTransaction.addAll(this.mainController
+            Set<Transaction> transactions =this.mainController
                     .scheduleTransactionsDate(LocalDateTime.of(dateStart.getValue(), LocalTime.MIN)
-                            ,LocalDateTime.of(dateStop.getValue(), LocalTime.MIN)));
-            tableTransaction.refresh();
+                            ,LocalDateTime.of(dateStop.getValue(), LocalTime.MIN));
+            if(transactions != null)
+                olTransaction.setAll(transactions);
         }
+        tableTransaction.refresh();
     }
 
     @FXML
@@ -328,10 +336,11 @@ public class GUIViewController implements Initializable {
         olBudget.addAll(this.mainController.getBudgetRecords().entrySet());
         tableBudget.setItems(olBudget);
         budgetTagID.setCellValueFactory
-                (cellData -> new SimpleObjectProperty<>(cellData.getValue().getKey().getID()));
+                (cellData -> new SimpleObjectProperty<>(cellData.getValue().getKey()));
         budgetValue.setCellValueFactory
                 (cellData -> new SimpleObjectProperty<>(cellData.getValue().getValue()));
         tableBudget.refresh();
+        attention();
     }
 
     public void initializeTransaction() {
@@ -361,11 +370,11 @@ public class GUIViewController implements Initializable {
         movementDate.setCellValueFactory
                 (cellData -> new SimpleObjectProperty<>(cellData.getValue().getDate().toLocalDate()));
         movementTagID.setCellValueFactory
-                (cellData -> new SimpleObjectProperty<>(cellData.getValue().getTag().getID()));
+                (cellData -> new SimpleObjectProperty<>(cellData.getValue().getTag()));
         movementTransactionID.setCellValueFactory
                 (cellData -> new SimpleObjectProperty<>(cellData.getValue().getTransaction().getID()));
         movementAccountID.setCellValueFactory
-                (cellData -> new SimpleObjectProperty<>(cellData.getValue().getAccount().getID()));
+                (cellData -> new SimpleObjectProperty<>(cellData.getValue().getAccount()));
         movementDescription.setCellValueFactory
                 (cellData -> new SimpleObjectProperty<>(cellData.getValue().getDescription()));
         tableMovement.refresh();
@@ -373,16 +382,9 @@ public class GUIViewController implements Initializable {
 
     private void attention(){
         Map<Tag,Double> check = this.mainController.check();
-        if(!check.isEmpty()){
-            Stage stage = new Stage();
-            stage.setTitle("ATTENTION");
-            stage.setScene(new Scene(new TextArea(check.toString())));
-            stage.setResizable(false);
-            stage.setAlwaysOnTop(true);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setWidth(300);
-            stage.setHeight(300);
-            stage.show();
-        }
+        if(!check.isEmpty())
+            notificationLabel.setText("ATTENTION: "+check.toString());
+        else
+            notificationLabel.setText("");
     }
 }

@@ -12,6 +12,10 @@ public class TagBaseDeserializer implements JsonDeserializer<Tag> {
         int ID = jo.get("ID").getAsInt();
         String name = jo.get("Name").getAsString();
         String description = jo.get("Description").getAsString();
-        return new TagBase(name,description,ID);
+        try {
+            return new TagBase(name,description,ID);
+        } catch (IllegalAccessException e) {
+            return null;
+        }
     }
 }

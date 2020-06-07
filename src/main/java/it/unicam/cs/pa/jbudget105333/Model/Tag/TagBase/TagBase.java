@@ -13,7 +13,9 @@ public class TagBase implements Tag {
     private final int ID;
     private final Set<Movement> movements;
 
-    public TagBase(String name, String description, int ID) {
+    public TagBase(String name, String description, int ID) throws IllegalAccessException {
+        if(name.equalsIgnoreCase(""))
+            throw new IllegalAccessException();
         this.name = name;
         this.description = description;
         this.ID = ID;

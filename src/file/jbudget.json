@@ -1,0 +1,19 @@
+{
+  "Ledger": {
+    "IDGenerator": {
+      "nextID": 5
+    },
+    "Tags": [],
+    "Accounts": [
+      {
+        "ID": 5,
+        "Name": "cassa",
+        "Description": "personale",
+        "Type": "ASSETS",
+        "OpeningBalance": -80.0
+      }
+    ],
+    "Transactions": []
+  },
+  "Budget": []
+}

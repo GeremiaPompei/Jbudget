@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
@@ -38,11 +39,11 @@
                                           <TableView fx:id="tableAccount" onMouseClicked="#tableAccountClicked" prefHeight="317.0" prefWidth="1026.0" BorderPane.alignment="CENTER">
                                             <columns>
                                                 <TableColumn fx:id="accountID" prefWidth="86.0" text="ID" />
-                                              <TableColumn fx:id="accountName" prefWidth="75.0" text="Name" />
-                                              <TableColumn fx:id="accountBalance" prefWidth="75.0" text="Balance" />
-                                                <TableColumn fx:id="accountOpeningBalance" prefWidth="109.0" text="OpeningBalance" />
-                                                <TableColumn fx:id="accountType" prefWidth="95.0" text="Type" />
-                                                <TableColumn fx:id="accountDescription" prefWidth="134.0" text="Description" />
+                                              <TableColumn fx:id="accountName" prefWidth="150.0" text="Name" />
+                                              <TableColumn fx:id="accountBalance" prefWidth="123.0" text="Balance" />
+                                                <TableColumn fx:id="accountOpeningBalance" prefWidth="142.0" text="OpeningBalance" />
+                                                <TableColumn fx:id="accountType" prefWidth="110.0" text="Type" />
+                                                <TableColumn fx:id="accountDescription" prefWidth="313.0" text="Description" />
                                             </columns>
                                           </TableView>
                                        </center>
@@ -83,8 +84,8 @@
                                           <TableView fx:id="tableTag" onMouseClicked="#tableTagClicked" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                              <columns>
                                                 <TableColumn fx:id="tagID" prefWidth="75.0" text="ID" />
-                                                <TableColumn fx:id="tagName" prefWidth="75.0" text="Name" />
-                                                <TableColumn fx:id="tagDescription" prefWidth="130.0" text="Description" />
+                                                <TableColumn fx:id="tagName" prefWidth="179.0" text="Name" />
+                                                <TableColumn fx:id="tagDescription" prefWidth="319.0" text="Description" />
                                              </columns>
                                           </TableView>
                                        </center>
@@ -123,8 +124,8 @@
                                           <TableView fx:id="tableTransaction" onMouseClicked="#tableTransactionClicked" prefHeight="232.0" prefWidth="1026.0" BorderPane.alignment="CENTER">
                                             <columns>
                                               <TableColumn fx:id="transactionID" prefWidth="75.0" text="ID" />
-                                              <TableColumn fx:id="transactionDate" prefWidth="122.0" text="Date" />
-                                                <TableColumn fx:id="transactionTAmount" prefWidth="112.0" text="Total Amount" />
+                                              <TableColumn fx:id="transactionDate" prefWidth="156.0" text="Date" />
+                                                <TableColumn fx:id="transactionTAmount" prefWidth="145.0" text="Total Amount" />
                                             </columns>
                                           </TableView>
                                        </center>
@@ -157,7 +158,8 @@
                                                       <RadioButton fx:id="scheduleTag" mnemonicParsing="false" text="TAG">
                                                          <toggleGroup>
                                                             <ToggleGroup fx:id="scheduleType" />
-                                                         </toggleGroup></RadioButton>
+                                                         </toggleGroup>
+                                                      </RadioButton>
                                                       <RadioButton fx:id="scheduleDate" mnemonicParsing="false" text="DATE" toggleGroup="$scheduleType" GridPane.columnIndex="4" />
                                                       <DatePicker fx:id="dateStart" prefHeight="27.0" prefWidth="162.0" GridPane.columnIndex="5" />
                                                       <DatePicker fx:id="dateStop" prefHeight="27.0" prefWidth="155.0" GridPane.columnIndex="7" />
@@ -212,8 +214,8 @@
                                        <center>
                                           <TableView fx:id="tableBudget" onMouseClicked="#budgetTableClicked" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                              <columns>
-                                                <TableColumn fx:id="budgetTagID" prefWidth="75.0" text="Tag ID" />
-                                                <TableColumn fx:id="budgetValue" prefWidth="75.0" text="Value" />
+                                                <TableColumn fx:id="budgetTagID" prefWidth="169.0" text="Tag ID" />
+                                                <TableColumn fx:id="budgetValue" prefWidth="143.0" text="Value" />
                                              </columns>
                                           </TableView>
                                        </center>
@@ -254,16 +256,21 @@
                       <TableColumn fx:id="movementID" prefWidth="75.0" text="ID" />
                       <TableColumn fx:id="movementAmount" prefWidth="75.0" text="Amount" />
                         <TableColumn fx:id="movementType" prefWidth="75.0" text="Type" />
-                        <TableColumn fx:id="movementDate" prefWidth="104.60305786132812" text="Date" />
-                        <TableColumn fx:id="movementTagID" prefWidth="85.624755859375" text="Tag ID" />
-                        <TableColumn fx:id="movementTransactionID" prefWidth="117.1663818359375" text="Transaction ID" />
-                        <TableColumn fx:id="movementAccountID" prefWidth="111.64556884765625" text="Account ID" />
-                        <TableColumn fx:id="movementDescription" prefWidth="141.35443115234375" text="Description" />
+                        <TableColumn fx:id="movementDate" prefWidth="117.0" text="Date" />
+                        <TableColumn fx:id="movementTagID" prefWidth="177.0" text="Tag ID" />
+                        <TableColumn fx:id="movementTransactionID" prefWidth="125.5" text="Transaction ID" />
+                        <TableColumn fx:id="movementAccountID" prefWidth="180.0" text="Account ID" />
+                        <TableColumn fx:id="movementDescription" prefWidth="200.5" text="Description" />
                     </columns>
                   </TableView>
                </children>
             </AnchorPane>
         </items>
       </SplitPane>
+      <ButtonBar prefHeight="40.0" prefWidth="200.0">
+         <buttons>
+            <Label fx:id="notificationLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="1314.0" textFill="RED" />
+         </buttons>
+      </ButtonBar>
   </children>
 </VBox>
