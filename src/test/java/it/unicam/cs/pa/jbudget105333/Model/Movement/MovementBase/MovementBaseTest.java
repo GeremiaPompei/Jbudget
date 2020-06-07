@@ -1,4 +1,4 @@
-package it.unicam.cs.pa.jbudget105333.ModelTest.MovementTest;
+package it.unicam.cs.pa.jbudget105333.Model.Movement.MovementBase;
 
 import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
 import it.unicam.cs.pa.jbudget105333.Model.Account.AccountBase.AccountBase;
@@ -6,13 +6,12 @@ import it.unicam.cs.pa.jbudget105333.Model.Account.AccountType;
 import it.unicam.cs.pa.jbudget105333.Model.IDGenerator.IDGenerator;
 import it.unicam.cs.pa.jbudget105333.Model.IDGenerator.IDGeneratorBase;
 import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
-import it.unicam.cs.pa.jbudget105333.Model.Movement.MovementBase.MovementBase;
 import it.unicam.cs.pa.jbudget105333.Model.Movement.MovementType;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.TagBase.TagBase;
+import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.TransactionBase.InstantTransaction;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.TransactionBase.ProgramTransaction;
-import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -36,21 +35,21 @@ class MovementBaseTest {
     @BeforeEach
     void createMovementBase(){
         this.idGenerator = new IDGeneratorBase();
-        this.transaction1 = new InstantTransaction(idGenerator);
+        this.transaction1 = new InstantTransaction(idGenerator.generate());
         this.fondoCassa = new AccountBase("FondoCassa","personale"
-                ,500, AccountType.ASSETS,idGenerator);
+                ,500, AccountType.ASSETS,idGenerator.generate());
         this.prepagata = new AccountBase("Prepagata","personale"
-                ,200,AccountType.LIABILITIES,idGenerator);
-        this.sport = new TagBase("Sport","tennis",idGenerator);
-        this.benzina = new TagBase("Viaggio","macchina",idGenerator);
+                ,200,AccountType.LIABILITIES,idGenerator.generate());
+        this.sport = new TagBase("Sport","tennis",idGenerator.generate());
+        this.benzina = new TagBase("Viaggio","macchina",idGenerator.generate());
         this.debito1 = new MovementBase(MovementType.DEBIT,800,this.transaction1
-                , fondoCassa,sport,"movimento",idGenerator);
+                , fondoCassa,sport,"movimento",idGenerator.generate());
         this.debito2 = new MovementBase(MovementType.DEBIT,80,this.transaction1
-                , fondoCassa,benzina,"movimento",idGenerator);
+                , fondoCassa,benzina,"movimento",idGenerator.generate());
         this.transaction2 = new ProgramTransaction(LocalDateTime.of(2020,9
-                ,9,00,00,00),idGenerator);
+                ,9,00,00,00),idGenerator.generate());
         this.credito1 = new MovementBase(MovementType.CREDITS,870,this.transaction2
-                , fondoCassa,sport,"movimento",idGenerator);
+                , fondoCassa,sport,"movimento",idGenerator.generate());
     }
 
     @Test

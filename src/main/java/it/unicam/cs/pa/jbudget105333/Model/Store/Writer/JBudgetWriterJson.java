@@ -2,6 +2,7 @@ package it.unicam.cs.pa.jbudget105333.Model.Store.Writer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import it.unicam.cs.pa.jbudget105333.JBLogger;
 import it.unicam.cs.pa.jbudget105333.Model.BudgetReport.BudgetReport;
 import it.unicam.cs.pa.jbudget105333.Model.BudgetReport.BudgetReportBase.BudgetReportBase;
 import it.unicam.cs.pa.jbudget105333.Model.BudgetReport.BudgetReportBase.BudgetReportBaseSerializer;
@@ -9,26 +10,61 @@ import it.unicam.cs.pa.jbudget105333.Model.BudgetReport.BudgetReportBase.BudgetR
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.logging.Logger;
 
-public class BudgetReportWriterJson implements Writer<BudgetReport> {
+/**
+ * Classe che ha la responsabilità di scrivere su un file Json.
+ */
+public class JBudgetWriterJson implements Writer<BudgetReport> {
 
+    /**
+     * Variabile utile alla gestione del log del JBudgetWriterJson.
+     */
+    private Logger logger = JBLogger.generateLogger(this.getClass());
+
+    /**
+     * Percorso su cui scrivere il BudgetReport.
+     */
     private final String path;
+
+    /**
+     * Variabile utile per scrivere su un file.
+     */
     private OutputStreamWriter out;
+
+    /**
+     * Variabile utile per convertire un BudgetReader in un JsonElement.
+     */
     private final Gson gson;
 
-    public BudgetReportWriterJson(String path) throws IOException {
+    /**
+     * Costruttore del JBudgetWriterJson.
+     * @param path Percorso del file Json.
+     * @throws IOException
+     */
+    public JBudgetWriterJson(String path) throws IOException {
         this.path = path+".json";
         this.gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter
                 (BudgetReportBase.class,new BudgetReportBaseSerializer()).create();
     }
 
+    /**
+     * Metodo che ha la responsabilità di scrivere un BudgetReport su un file Json.
+     * @param object
+     * @throws IOException
+     */
     @Override
     public void write(BudgetReport object) throws IOException {
         this.out = new OutputStreamWriter(new FileOutputStream(path));
         this.out.write(this.gson.toJson(object));
         this.out.flush();
+        this.logger.info("Writing.");
     }
 
+    /**
+     * Metodo che ha la responsabilità di chiudere le variabili utilizzate per scrivere.
+     * @throws IOException
+     */
     @Override
     public void close() throws IOException {
         if(this.out!=null)

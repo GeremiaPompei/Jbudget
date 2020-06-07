@@ -1,7 +1,6 @@
-package it.unicam.cs.pa.jbudget105333.ModelTest.AccountTest;
+package it.unicam.cs.pa.jbudget105333.Model.Account.AccountBase;
 
 import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
-import it.unicam.cs.pa.jbudget105333.Model.Account.AccountBase.AccountBase;
 import it.unicam.cs.pa.jbudget105333.Model.Account.AccountType;
 import it.unicam.cs.pa.jbudget105333.Model.IDGenerator.IDGenerator;
 import it.unicam.cs.pa.jbudget105333.Model.IDGenerator.IDGeneratorBase;
@@ -26,25 +25,21 @@ class AccountBaseTest {
 
     @BeforeEach
     void createAccountBase(){
-        try {
-            this.idGenerator = new IDGeneratorBase();
-            this.fondoCassa = new AccountBase("FondoCassa", "personale"
-                    , 500, AccountType.ASSETS, idGenerator.generate());
-            this.prepagata = new AccountBase("Prepagata", "personale"
-                    , 200, AccountType.LIABILITIES, idGenerator.generate());
-            this.sport = new TagBase("Sport", "tennis", idGenerator.generate());
-            this.debito1 = new MovementBase(MovementType.DEBIT, 40, new InstantTransaction(
-                    this.idGenerator.generate()), fondoCassa, sport, "primo movimento debito"
-                    , idGenerator.generate());
-            this.credito1 = new MovementBase(MovementType.CREDITS, 89, new InstantTransaction(
-                    this.idGenerator.generate()), fondoCassa, sport, "primo movimento credito"
-                    , idGenerator.generate());
-            this.credito2 = new MovementBase(MovementType.CREDITS, 123, new InstantTransaction(
-                    this.idGenerator.generate()), fondoCassa, sport, "secondo movimento credito"
-                    , idGenerator.generate());
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        this.idGenerator = new IDGeneratorBase();
+        this.fondoCassa = new AccountBase("FondoCassa", "personale"
+                , 500, AccountType.ASSETS, idGenerator.generate());
+        this.prepagata = new AccountBase("Prepagata", "personale"
+                , 200, AccountType.LIABILITIES, idGenerator.generate());
+        this.sport = new TagBase("Sport", "tennis", idGenerator.generate());
+        this.debito1 = new MovementBase(MovementType.DEBIT, 40, new InstantTransaction(
+                this.idGenerator.generate()), fondoCassa, sport, "primo movimento debito"
+                , idGenerator.generate());
+        this.credito1 = new MovementBase(MovementType.CREDITS, 89, new InstantTransaction(
+                this.idGenerator.generate()), fondoCassa, sport, "primo movimento credito"
+                , idGenerator.generate());
+        this.credito2 = new MovementBase(MovementType.CREDITS, 123, new InstantTransaction(
+                this.idGenerator.generate()), fondoCassa, sport, "secondo movimento credito"
+                , idGenerator.generate());
     }
 
     @Test
@@ -77,25 +72,12 @@ class AccountBaseTest {
 
     @Test
     void getBalance() {
-        //Verifico che il saldo sia uguale al saldo iniziale in positivo se credito e negativo se debito
-        assertEquals(this.fondoCassa.getOpeningBalance(),500);
-        assertNotEquals(this.fondoCassa.getOpeningBalance(),-500);
-        assertEquals(this.prepagata.getOpeningBalance(),-200);
-        assertNotEquals(this.prepagata.getOpeningBalance(),200);
-        //Creo e aggiungo il primo movimento debito di 80
-        Movement debito1 = new MovementBase(MovementType.DEBIT,80,new InstantTransaction(
-                this.idGenerator.generate()), fondoCassa,sport,"movimento debito",idGenerator.generate());
-        this.prepagata.addMovement(debito1);
-        this.prepagata.update();
-        assertEquals(this.prepagata.getBalance(),this.prepagata.getOpeningBalance()
-                -debito1.getAmount());
-        //Creo e aggiungo il primo movimento credito di 65
-        Movement credito1 = new MovementBase(MovementType.CREDITS,65,new InstantTransaction(
-                this.idGenerator.generate()), fondoCassa,sport,"movimento credito",idGenerator.generate());
-        this.prepagata.addMovement(credito1);
-        this.prepagata.update();
-        assertEquals(this.prepagata.getBalance(),this.prepagata.getOpeningBalance()
-                -debito1.getAmount()+credito1.getAmount());
+        assertEquals(this.fondoCassa.getBalance(),this.fondoCassa.getOpeningBalance());
+        this.fondoCassa.update();
+        assertEquals(this.fondoCassa.getBalance(),this.fondoCassa.getOpeningBalance()+this.credito1.getAmount()
+                +this.credito2.getAmount()+this.debito1.getAmount());
+        assertEquals(this.prepagata.getBalance(),this.prepagata.getOpeningBalance());
+        assertEquals(this.prepagata.getBalance(),-200);
     }
 
     @Test
@@ -153,12 +135,8 @@ class AccountBaseTest {
     @Test
     void compareTo() {
         Account fondocassa2 = null;
-        try {
-            fondocassa2 = new AccountBase("FondoCassa","personale"
+        fondocassa2 = new AccountBase("FondoCassa","personale"
                     ,500, AccountType.ASSETS,idGenerator.generate());
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
         assertTrue(this.fondoCassa.compareTo(this.prepagata)<0);
         assertTrue(this.fondoCassa.compareTo(fondocassa2)<0);
         assertFalse(this.prepagata.compareTo(fondocassa2)<0);

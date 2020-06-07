@@ -1,21 +1,38 @@
 package it.unicam.cs.pa.jbudget105333.Model.Tag.TagBase;
 
 import com.google.gson.*;
+import it.unicam.cs.pa.jbudget105333.JBLogger;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 
 import java.lang.reflect.Type;
+import java.util.logging.Logger;
 
+/**
+ * Classe responsabile della deserializzazione di un TagBase.
+ */
 public class TagBaseDeserializer implements JsonDeserializer<Tag> {
+
+    /**
+     * Ledger utile alla gestione del log del TagBaseDeserializer.
+     */
+    private Logger logger = JBLogger.generateLogger(this.getClass());
+
+    /**
+     * Metodo responsabile della deserializzazione del TagBase.
+     * @param json JsonElement da deserializzare.
+     * @param typeOfT
+     * @param context
+     * @return TagBase deserializzato.
+     * @throws JsonParseException
+     */
     @Override
     public Tag deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        this.logger.info("Start deserialization.");
         JsonObject jo = json.getAsJsonObject();
         int ID = jo.get("ID").getAsInt();
         String name = jo.get("Name").getAsString();
         String description = jo.get("Description").getAsString();
-        try {
-            return new TagBase(name,description,ID);
-        } catch (IllegalAccessException e) {
-            return null;
-        }
+        this.logger.info("Stop deserialization.");
+        return new TagBase(name,description,ID);
     }
 }

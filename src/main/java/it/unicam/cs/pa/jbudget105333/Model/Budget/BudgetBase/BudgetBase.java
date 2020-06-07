@@ -10,14 +10,14 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 /**
- * Classe che ha la responsabilità di gestire e dare informazioni su un Budget.
+ * Classe che ha la responsabilità di gestire e dare informazioni su un BudgetBase.
  */
 public class BudgetBase implements Budget {
 
     /**
-     * Variabile utile alla gestione del log dell'Account.
+     * Variabile utile alla gestione del log del BudgetBase.
      */
-    private Logger logger = new JBLogger(this.getClass()).getLogger();
+    private Logger logger = JBLogger.generateLogger(this.getClass());
 
     /**
      * Mappa avente un tag come chiave e un double come valore associato.
@@ -25,7 +25,7 @@ public class BudgetBase implements Budget {
     private final Map<Tag,Double> budget;
 
     /**
-     * Costruttore del budget.
+     * Costruttore del budgetBase.
      */
     public BudgetBase() {
         this.budget = new HashMap<>();
@@ -33,13 +33,15 @@ public class BudgetBase implements Budget {
     }
 
     /**
-     * Metodo responsabile di aggiungere un tag e un valore al Budget. Se il tag è gia presente
+     * Metodo responsabile di aggiungere un tag e un valore al BudgetBase. Se il tag è gia presente
      * il valore viene  aggiornato.
-     * @param tag
-     * @param value
+     * @param tag Tag chiave.
+     * @param value Value relativo al tag.
      */
     @Override
     public void add(Tag tag, double value) {
+        if(tag == null)
+            throw  new  NullPointerException();
         if(this.budget.containsKey(tag))
             this.budget.remove(tag);
         this.budget.put(tag,value);
@@ -47,13 +49,13 @@ public class BudgetBase implements Budget {
     }
 
     /**
-     * Metodo responsabile di eliminare un tag dal Budget.
+     * Metodo responsabile di eliminare un tag dal BudgetBase.
      * @param tag Tag da rimuovere.
      */
     @Override
     public void remove(Tag tag) {
         this.budget.remove(tag);
-        this.logger.finest("Remotion of Key: ["+tag.toString()+"]");
+        this.logger.finest("Removal of Key: ["+tag.toString()+"]");
     }
 
     /**
@@ -62,7 +64,7 @@ public class BudgetBase implements Budget {
      */
     @Override
     public Map<Tag, Double> getBudgetMap() {
-        this.logger.finest("");
+        this.logger.finest("Map getter.");
         return this.budget;
     }
 
@@ -73,15 +75,17 @@ public class BudgetBase implements Budget {
      */
     @Override
     public double getValue(Tag tag) {
+        this.logger.finest("Value getter related to Tag: ["+tag.toString()+"]");
         return this.budget.get(tag);
     }
 
     /**
-     * Metodo responsabile di restituire i tag del Budget.
+     * Metodo responsabile di restituire i tag del BudgetBase.
      * @return Set di tag.
      */
     @Override
     public Set<Tag> getTags() {
+        this.logger.finest("Set of TAgs getter.");
         return this.budget.keySet();
     }
 

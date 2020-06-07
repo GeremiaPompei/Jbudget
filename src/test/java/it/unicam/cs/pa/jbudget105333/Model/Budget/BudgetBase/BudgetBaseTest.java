@@ -1,4 +1,4 @@
-package it.unicam.cs.pa.jbudget105333.ModelTest.BudgetTest;
+package it.unicam.cs.pa.jbudget105333.Model.Budget.BudgetBase;
 
 import it.unicam.cs.pa.jbudget105333.Model.Budget.BudgetBase.BudgetBase;
 import it.unicam.cs.pa.jbudget105333.Model.IDGenerator.IDGenerator;
@@ -22,8 +22,12 @@ class BudgetBaseTest {
     void createBudgetBase(){
         IDGenerator idGenerator = new IDGeneratorBase();
         budget = new BudgetBase();
-        sport = new TagBase("Sport","Tennis",idGenerator);
-        macchina = new TagBase("Macchina","Revisione",idGenerator);
+        try {
+            sport = new TagBase("Sport", "Tennis", idGenerator.generate());
+            macchina = new TagBase("Macchina", "Revisione", idGenerator.generate());
+        }catch (IllegalArgumentException e){
+
+        }
     }
 
     @Test

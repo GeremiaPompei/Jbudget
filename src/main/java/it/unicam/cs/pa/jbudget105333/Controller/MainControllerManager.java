@@ -1,9 +1,9 @@
 package it.unicam.cs.pa.jbudget105333.Controller;
 
 import it.unicam.cs.pa.jbudget105333.Model.BudgetReport.BudgetReport;
-import it.unicam.cs.pa.jbudget105333.Model.Store.Reader.BudgetReportReaderJson;
+import it.unicam.cs.pa.jbudget105333.Model.Store.Reader.JBudgetReaderJson;
 import it.unicam.cs.pa.jbudget105333.Model.Store.Reader.Reader;
-import it.unicam.cs.pa.jbudget105333.Model.Store.Writer.BudgetReportWriterJson;
+import it.unicam.cs.pa.jbudget105333.Model.Store.Writer.JBudgetWriterJson;
 import it.unicam.cs.pa.jbudget105333.Model.Store.Writer.Writer;
 
 import java.io.IOException;
@@ -14,12 +14,12 @@ public interface MainControllerManager {
         Reader<BudgetReport> reader;
         Writer<BudgetReport> writer = null;
         try {
-            reader = new BudgetReportReaderJson(path);
+            reader = new JBudgetReaderJson(path);
         } catch (IOException e) {
             reader = null;
         }
         try {
-            writer = new BudgetReportWriterJson(path);
+            writer = new JBudgetWriterJson(path);
         } catch (IOException e) {
             e.printStackTrace();
         }

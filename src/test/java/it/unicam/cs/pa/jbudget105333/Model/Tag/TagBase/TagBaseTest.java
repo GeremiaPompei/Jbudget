@@ -1,4 +1,4 @@
-package it.unicam.cs.pa.jbudget105333.ModelTest.TagTest;
+package it.unicam.cs.pa.jbudget105333.Model.Tag.TagBase;
 
 import it.unicam.cs.pa.jbudget105333.Model.IDGenerator.IDGenerator;
 import it.unicam.cs.pa.jbudget105333.Model.IDGenerator.IDGeneratorBase;
@@ -17,8 +17,8 @@ class TagBaseTest {
     @BeforeEach
     void createTagBase(){
         IDGenerator idGenerator = new IDGeneratorBase();
-        this.sport = new TagBase("Sport","Tennis",idGenerator);
-        this.macchina = new TagBase("Macchina","Benzina",idGenerator);
+        this.sport = new TagBase("Sport","Tennis",idGenerator.generate());
+        this.macchina = new TagBase("Macchina","Benzina",idGenerator.generate());
     }
 
     @Test

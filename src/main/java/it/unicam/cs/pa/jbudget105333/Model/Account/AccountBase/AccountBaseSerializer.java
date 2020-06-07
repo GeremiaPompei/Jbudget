@@ -11,14 +11,14 @@ import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
 /**
- * Classe responsabile di serializzare un AccountBase.
+ * Classe responsabile della serializzazione di un AccountBase.
  */
 public class AccountBaseSerializer implements JsonSerializer<Account> {
 
     /**
-     * Variabile utile alla gestione del log dell'App.
+     * Variabile utile alla gestione del log dell'AccountBaseSerializer.
      */
-    private Logger logger = new JBLogger(this.getClass()).getLogger();
+    private Logger logger = JBLogger.generateLogger(this.getClass());
 
     /**
      * Metodo responsabile della serializzazione dell'AccountBase.

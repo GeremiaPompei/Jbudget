@@ -11,88 +11,86 @@ import java.util.TreeSet;
 import java.util.logging.Logger;
 
 /**
- * Classe che ha la responsabilità di gestire e dare informazioni su un Account.
+ * Classe che ha la responsabilità di gestire e dare informazioni su un AccountBase.
  */
 public class AccountBase implements Account {
 
     /**
-     * Variabile utile alla gestione del log dell'Account.
+     * Variabile utile alla gestione del log dell'AccountBase.
      */
-    private Logger logger = new JBLogger(this.getClass()).getLogger();
+    private Logger logger = JBLogger.generateLogger(this.getClass());
 
     /**
-     * ID dell'Account.
+     * ID dell'AccountBase.
      */
     private final int ID;
 
     /**
-     * Nome dell'Account.
+     * Nome dell'AccountBase.
      */
     private final String name;
 
     /**
-     * Tipo dell'Account.
+     * Tipo dell'AccountBase.
      */
     private final AccountType accountType;
 
     /**
-     * Bilancio iniziale dell'Account.
+     * Bilancio iniziale dell'AccountBase.
      */
     private final double openingBalance;
 
     /**
-     * Descrizione dell'Account.
+     * Descrizione dell'AccountBase.
      */
     private final String description;
 
     /**
-     * Movimenti dell'Account.
+     * Movimenti dell'AccountBase.
      */
     private final Set<Movement> movements;
 
     /**
-     * Bilancio dell'Account.
+     * Bilancio dell'AccountBase.
      */
     private double balance;
 
     /**
-     * Ultimo aggiornamento dell'Account.
+     * Ultimo aggiornamento dell'AccountBase.
      */
     private LocalDateTime lastUpdate;
 
     /**
-     * Costruttore dell'Account.
-     * @param name Nome dell'Account.
-     * @param description Descrizione dell'Account.
-     * @param openingBalance Bilancio iniziale dell'Account, se l'Account ha tipo LIABILITIES
+     * Costruttore dell'AccountBase.
+     * @param name Nome dell'AccountBase.
+     * @param description Descrizione dell'AccountBase.
+     * @param openingBalance Bilancio iniziale dell'AccountBase, se l'AccountBase ha tipo LIABILITIES
      *                       il Bilancio iniziale sarà impostato in negativo.
-     * @param accountType Tipo dell'Account.
-     * @param ID ID dell'Account.
-     * @throws IllegalAccessException Eccezione dovuta all'aggiunta di una stringa vuota al parametro Nome.
+     * @param accountType Tipo dell'AccountBase.
+     * @param ID ID dell'AccountBase.
      */
-    public AccountBase(String name, String description, double openingBalance, AccountType accountType
-            , int ID) throws IllegalAccessException {
+    public AccountBase(String name, String description, double openingBalance, AccountType accountType, int ID){
         if(name==null || description==null || accountType==null)
             throw new NullPointerException();
         if(name.isEmpty())
-            throw new IllegalAccessException();
+            throw new IllegalArgumentException();
         this.name = name;
         this.description = description;
         this.accountType = accountType;
         this.lastUpdate = LocalDateTime.MIN;
         this.movements = new TreeSet<>();
         this.ID = ID;
-        if(accountType.equals(AccountType.LIABILITIES))
+        if(accountType.equals(AccountType.ASSETS))
             this.openingBalance = openingBalance;
         else
             this.openingBalance = -openingBalance;
         this.balance = this.openingBalance;
-        this.logger.fine("Account created.");
+        this.logger.finest("AccountBase created.");
     }
 
     /**
      * Metodo responsabile di restituire il nome dell'Account.
-     * @return nome dell'Account.
+     * @return nome dell'AccountBase.
      */
     @Override
     public String getName() {
@@ -102,7 +100,7 @@ public class AccountBase implements Account {
 
     /**
      * Metodo responsabile di restituire la descrizione dell'Account.
-     * @return descrizione dell'Account.
+     * @return descrizione dell'AccountBase.
      */
     @Override
     public String getDescription() {
@@ -111,8 +109,8 @@ public class AccountBase implements Account {
     }
 
     /**
-     * Metodo responsabile di restituire il bilancio iniziale dell'Account.
-     * @return bilancio iniziale dell'Account.
+     * Metodo responsabile di restituire il bilancio iniziale dell'AccountBase.
+     * @return bilancio iniziale dell'AccountBase.
      */
     @Override
     public double getOpeningBalance() {
@@ -122,7 +120,7 @@ public class AccountBase implements Account {
 
     /**
      * Metodo responsabile di restituire il bilancio dell'Account.
-     * @return bilancio dell'Account.
+     * @return bilancio dell'AccountBase.
      */
     @Override
     public double getBalance() {
@@ -131,19 +129,18 @@ public class AccountBase implements Account {
     }
 
     /**
-     * Metodo responsabile di aggiungere un movimento all'Account.
-     * @param movement Movimento da aggiungere all'Account.
+     * Metodo responsabile di aggiungere un movimento all'AccountBase.
+     * @param movement Movimento da aggiungere all'AccountBase.
      */
     @Override
     public void addMovement(Movement movement) {
         this.movements.add(movement);
-        this.logger.info("Addition of Movement: ["+movement.toString()+"]");
-        update();
+        this.logger.finest("Addition of Movement: ["+movement.toString()+"]");
     }
 
     /**
-     * Metodo responsabile di restituire i movimenti dell'Account.
-     * @return Movimenti dell'Account.
+     * Metodo responsabile di restituire i movimenti dell'AccountBase.
+     * @return Movimenti dell'AccountBase.
      */
     @Override
     public Set<Movement> getMovements() {
@@ -152,8 +149,8 @@ public class AccountBase implements Account {
     }
 
     /**
-     * Metodo responsabile di restituire il tipo dell'Account.
-     * @return Tipo dell'Account.
+     * Metodo responsabile di restituire il tipo dell'AccountBase.
+     * @return Tipo dell'AccountBase.
      */
     @Override
     public AccountType getAccountType() {
@@ -162,8 +159,8 @@ public class AccountBase implements Account {
     }
 
     /**
-     * Metodo responsabile di restituire l'ID dell'Account.
-     * @return ID dell'Account.
+     * Metodo responsabile di restituire l'ID dell'AccountBase.
+     * @return ID dell'AccountBase.
      */
     @Override
     public int getID() {
@@ -172,16 +169,16 @@ public class AccountBase implements Account {
     }
 
     /**
-     * Metodo responsabile di aggiornare il bilancio dell'Account in base al saldo dei Movimenti.
+     * Metodo responsabile di aggiornare il bilancio dell'AccountBase in base al saldo dei Movimenti.
      */
     @Override
     public void update(){
-        for(Movement m : this.movements)
-            if(m.getDate().compareTo(LocalDateTime.now())<=0
-                    && m.getDate().compareTo(this.lastUpdate)>=0)
-                this.balance+=m.getAmount();
+        this.movements.parallelStream()
+                .filter(m->m.getDate().compareTo(this.lastUpdate)>=0)
+                .filter(m->m.getDate().compareTo(LocalDateTime.now())<=0)
+                .forEach(m->this.balance+=m.getAmount());
         this.lastUpdate = LocalDateTime.now();
-        this.logger.info("Account updated.");
+        this.logger.info("AccountBase updated.");
     }
 
     /**
@@ -192,15 +189,15 @@ public class AccountBase implements Account {
      */
     @Override
     public int compareTo(Account o) {
-        this.logger.finer("Account comparation with: ["+o.toString()+"]");
         int comparator = this.name.compareTo(o.getName());
         if (comparator == 0)
             comparator = this.ID-o.getID();
+        this.logger.finest("Account compared with: ["+o.toString()+"]");
         return comparator;
     }
 
     /**
-     * Metodo responsabile di dare una rappresentazione a stringa dell'Account.
+     * Metodo responsabile di dare una rappresentazione a stringa dell'AccountBase.
      * @return Stringa formata da ID e nome dell'Account.
      */
     @Override

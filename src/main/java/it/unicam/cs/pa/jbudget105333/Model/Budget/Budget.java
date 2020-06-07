@@ -13,8 +13,8 @@ public interface Budget extends Serializable {
 
     /**
      * Metodo responsabile di aggiungere un tag e un valore al Budget.
-     * @param tag
-     * @param value
+     * @param tag Tag chiave.
+     * @param value Value relativo al tag.
      */
     void add(Tag tag,double value);
 

@@ -5,7 +5,15 @@ import it.unicam.cs.pa.jbudget105333.Model.BudgetReport.BudgetReportBase.BudgetR
 import it.unicam.cs.pa.jbudget105333.Model.Ledger.Ledger;
 import it.unicam.cs.pa.jbudget105333.Model.Store.Reader.Reader;
 
+/**
+ * Interfaccia responsabile della creazione un BudgetReport.
+ */
 public interface BudgetReportManager {
+
+    /**
+     * Metodo responsabile della generazione un BudgetReport.
+     * @return BudgetReport generato.
+     */
     static BudgetReport generateReport(Ledger ledger, Budget budget,Reader<BudgetReport> reader){
         BudgetReport budgetReport;
         try{

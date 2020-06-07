@@ -19,7 +19,7 @@ public class App {
     /**
      * Variabile utile alla gestione del log dell'App.
      */
-    private Logger logger = new JBLogger(this.getClass()).getLogger();
+    private Logger logger = JBLogger.generateLogger(this.getClass());
 
     /**
      * Controller dell'App.

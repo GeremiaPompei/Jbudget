@@ -1,4 +1,4 @@
-package it.unicam.cs.pa.jbudget105333.ModelTest.TransactionTest;
+package it.unicam.cs.pa.jbudget105333.Model.Transaction.TransactionBase;
 
 import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
 import it.unicam.cs.pa.jbudget105333.Model.Account.AccountBase.AccountBase;
@@ -10,7 +10,6 @@ import it.unicam.cs.pa.jbudget105333.Model.Movement.MovementBase.MovementBase;
 import it.unicam.cs.pa.jbudget105333.Model.Movement.MovementType;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.TagBase.TagBase;
-import it.unicam.cs.pa.jbudget105333.Model.Transaction.TransactionBase.InstantTransaction;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,16 +32,16 @@ class TransactionBaseTest {
     @BeforeEach
     void createTransactionBase(){
         this.idGenerator = new IDGeneratorBase();
-        this.transaction = new InstantTransaction(idGenerator);
-        this.transaction2 = new InstantTransaction(idGenerator);
+        this.transaction = new InstantTransaction(idGenerator.generate());
+        this.transaction2 = new InstantTransaction(idGenerator.generate());
         this.fondoCassa = new AccountBase("FondoCassa","personale"
-                ,500, AccountType.ASSETS,idGenerator);
-        this.sport = new TagBase("Sport","tennis",idGenerator);
-        this.benzina = new TagBase("Viaggio","macchina",idGenerator);
+                ,500, AccountType.ASSETS,idGenerator.generate());
+        this.sport = new TagBase("Sport","tennis",idGenerator.generate());
+        this.benzina = new TagBase("Viaggio","macchina",idGenerator.generate());
         this.debito1 = new MovementBase(MovementType.DEBIT,800,transaction
-                , fondoCassa,sport,"movimento",idGenerator);
+                , fondoCassa,sport,"movimento",idGenerator.generate());
         this.debito2 = new MovementBase(MovementType.DEBIT,80,transaction
-                , fondoCassa,benzina,"movimento",idGenerator);
+                , fondoCassa,benzina,"movimento",idGenerator.generate());
 
     }
 
@@ -78,12 +77,12 @@ class TransactionBaseTest {
 
     @Test
     void getTotalAmount() {
-        assertNotEquals(this.transaction.getTotalAmount(),this.debito1.getAmount()
+        assertEquals(this.transaction.getTotalAmount(),this.debito1.getAmount()
                 +this.debito2.getAmount());
         assertNotEquals(this.transaction.getTotalAmount(),-this.debito1.getAmount());
         assertNotEquals(this.transaction.getTotalAmount(),-this.debito2.getAmount());
-        assertEquals(this.transaction.getTotalAmount(),-this.debito1.getAmount()
-                -this.debito2.getAmount());
+        assertEquals(this.transaction.getTotalAmount(),this.debito1.getAmount()
+                +this.debito2.getAmount());
     }
 
     @Test
