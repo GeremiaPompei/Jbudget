@@ -70,6 +70,15 @@ public abstract class TransactionBase implements Transaction {
     }
 
     /**
+     * Metodo responsabile di rimuovere il movimento alla Transazione.
+     * @param movement Movimento rimosso alla Transazione.
+     */
+    @Override
+    public void removeMovement(Movement movement){
+        this.movements.remove(movement);
+    }
+
+    /**
      * Metodo responsabile di aggiungere una serie di movimenti alla Transazione.
      * @param movements Serie di movimenti aggiunti alla Transazione.
      */

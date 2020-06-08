@@ -5,13 +5,12 @@ import it.unicam.cs.pa.jbudget105333.Model.IDGenerator.IDGenerator;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
 
-import java.io.Serializable;
 import java.util.Set;
 
 /**
  * Interfaccia che ha la responsabilità di dichiarare i metodi di un Ledger.
  */
-public interface Ledger extends Serializable {
+public interface Ledger {
 
     /**
      * Metodo responsabile di restituire gli account del Ledger.

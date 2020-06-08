@@ -4,13 +4,12 @@ import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
  * Interfaccia che ha la responsabilità di dichiarare i metodi di un Movimento.
  */
-public interface Movement extends Serializable,Comparable<Movement> {
+public interface Movement extends Comparable<Movement> {
 
     /**
      * Metodo che ha la responsabilità di ritornare la descrizione del Movimento.

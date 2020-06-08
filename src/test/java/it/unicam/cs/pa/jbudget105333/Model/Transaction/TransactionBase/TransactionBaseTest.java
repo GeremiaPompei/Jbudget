@@ -58,6 +58,18 @@ class TransactionBaseTest {
     }
 
     @Test
+    void removeMovement() {
+        transaction2.addMovement(debito1);
+        transaction2.addMovement(debito2);
+        assertTrue(transaction2.getMovements().contains(debito1));
+        assertTrue(transaction2.getMovements().contains(debito2));
+        transaction2.removeMovement(debito1);
+        transaction2.removeMovement(debito2);
+        assertFalse(transaction2.getMovements().contains(debito1));
+        assertFalse(transaction2.getMovements().contains(debito2));
+    }
+
+    @Test
     void addMovements() {
         Movement debito3 = new MovementBase(MovementType.DEBIT,80,transaction
                 , fondoCassa,benzina,"movimento",idGenerator.generate());

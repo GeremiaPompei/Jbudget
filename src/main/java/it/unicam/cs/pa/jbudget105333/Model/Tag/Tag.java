@@ -2,13 +2,12 @@ package it.unicam.cs.pa.jbudget105333.Model.Tag;
 
 import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
 
-import java.io.Serializable;
 import java.util.Set;
 
 /**
  * Interfaccia che ha la responsabilità di dichiarare i metodi di un Tagt.
  */
-public interface Tag extends Serializable,Comparable<Tag> {
+public interface Tag extends Comparable<Tag> {
 
     /**
      * Metodo responsabile di restituire il nome del Tag.

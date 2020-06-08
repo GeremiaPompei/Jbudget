@@ -103,7 +103,7 @@ public class GUIViewController implements Initializable {
     }
 
     @FXML
-    public void removeAccount(ActionEvent actionEvent) throws IOException {
+    public void removeAccount(ActionEvent actionEvent) {
         Account a = tableAccount.getSelectionModel().getSelectedItem();
         if(!tableAccount.getItems().isEmpty()&&a!=null) {
             this.mainController.removeAccount(a);

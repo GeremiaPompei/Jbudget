@@ -4,13 +4,12 @@ import it.unicam.cs.pa.jbudget105333.Model.Budget.Budget;
 import it.unicam.cs.pa.jbudget105333.Model.Ledger.Ledger;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 
-import java.io.Serializable;
 import java.util.Map;
 
 /**
  * Interfaccia che ha la responsabilità di dichiarare i metodi di un BudgetReport.
  */
-public interface BudgetReport extends Serializable {
+public interface BudgetReport {
 
     /**
      * Metodo responsabile di restituire il Ledger del BudgetReport.

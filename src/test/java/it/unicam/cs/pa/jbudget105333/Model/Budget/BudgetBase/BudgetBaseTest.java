@@ -1,6 +1,5 @@
 package it.unicam.cs.pa.jbudget105333.Model.Budget.BudgetBase;
 
-import it.unicam.cs.pa.jbudget105333.Model.Budget.BudgetBase.BudgetBase;
 import it.unicam.cs.pa.jbudget105333.Model.IDGenerator.IDGenerator;
 import it.unicam.cs.pa.jbudget105333.Model.IDGenerator.IDGeneratorBase;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
@@ -8,7 +7,10 @@ import it.unicam.cs.pa.jbudget105333.Model.Tag.TagBase.TagBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,12 +24,8 @@ class BudgetBaseTest {
     void createBudgetBase(){
         IDGenerator idGenerator = new IDGeneratorBase();
         budget = new BudgetBase();
-        try {
-            sport = new TagBase("Sport", "Tennis", idGenerator.generate());
-            macchina = new TagBase("Macchina", "Revisione", idGenerator.generate());
-        }catch (IllegalArgumentException e){
-
-        }
+        sport = new TagBase("Sport", "Tennis", idGenerator.generate());
+        macchina = new TagBase("Macchina", "Revisione", idGenerator.generate());
     }
 
     @Test

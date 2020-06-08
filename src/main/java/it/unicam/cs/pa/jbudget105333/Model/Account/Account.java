@@ -2,13 +2,12 @@ package it.unicam.cs.pa.jbudget105333.Model.Account;
 
 import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
 
-import java.io.Serializable;
 import java.util.Set;
 
 /**
  * Interfaccia che ha la responsabilità di dichiarare i metodi di un Account.
  */
-public interface Account extends Serializable,Comparable<Account> {
+public interface Account extends Comparable<Account> {
 
     /**
      * Metodo responsabile di restituire il nome dell'Account.

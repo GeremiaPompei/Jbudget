@@ -3,20 +3,25 @@ package it.unicam.cs.pa.jbudget105333.Model.Transaction;
 import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
  * Interfaccia responsabile della creazione di un Transazione.
  */
-public interface Transaction extends Serializable,Comparable<Transaction> {
+public interface Transaction extends Comparable<Transaction> {
 
     /**
      * Metodo responsabile di aggiungere il movimento alla Transazione.
      * @param movement Movimento aggiunto alla Transazione.
      */
     void addMovement(Movement movement);
+
+    /**
+     * Metodo responsabile di rimuovere il movimento alla Transazione.
+     * @param movement Movimento rimosso alla Transazione.
+     */
+    void removeMovement(Movement movement);
 
     /**
      * Metodo responsabile di aggiungere una serie di movimenti alla Transazione.

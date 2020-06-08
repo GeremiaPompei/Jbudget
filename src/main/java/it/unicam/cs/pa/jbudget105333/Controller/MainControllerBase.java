@@ -186,6 +186,7 @@ public class MainControllerBase implements MainController{
     public boolean addTransaction(Transaction transaction){
         if(!transaction.getMovements().isEmpty()&&transaction.getDate().toLocalDate().compareTo(LocalDate.now())>=0){
             this.ledger.addTransaction(transaction);
+            update();
             this.logger.fine("Addition of transaction: ["+transaction.toString()+"]");
             return true;
         }

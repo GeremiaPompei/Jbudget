@@ -47,7 +47,8 @@ class JBudgetWriterJsonTest {
     @Test
     void write() {
         try {
-            BudgetReport report1 = BudgetReportManager.generateReport(LedgerManager.generateLedger(), BudgetManager.generateBudget(),null);
+            BudgetReport report1 = BudgetReportManager.generateReport(LedgerManager.generateLedger()
+                    , BudgetManager.generateBudget(),null);
             Tag sport = new TagBase("Sport","Tennis",new IDGeneratorBase().generate());
             report1.getLedger().addTag(sport);
             this.writer.write(report1);
