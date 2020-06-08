@@ -1,4 +1,4 @@
-package it.unicam.cs.pa.jbudget105333.Model.Store.Reader;
+package it.unicam.cs.pa.jbudget105333.Model.Store.Json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -6,6 +6,7 @@ import it.unicam.cs.pa.jbudget105333.JBLogger;
 import it.unicam.cs.pa.jbudget105333.Model.BudgetReport.BudgetReport;
 import it.unicam.cs.pa.jbudget105333.Model.BudgetReport.BudgetReportBase.BudgetReportBase;
 import it.unicam.cs.pa.jbudget105333.Model.BudgetReport.BudgetReportBase.BudgetReportBaseDeserializer;
+import it.unicam.cs.pa.jbudget105333.Model.Store.Reader;
 
 import java.io.FileInputStream;
 import java.io.IOException;

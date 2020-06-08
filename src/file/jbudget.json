@@ -1,7 +1,12 @@
 {
   "Ledger": {
-    "IDGenerator": 26,
+    "IDGenerator": 65,
     "Tags": [
+      {
+        "ID": 35,
+        "Name": "qef",
+        "Description": ""
+      },
       {
         "ID": 3,
         "Name": "rgb",
@@ -19,5 +24,10 @@
     ],
     "Transactions": []
   },
-  "Budget": []
+  "Budget": [
+    {
+      "Tag": 35,
+      "Value": 55.0
+    }
+  ]
 }

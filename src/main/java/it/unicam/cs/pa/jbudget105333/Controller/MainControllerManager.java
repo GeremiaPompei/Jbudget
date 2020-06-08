@@ -1,14 +1,22 @@
 package it.unicam.cs.pa.jbudget105333.Controller;
 
 import it.unicam.cs.pa.jbudget105333.Model.BudgetReport.BudgetReport;
-import it.unicam.cs.pa.jbudget105333.Model.Store.Reader.JBudgetReaderJson;
-import it.unicam.cs.pa.jbudget105333.Model.Store.Reader.Reader;
-import it.unicam.cs.pa.jbudget105333.Model.Store.Writer.JBudgetWriterJson;
-import it.unicam.cs.pa.jbudget105333.Model.Store.Writer.Writer;
+import it.unicam.cs.pa.jbudget105333.Model.Store.Json.JBudgetReaderJson;
+import it.unicam.cs.pa.jbudget105333.Model.Store.Json.JBudgetWriterJson;
+import it.unicam.cs.pa.jbudget105333.Model.Store.Reader;
+import it.unicam.cs.pa.jbudget105333.Model.Store.Writer;
 
 import java.io.IOException;
 
+/**
+ * Interfaccia responsabile della creazione di un MainController..
+ */
 public interface MainControllerManager {
+
+    /**
+     * Metodo responsabile della generazione di un MainController.
+     * @return MainController generato.
+     */
     static MainController generateMainController(){
         String path = "src/file/jbudget";
         Reader<BudgetReport> reader;

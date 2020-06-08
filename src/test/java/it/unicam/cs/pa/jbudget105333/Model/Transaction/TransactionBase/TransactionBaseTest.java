@@ -15,6 +15,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.TreeSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -53,6 +55,23 @@ class TransactionBaseTest {
         transaction2.addMovement(debito2);
         assertTrue(transaction2.getMovements().contains(debito1));
         assertTrue(transaction2.getMovements().contains(debito2));
+    }
+
+    @Test
+    void addMovements() {
+        Movement debito3 = new MovementBase(MovementType.DEBIT,80,transaction
+                , fondoCassa,benzina,"movimento",idGenerator.generate());
+        Movement debito4 = new MovementBase(MovementType.DEBIT,34,transaction
+                , fondoCassa,benzina,"movimento",idGenerator.generate());
+        Set<Movement> movements = new TreeSet<>();
+        movements.add(debito3);
+        movements.add(debito4);
+        Transaction transaction = new InstantTransaction(idGenerator.generate());
+        assertFalse(transaction.getMovements().contains(debito3));
+        assertFalse(transaction.getMovements().contains(debito4));
+        transaction.addMovements(movements);
+        assertTrue(transaction.getMovements().contains(debito3));
+        assertTrue(transaction.getMovements().contains(debito4));
     }
 
     @Test

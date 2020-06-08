@@ -1,13 +1,13 @@
-package it.unicam.cs.pa.jbudget105333.Model.Store.Reader;
+package it.unicam.cs.pa.jbudget105333.Model.Store.Json;
 
 import it.unicam.cs.pa.jbudget105333.Controller.MainControllerManager;
 import it.unicam.cs.pa.jbudget105333.Model.Budget.BudgetManager;
 import it.unicam.cs.pa.jbudget105333.Model.BudgetReport.BudgetReport;
 import it.unicam.cs.pa.jbudget105333.Model.BudgetReport.BudgetReportManager;
-import it.unicam.cs.pa.jbudget105333.Model.IDGenerator.IDGeneratorBase;
+import it.unicam.cs.pa.jbudget105333.Model.Ledger.Ledger;
 import it.unicam.cs.pa.jbudget105333.Model.Ledger.LedgerManager;
-import it.unicam.cs.pa.jbudget105333.Model.Store.Writer.JBudgetWriterTxt;
-import it.unicam.cs.pa.jbudget105333.Model.Store.Writer.Writer;
+import it.unicam.cs.pa.jbudget105333.Model.Store.Reader;
+import it.unicam.cs.pa.jbudget105333.Model.Store.Writer;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.TagBase.TagBase;
 import org.junit.jupiter.api.AfterAll;
@@ -15,47 +15,47 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class JBudgetReaderTxtTest {
+class JBudgetReaderJsonTest {
 
     private Reader<BudgetReport> reader;
-    private static final String path = "src/file/jbudgetTest";
+    private final static String path = "src/file/jbudgetTest";
 
     @AfterAll
     static void restoreContext(){
-        new File(path+".txt").delete();
+        new File(path+".json").delete();
     }
 
     @BeforeEach
-    void createBudgetReader(){
+    void createJBudgetReaderJson(){
         try {
-            Writer<BudgetReport> writer = new JBudgetWriterTxt(path);
+            Writer<BudgetReport> writer = new JBudgetWriterJson(path);
             writer.write(BudgetReportManager.generateReport(LedgerManager.generateLedger()
                     ,BudgetManager.generateBudget(),null));
             writer.close();
             MainControllerManager.generateMainController().save();
-            new FileOutputStream(new File(path+".txt"));
-            this.reader = new JBudgetReaderTxt(path);
+            this.reader = new JBudgetReaderJson(path);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    /*Salvo il ledger del ledgerC su file dopodichè lo leggo e salvo nella variabile ledger2 e confronto
-     i suoi parametri riguardanti il tag con quelli iniziali di ledger1
+    /*Salvo il BudgetReport report1 su file dopodichè lo leggo e salvo nella variabile report2 e confronto
+     i suoi parametri riguardanti il tag con quelli iniziali di report1
      */
     @Test
     void read() {
         try {
-            BudgetReport report1 = BudgetReportManager.generateReport(LedgerManager.generateLedger(), BudgetManager.generateBudget(),null);
-            Tag sport = new TagBase("Sport","Tennis",new IDGeneratorBase().generate());
+            Ledger ledger = LedgerManager.generateLedger();
+            BudgetReport report1 = BudgetReportManager.generateReport(ledger, BudgetManager.generateBudget(),null);
+            Tag sport = new TagBase("Sport","Tennis",ledger.getIDGenerator().generate());
+            ledger.addTag(sport);
             report1.getLedger().addTag(sport);
-            Writer<BudgetReport> writer = new JBudgetWriterTxt(path);
+            Writer<BudgetReport> writer = new JBudgetWriterJson(path);
             writer.write(report1);
             writer.close();
             BudgetReport report2 = reader.read();
@@ -72,7 +72,7 @@ class JBudgetReaderTxtTest {
     void close() {
         try {
             this.reader.close();
-            assertThrows(IOException.class,()->reader.read());
+            assertThrows(com.google.gson.JsonSyntaxException.class,()->reader.read());
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -16,6 +16,9 @@ import it.unicam.cs.pa.jbudget105333.Model.Transaction.TransactionBase.InstantTr
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class LedgerBaseTest {
@@ -24,13 +27,13 @@ class LedgerBaseTest {
     private IDGenerator idGenerator;
     private Transaction transaction;
     private Account fondoCassa;
-    private AccountBase prepagata;
+    private Account prepagata;
     private Tag sport;
 
     @BeforeEach
     void createLedgerBase(){
         this.ledger = new LedgerBase();
-        this.idGenerator = new IDGeneratorBase();
+        this.idGenerator = ledger.getIDGenerator();
         this.transaction = new InstantTransaction(idGenerator.generate());
         this.fondoCassa = new AccountBase("FondoCassa","personale"
                 ,500, AccountType.ASSETS,idGenerator.generate());
@@ -47,10 +50,30 @@ class LedgerBaseTest {
     }
 
     @Test
+    void getAccount() {
+        int id = fondoCassa.getID();
+        assertNotEquals(this.ledger.getAccount(id),fondoCassa);
+        this.ledger.addAccount(fondoCassa);
+        assertEquals(this.ledger.getAccount(id),fondoCassa);
+    }
+
+    @Test
     void addAccount() {
         assertFalse(this.ledger.getAccounts().contains(this.fondoCassa));
         this.ledger.addAccount(this.fondoCassa);
         assertTrue(this.ledger.getAccounts().contains(this.fondoCassa));
+    }
+
+    @Test
+    void addAccounts() {
+        Set<Account> accounts = new TreeSet<>();
+        accounts.add(this.fondoCassa);
+        accounts.add(this.prepagata);
+        assertFalse(ledger.getAccounts().contains(this.fondoCassa));
+        assertFalse(ledger.getAccounts().contains(this.prepagata));
+        ledger.addAccounts(accounts);
+        assertTrue(ledger.getAccounts().contains(this.fondoCassa));
+        assertTrue(ledger.getAccounts().contains(this.prepagata));
     }
 
     @Test
@@ -70,10 +93,31 @@ class LedgerBaseTest {
     }
 
     @Test
+    void getTransaction() {
+        int id = transaction.getID();
+        assertNotEquals(this.ledger.getTransaction(id),transaction);
+        this.ledger.addTransaction(transaction);
+        assertEquals(this.ledger.getTransaction(id),transaction);
+    }
+
+    @Test
     void addTransaction() {
         assertFalse(this.ledger.getTransactions().contains(this.transaction));
         this.ledger.addTransaction(this.transaction);
         assertTrue(this.ledger.getTransactions().contains(this.transaction));
+    }
+
+    @Test
+    void addTransactions() {
+        Transaction transaction = new InstantTransaction(idGenerator.generate());
+        Set<Transaction> transactions = new TreeSet<>();
+        transactions.add(this.transaction);
+        transactions.add(transaction);
+        assertFalse(ledger.getTransactions().contains(this.transaction));
+        assertFalse(ledger.getTransactions().contains(transaction));
+        ledger.addTransactions(transactions);
+        assertTrue(ledger.getTransactions().contains(this.transaction));
+        assertTrue(ledger.getTransactions().contains(transaction));
     }
 
     @Test
@@ -93,10 +137,31 @@ class LedgerBaseTest {
     }
 
     @Test
+    void getTag() {
+        int id = sport.getID();
+        assertNotEquals(this.ledger.getTag(id),sport);
+        this.ledger.addTag(sport);
+        assertEquals(this.ledger.getTag(id),sport);
+    }
+
+    @Test
     void addTag() {
         assertFalse(this.ledger.getTags().contains(this.sport));
         this.ledger.addTag(this.sport);
         assertTrue(this.ledger.getTags().contains(this.sport));
+    }
+
+    @Test
+    void addTags() {
+        Tag utenza = new TagBase("Utenza","Luce",idGenerator.generate());
+        Set<Tag> tags = new TreeSet<>();
+        tags.add(this.sport);
+        tags.add(utenza);
+        assertFalse(ledger.getTags().contains(sport));
+        assertFalse(ledger.getTags().contains(utenza));
+        ledger.addTags(tags);
+        assertTrue(ledger.getTags().contains(sport));
+        assertTrue(ledger.getTags().contains(utenza));
     }
 
     @Test
@@ -112,6 +177,13 @@ class LedgerBaseTest {
     void getIDGenerator() {
         assertTrue(this.ledger.getIDGenerator() instanceof IDGenerator);
         assertFalse(this.ledger.getIDGenerator() instanceof Ledger);
+    }
+
+    @Test
+    void setIdGenerator(){
+        assertEquals(this.ledger.getIDGenerator(),idGenerator);
+        this.ledger.setIdGenerator(new IDGeneratorBase());
+        assertNotEquals(this.ledger.getIDGenerator(),idGenerator);
     }
 
     @Test

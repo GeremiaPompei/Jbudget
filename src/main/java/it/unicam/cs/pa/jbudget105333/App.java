@@ -60,6 +60,7 @@ public class App {
             this.view.open(this.controller);
         } catch (IOException e) {
             e.printStackTrace();
+            this.logger.info("App failed.");
         }finally {
             this.view.close();
             this.logger.info("App closed.");

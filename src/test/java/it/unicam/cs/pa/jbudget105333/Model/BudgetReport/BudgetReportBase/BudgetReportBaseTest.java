@@ -29,7 +29,7 @@ class BudgetReportBaseTest {
     private BudgetReport budgetReport;
 
     @BeforeEach
-    void createBudgetReport(){
+    void createBudgetReportBase(){
         this.ledger = new LedgerBase();
         this.budget = new BudgetBase();
         this.budgetReport = new BudgetReportBase(ledger,budget);

@@ -6,7 +6,7 @@ import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
 
 /**
- * Interfaccia responsabile della creazione un Movimento.
+ * Interfaccia responsabile della creazione di un Movimento.
  */
 public interface MovementManager {
 

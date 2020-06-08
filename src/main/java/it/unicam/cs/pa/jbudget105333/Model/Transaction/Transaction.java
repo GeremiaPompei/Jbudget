@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
- * Interfaccia responsabile della creazione un Transazione.
+ * Interfaccia responsabile della creazione di un Transazione.
  */
 public interface Transaction extends Serializable,Comparable<Transaction> {
 

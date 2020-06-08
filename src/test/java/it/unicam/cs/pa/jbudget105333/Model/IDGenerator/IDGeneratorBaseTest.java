@@ -10,7 +10,7 @@ class IDGeneratorBaseTest {
     private IDGenerator idGenerator;
 
     @BeforeEach
-    void createIDGenerator(){
+    void createIDGeneratorBase(){
         this.idGenerator = new IDGeneratorBase();
     }
 
