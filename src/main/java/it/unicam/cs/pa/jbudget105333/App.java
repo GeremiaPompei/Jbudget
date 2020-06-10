@@ -72,6 +72,8 @@ public class App {
      * @return nuova App.
      */
     private static App createApp() {
-        return new App(MainControllerManager.generateMainController(),new GUIView());
+        String path = "src/file/jbudget";
+        MainController controller = MainControllerManager.generateMainController(path);
+        return new App(controller,new GUIView());
     }
 }

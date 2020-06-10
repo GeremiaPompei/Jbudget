@@ -2,10 +2,12 @@ package it.unicam.cs.pa.jbudget105333.Controller;
 
 import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
 import it.unicam.cs.pa.jbudget105333.Model.IDGenerator.IDGenerator;
+import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -78,16 +80,24 @@ public interface MainController {
     Transaction getTransaction(int ID);
 
     /**
-     * Metodo responsabile di aggiungere una Transazione.
+     * Metodo responsabile di aggiungere una Transazione e di aggiungere a questa una serie di movimenti..
      * @param transaction Transazione da aggiungere.
+     * @param movements Movimenti da aggiungere alla transazione.
+     * @return
      */
-    boolean addTransaction(Transaction transaction);
+    boolean addTransaction(Transaction transaction, Collection<Movement> movements);
 
     /**
      * Metodo responsabile di rimuovere una Transazione.
      * @param transaction Transazione da rimuovere.
      */
     void removeTransaction(Transaction transaction);
+
+    /**
+     * Metodo responsabile di rimuovere un Movimento.
+     * @param movement Movimento da rimuovere.
+     */
+    void removeMovement(Movement movement);
 
     /**
      * Metodo che ha la responsabilità di schedulare le transazioni in un certo range temporale.

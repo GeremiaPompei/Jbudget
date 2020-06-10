@@ -6,6 +6,7 @@ import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicReference;
@@ -53,6 +54,8 @@ public abstract class TransactionBase implements Transaction {
      * @param ID ID della Transazione.
      */
     public TransactionBase(LocalDateTime date, int ID) {
+        if(date == null)
+            throw new NullPointerException();
         this.ID = ID;
         this.date = date;
         this.movements = new TreeSet<>();
@@ -76,6 +79,7 @@ public abstract class TransactionBase implements Transaction {
     @Override
     public void removeMovement(Movement movement){
         this.movements.remove(movement);
+        this.logger.finest("Removal of Movement: ["+movement.toString()+"]");
     }
 
     /**
@@ -83,7 +87,7 @@ public abstract class TransactionBase implements Transaction {
      * @param movements Serie di movimenti aggiunti alla Transazione.
      */
     @Override
-    public void addMovements(Set<Movement> movements){
+    public void addMovements(Collection<Movement> movements){
         this.movements.addAll(movements);
         this.logger.finest("Addition of Movements: ["+movements.toString()+"]");
     }

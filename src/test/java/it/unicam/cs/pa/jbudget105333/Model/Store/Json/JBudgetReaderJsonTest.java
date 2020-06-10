@@ -37,7 +37,7 @@ class JBudgetReaderJsonTest {
             writer.write(BudgetReportManager.generateReport(LedgerManager.generateLedger()
                     ,BudgetManager.generateBudget(),null));
             writer.close();
-            MainControllerManager.generateMainController().save();
+            MainControllerManager.generateMainController(path).save();
             this.reader = new JBudgetReaderJson(path);
         } catch (IOException e) {
             e.printStackTrace();

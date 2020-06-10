@@ -1,0 +1,63 @@
+{
+  "Ledger": {
+    "IDGenerator": 53,
+    "Tags": [
+      {
+        "ID": 24,
+        "Name": "wr",
+        "Description": ""
+      },
+      {
+        "ID": 10,
+        "Name": "wrG",
+        "Description": "RWG"
+      }
+    ],
+    "Accounts": [],
+    "Transactions": [
+      {
+        "ID": 17,
+        "Date": {
+          "date": {
+            "year": 2020,
+            "month": 6,
+            "day": 9
+          },
+          "time": {
+            "hour": 16,
+            "minute": 58,
+            "second": 23,
+            "nano": 720028000
+          }
+        },
+        "TotalAmounts": 5.0,
+        "Movements": [
+          {
+            "ID": 18,
+            "Type": "CREDITS",
+            "Amount": 5.0,
+            "Account": {
+              "ID": 1,
+              "Name": "a",
+              "Description": "",
+              "Type": "ASSETS",
+              "OpeningBalance": 5.0
+            },
+            "Tag": {
+              "ID": 12,
+              "Name": "\u003cWGSW",
+              "Description": "G\u003cW"
+            },
+            "Description": "srhhg"
+          }
+        ]
+      }
+    ]
+  },
+  "Budget": [
+    {
+      "Tag": 10,
+      "Value": 44.0
+    }
+  ]
+}

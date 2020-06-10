@@ -88,6 +88,14 @@ class AccountBaseTest {
     }
 
     @Test
+    void removeMovement() {
+        this.prepagata.addMovement(debito1);
+        assertTrue(this.prepagata.getMovements().contains(debito1));
+        this.prepagata.removeMovement(debito1);
+        assertFalse(this.prepagata.getMovements().contains(debito1));
+        }
+
+    @Test
     void update() {
         //Creo e aggiungo il primo movimento credito aggiornando
         Movement credito1 = new MovementBase(MovementType.CREDITS,88,new InstantTransaction(

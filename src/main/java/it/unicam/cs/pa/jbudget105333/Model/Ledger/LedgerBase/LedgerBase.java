@@ -8,6 +8,7 @@ import it.unicam.cs.pa.jbudget105333.Model.Ledger.Ledger;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
 
+import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicReference;
@@ -92,7 +93,7 @@ public class LedgerBase implements Ledger {
      * @param accounts Accounts da aggiungere.
      */
     @Override
-    public void addAccounts(Set<Account> accounts) {
+    public void addAccounts(Collection<Account> accounts) {
         this.accounts.addAll(accounts);
         this.logger.finest("Addition of Accounts: ["+accounts.toString()+"]");
     }
@@ -145,7 +146,7 @@ public class LedgerBase implements Ledger {
      * @param transactions Transazioni da aggiungere.
      */
     @Override
-    public void addTransactions(Set<Transaction> transactions) {
+    public void addTransactions(Collection<Transaction> transactions) {
         this.transactions.addAll(transactions);
         this.logger.finest("Addition of Transactions:["+transactions.toString()+"]");
     }
@@ -198,7 +199,7 @@ public class LedgerBase implements Ledger {
      * @param tags Tag da aggiungere.
      */
     @Override
-    public void addTags(Set<Tag> tags) {
+    public void addTags(Collection<Tag> tags) {
         this.tags.addAll(tags);
         this.logger.finest("Addition of Tags:["+tags.toString()+"]");
     }

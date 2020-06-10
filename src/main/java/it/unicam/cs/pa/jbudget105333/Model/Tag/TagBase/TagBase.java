@@ -4,6 +4,7 @@ import it.unicam.cs.pa.jbudget105333.JBLogger;
 import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicReference;
@@ -46,6 +47,8 @@ public class TagBase implements Tag {
      * @param ID ID del TagBase.
      */
     public TagBase(String name, String description, int ID) {
+        if(name == null || description == null)
+            throw new NullPointerException();
         if(name.equalsIgnoreCase(""))
             throw new IllegalArgumentException();
         this.name = name;
@@ -103,7 +106,9 @@ public class TagBase implements Tag {
     public double totalAmount(){
         AtomicReference<Double> amount = new AtomicReference<>();
         amount.set(0.0);
-        this.movements.parallelStream().forEach(m->amount.set(m.getAmount()+amount.get()));
+        this.movements.parallelStream()
+                .filter(m->m.getDate().compareTo(LocalDateTime.now())<=0)
+                .forEach(m->amount.set(m.getAmount()+amount.get()));
         this.logger.finest("TotalAmount getter.");
         return amount.get();
     }
@@ -116,6 +121,16 @@ public class TagBase implements Tag {
     public void addMovement(Movement movement) {
         this.movements.add(movement);
         this.logger.finest("Addition of Movement: ["+movement.toString()+"]");
+    }
+
+    /**
+     * Metodo responsabile di rimuovere un movimento dal Tag.
+     * @param movement Movimento da rimuovere.
+     */
+    @Override
+    public void removeMovement(Movement movement) {
+        this.movements.remove(movement);
+        this.logger.finest("Removal of Movement: ["+movement.toString()+"]");
     }
 
     /**

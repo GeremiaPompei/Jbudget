@@ -44,4 +44,10 @@ public interface Tag extends Comparable<Tag> {
      * @param movement Movimento da aggiungere.
      */
     void addMovement(Movement movement);
+
+    /**
+     * Metodo responsabile di rimuovere un movimento dal Tag.
+     * @param movement Movimento da rimuovere.
+     */
+    void removeMovement(Movement movement);
 }

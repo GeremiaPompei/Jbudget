@@ -16,12 +16,12 @@ public class ProgramTransaction extends TransactionBase {
     private Logger logger = JBLogger.generateLogger(this.getClass());
 
     /**
-     * Costruttore della Transazione Programmata.
-     * @param localDate Data della Transazione Programmata.
-     * @param ID ID della Transazione Programmata.
+     * Costruttore della Transazione Programmata nel futuro.
+     * @param date Data della Transazione Programmata nel futuro.
+     * @param ID ID della Transazione Programmata nel futuro.
      */
-    public ProgramTransaction(LocalDateTime localDate, int ID) {
-        super(localDate, ID);
+    public ProgramTransaction(LocalDateTime date, int ID) {
+        super(date, ID);
         this.logger.finest("ProgramTransaction created.");
     }
 }

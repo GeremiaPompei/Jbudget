@@ -50,7 +50,7 @@ class MainControllerBaseTest {
 
     @BeforeEach
     void createMainControllerBase(){
-        this.controller = MainControllerManager.generateMainController();
+        this.controller = MainControllerManager.generateMainController(path);
         this.idGenerator =  this.controller.idGenerator();
         this.transaction1 = new ProgramTransaction(LocalDateTime.of(LocalDate.of(2021,2,5)
                 , LocalTime.MIN),idGenerator.generate());
@@ -158,8 +158,8 @@ class MainControllerBaseTest {
 
     @Test
     void getTransactions() {
-        this.controller.addTransaction(this.transaction1);
-        this.controller.addTransaction(this.transaction2);
+        this.controller.addTransaction(this.transaction1,this.transaction1.getMovements());
+        this.controller.addTransaction(this.transaction2,this.transaction2.getMovements());
         assertTrue(this.controller.getTransactions().contains(this.transaction1));
         assertTrue(this.controller.getTransactions().contains(this.transaction2));
         assertFalse(this.controller.getTransactions() instanceof Transaction);
@@ -170,8 +170,8 @@ class MainControllerBaseTest {
 
     @Test
     void getTransaction() {
-        this.controller.addTransaction(this.transaction1);
-        this.controller.addTransaction(this.transaction2);
+        this.controller.addTransaction(this.transaction1,this.transaction1.getMovements());
+        this.controller.addTransaction(this.transaction2,this.transaction2.getMovements());
         assertEquals(this.controller.getTransaction(this.transaction1.getID()),this.transaction1);
         assertEquals(this.controller.getTransaction(this.transaction2.getID()),this.transaction2);
         assertTrue(this.controller.getTransaction(this.transaction1.getID()) instanceof Transaction);
@@ -182,16 +182,16 @@ class MainControllerBaseTest {
     void addTransaction() {
         assertFalse(this.controller.getTransactions().contains(this.transaction1));
         assertFalse(this.controller.getTransactions().contains(this.transaction2));
-        this.controller.addTransaction(this.transaction1);
-        this.controller.addTransaction(this.transaction2);
+        this.controller.addTransaction(this.transaction1,this.transaction1.getMovements());
+        this.controller.addTransaction(this.transaction2,this.transaction2.getMovements());
         assertTrue(this.controller.getTransactions().contains(this.transaction1));
         assertTrue(this.controller.getTransactions().contains(this.transaction2));
     }
 
     @Test
     void removeTransaction() {
-        this.controller.addTransaction(this.transaction1);
-        this.controller.addTransaction(this.transaction2);
+        this.controller.addTransaction(this.transaction1,this.transaction1.getMovements());
+        this.controller.addTransaction(this.transaction2,this.transaction2.getMovements());
         assertTrue(this.controller.getTransactions().contains(this.transaction1));
         assertTrue(this.controller.getTransactions().contains(this.transaction2));
         this.controller.removeTransaction(this.transaction1);
@@ -201,9 +201,23 @@ class MainControllerBaseTest {
     }
 
     @Test
+    void removeMovement() {
+        this.controller.addTransaction(this.transaction1,this.transaction1.getMovements());
+        this.controller.addTag(this.utenza);
+        this.controller.addAccount(this.fondoCassa);
+        assertTrue(this.transaction1.getMovements().contains(this.debito1));
+        assertTrue(this.utenza.getMovements().contains(this.debito1));
+        assertTrue(this.fondoCassa.getMovements().contains(this.debito1));
+        this.controller.removeMovement(this.debito1);
+        assertFalse(this.transaction1.getMovements().contains(this.debito1));
+        assertFalse(this.utenza.getMovements().contains(this.debito1));
+        assertFalse(this.fondoCassa.getMovements().contains(this.debito1));
+    }
+
+    @Test
     void scheduleTransactionsDate() {
-        this.controller.addTransaction(this.transaction1);
-        this.controller.addTransaction(this.transaction2);
+        this.controller.addTransaction(this.transaction1,this.transaction1.getMovements());
+        this.controller.addTransaction(this.transaction2,this.transaction2.getMovements());
         LocalDateTime start = LocalDateTime.of(LocalDate.of(2020,8,8),LocalTime.MIN);
         LocalDateTime stop = LocalDateTime.of(LocalDate.of(2020,10,10),LocalTime.MIN);
         assertTrue(this.controller.scheduleTransactionsDate(start,stop).contains(this.transaction2));
@@ -212,8 +226,8 @@ class MainControllerBaseTest {
 
     @Test
     void scheduleTransactionsTag() {
-        this.controller.addTransaction(this.transaction1);
-        this.controller.addTransaction(this.transaction2);
+        this.controller.addTransaction(this.transaction1,this.transaction1.getMovements());
+        this.controller.addTransaction(this.transaction2,this.transaction2.getMovements());
         assertTrue(this.controller.scheduleTransactionsTag(this.sport).contains(this.transaction2));
         assertFalse(this.controller.scheduleTransactionsTag(this.sport).contains(this.transaction1));
     }
@@ -275,7 +289,7 @@ class MainControllerBaseTest {
         this.controller.addTag(sport);
         this.controller.addTag(utenza);
         this.controller.addAccount(fondoCassa);
-        this.controller.addTransaction(transaction);
+        this.controller.addTransaction(transaction,transaction.getMovements());
         this.controller.addBudgetRecord(sport,100.0);
         this.controller.addBudgetRecord(utenza,100.0);
         assertEquals(this.controller.check().get(sport)
@@ -293,7 +307,7 @@ class MainControllerBaseTest {
                 , this.prepagata,sport,"movimento credito aggiornando",idGenerator.generate());
         this.controller.addAccount(this.prepagata);
         this.controller.addTag(this.sport);
-        this.controller.addTransaction(transaction1);
+        this.controller.addTransaction(transaction1,transaction1.getMovements());
         this.controller.update();
         assertEquals(this.controller.getAccounts().stream().iterator().next().getBalance()
                 ,this.prepagata.getOpeningBalance()+credito1.getAmount());
@@ -301,7 +315,7 @@ class MainControllerBaseTest {
         Transaction transaction2 = new InstantTransaction(this.idGenerator.generate());
         Movement credito2 = new MovementBase(MovementType.CREDITS,30,transaction2
                 , this.prepagata,sport,"movimento credito non aggiornando",idGenerator.generate());
-        this.controller.addTransaction(transaction2);
+        this.controller.addTransaction(transaction2,transaction2.getMovements());
         ;
         assertNotEquals(this.controller.getAccounts().stream().iterator().next().getBalance()
                 ,this.prepagata.getOpeningBalance()+credito1.getAmount()-credito2.getAmount());

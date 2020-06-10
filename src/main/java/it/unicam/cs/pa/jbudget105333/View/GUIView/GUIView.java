@@ -25,6 +25,7 @@ public class GUIView implements View{
      */
     @Override
     public void open(MainController controller) throws IOException {
+        GUIViewController.setController(controller);
         Application.launch(GUIViewStart.class);
         this.logger.fine("GUIView opened.");
     }

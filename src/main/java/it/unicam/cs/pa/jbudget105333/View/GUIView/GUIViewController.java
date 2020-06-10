@@ -1,7 +1,6 @@
 package it.unicam.cs.pa.jbudget105333.View.GUIView;
 
 import it.unicam.cs.pa.jbudget105333.Controller.MainController;
-import it.unicam.cs.pa.jbudget105333.Controller.MainControllerManager;
 import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
 import it.unicam.cs.pa.jbudget105333.Model.Account.AccountManager;
 import it.unicam.cs.pa.jbudget105333.Model.Account.AccountType;
@@ -10,8 +9,7 @@ import it.unicam.cs.pa.jbudget105333.Model.Movement.MovementType;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.TagManager;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
-import it.unicam.cs.pa.jbudget105333.Model.Transaction.TransactionBase.InstantTransaction;
-import it.unicam.cs.pa.jbudget105333.Model.Transaction.TransactionBase.ProgramTransaction;
+import it.unicam.cs.pa.jbudget105333.Model.Transaction.TransactionManager;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -35,10 +33,12 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class GUIViewController implements Initializable {
 
-    private MainController mainController;
+    private static MainController controller;
 
     @FXML TableView<Account> tableAccount;
     @FXML TableColumn<Account,Integer> accountID;
@@ -79,7 +79,6 @@ public class GUIViewController implements Initializable {
     @FXML DatePicker transactionNewDate;
 
     @FXML ChoiceBox<Tag> tagSchedChoice;
-    @FXML ToggleGroup scheduleType;
     @FXML RadioButton scheduleTag;
     @FXML RadioButton scheduleDate;
     @FXML DatePicker dateStart;
@@ -98,28 +97,37 @@ public class GUIViewController implements Initializable {
 
     @FXML Label notificationLabel;
 
-    public GUIViewController() {
-        this.mainController = MainControllerManager.generateMainController();
+    public static void setController(MainController controller){
+        GUIViewController.controller = controller;
     }
 
     @FXML
     public void removeAccount(ActionEvent actionEvent) {
         Account a = tableAccount.getSelectionModel().getSelectedItem();
         if(!tableAccount.getItems().isEmpty()&&a!=null) {
-            this.mainController.removeAccount(a);
+            this.controller.removeAccount(a);
             initializeAccount();
-            this.mainController.save();
+            this.controller.save();
         }
     }
 
     @FXML
     public void addAccount(ActionEvent actionEvent) {
+        ExecutorService service = Executors.newCachedThreadPool();
         try {
-            Account account = AccountManager.generateAccount(accountNewName.getText(), accountNewDescription.getText()
+            //Programmazione concorrente.
+            Runnable newa = ()->{
+                Account account = AccountManager.generateAccount(accountNewName.getText(), accountNewDescription.getText()
                     , Double.parseDouble(accountNewOpeningBalance.getText()), accountNewType.getValue()
-                    ,this.mainController.idGenerator().generate());
-            this.mainController.addAccount(account);
-            this.mainController.save();
+                    ,this.controller.idGenerator().generate());
+                this.controller.addAccount(account);
+            };
+            Runnable save = ()->{
+                this.controller.save();
+            };
+            service.submit(newa);
+            service.submit(save);
+            service.shutdown();
             notificationLabel.setText("Success!");
         }catch (Exception e){
             notificationLabel.setText("Add Account Failed");
@@ -135,18 +143,18 @@ public class GUIViewController implements Initializable {
     public void removeTag(ActionEvent actionEvent) throws IOException {
         Tag t = tableTag.getSelectionModel().getSelectedItem();
         if(!tableTag.getItems().isEmpty()&&t!=null) {
-            this.mainController.removeTag(t);
+            this.controller.removeTag(t);
             initializeTag();
             initializeBudget();
-            this.mainController.save();
+            this.controller.save();
         }
     }
 
     @FXML
     public void addTag(ActionEvent actionEvent) throws IOException {
         try{
-            this.mainController.addTag(TagManager.generateTag(tagNewName.getText(),tagNewDescription.getText()
-                    ,this.mainController.idGenerator().generate()));
+            this.controller.addTag(TagManager.generateTag(tagNewName.getText(),tagNewDescription.getText()
+                    ,this.controller.idGenerator().generate()));
             notificationLabel.setText("Success!");
         }catch (Exception e){
             notificationLabel.setText("Add Tag Failed");
@@ -154,7 +162,7 @@ public class GUIViewController implements Initializable {
             initializeTag();
             tagNewName.clear();
             tagNewDescription.clear();
-            this.mainController.save();
+            this.controller.save();
         }
     }
 
@@ -162,9 +170,9 @@ public class GUIViewController implements Initializable {
     public void removeTransaction(ActionEvent actionEvent) throws IOException {
         Transaction t = tableTransaction.getSelectionModel().getSelectedItem();
         if(!tableTransaction.getItems().isEmpty()&&t!=null) {
-            this.mainController.removeTransaction(t);
+            this.controller.removeTransaction(t);
             initializeTransaction();
-            this.mainController.save();
+            this.controller.save();
         }
     }
 
@@ -172,13 +180,13 @@ public class GUIViewController implements Initializable {
     public void addTransaction(ActionEvent actionEvent) throws IOException {
         Transaction transaction = null;
         if(instantTransaction.isSelected())
-            transaction = new InstantTransaction(this.mainController.idGenerator().generate());
+            transaction = TransactionManager.generateTransaction(this.controller.idGenerator().generate());
         if(programTransaction.isSelected() && transactionNewDate.getValue()!=null
                 &&transactionNewDate.getValue().compareTo(LocalDate.now())>=0)
-            transaction = new ProgramTransaction
+            transaction = TransactionManager.generateTransaction
                     (LocalDateTime.of(transactionNewDate.getValue(),LocalTime.MIN)
-                            ,this.mainController.idGenerator().generate());
-        if(transaction!=null) {
+                            ,this.controller.idGenerator().generate());
+        if(transaction!=null && !controller.getTags().isEmpty() && !controller.getAccounts().isEmpty()) {
             transactionStage(transaction);
             notificationLabel.setText("Success!");
         }else
@@ -191,7 +199,7 @@ public class GUIViewController implements Initializable {
         stage.setResizable(false);
         stage.initModality(Modality.APPLICATION_MODAL);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/JBudgetNewMovements.fxml"));
-        loader.setController(new GUIViewMovementController(this.mainController
+        loader.setController(new GUIViewMovementController(this.controller
                 , transaction,stage,this));
         Parent root = loader.load();
         stage.setScene(new Scene(root, 610, 400));
@@ -202,18 +210,18 @@ public class GUIViewController implements Initializable {
     public void removeBudget(ActionEvent actionEvent) throws IOException {
         Map.Entry<Tag,Double> b = tableBudget.getSelectionModel().getSelectedItem();
         if(!tableBudget.getItems().isEmpty()&&b!=null) {
-            this.mainController.removeBudgetRecord(b.getKey());
+            this.controller.removeBudgetRecord(b.getKey());
             initializeBudget();
-            this.mainController.save();
+            this.controller.save();
         }
     }
 
     @FXML
     public void addBudget(ActionEvent actionEvent) {
         try {
-            this.mainController.addBudgetRecord(budgetNewTagId.getValue()
+            this.controller.addBudgetRecord(budgetNewTagId.getValue()
                     , Double.parseDouble(budgetNewValue.getText()));
-            this.mainController.save();
+            this.controller.save();
             initializeBudget();
         }catch (Exception e){
             attention();
@@ -226,9 +234,9 @@ public class GUIViewController implements Initializable {
     @FXML
     public void schedule(ActionEvent actionEvent) {
         if(scheduleTag.isSelected() && tagSchedChoice.getValue()!=null)
-            olTransaction.setAll(this.mainController.scheduleTransactionsTag(tagSchedChoice.getValue()));
+            olTransaction.setAll(this.controller.scheduleTransactionsTag(tagSchedChoice.getValue()));
         if(scheduleDate.isSelected()&&dateStart.getValue()!=null&&dateStop.getValue()!=null) {
-            Set<Transaction> transactions =this.mainController
+            Set<Transaction> transactions =this.controller
                     .scheduleTransactionsDate(LocalDateTime.of(dateStart.getValue(), LocalTime.MIN)
                             ,LocalDateTime.of(dateStop.getValue(), LocalTime.MIN));
             if(transactions != null)
@@ -301,7 +309,7 @@ public class GUIViewController implements Initializable {
 
     public void initializeAccount(){
         olAccount.removeAll(olAccount);
-        olAccount.addAll(this.mainController.getAccounts());
+        olAccount.addAll(this.controller.getAccounts());
         tableAccount.setItems(olAccount);
         accountID.setCellValueFactory
                 (cellData -> new SimpleObjectProperty<>(cellData.getValue().getID()));
@@ -320,7 +328,7 @@ public class GUIViewController implements Initializable {
 
     public void initializeTag(){
         olTag.removeAll(olTag);
-        olTag.addAll(this.mainController.getTags());
+        olTag.addAll(this.controller.getTags());
         tableTag.setItems(olTag);
         tagID.setCellValueFactory
                 (cellData -> new SimpleObjectProperty<>(cellData.getValue().getID()));
@@ -333,7 +341,7 @@ public class GUIViewController implements Initializable {
 
     public void initializeBudget() {
         olBudget.removeAll(olBudget);
-        olBudget.addAll(this.mainController.getBudgetRecords().entrySet());
+        olBudget.addAll(this.controller.getBudgetRecords().entrySet());
         tableBudget.setItems(olBudget);
         budgetTagID.setCellValueFactory
                 (cellData -> new SimpleObjectProperty<>(cellData.getValue().getKey()));
@@ -345,7 +353,7 @@ public class GUIViewController implements Initializable {
 
     public void initializeTransaction() {
         olTransaction.removeAll(olTransaction);
-        olTransaction.addAll(this.mainController.getTransactions());
+        olTransaction.addAll(this.controller.getTransactions());
         tableTransaction.setItems(olTransaction);
         transactionID.setCellValueFactory
                 (cellData -> new SimpleObjectProperty<>(cellData.getValue().getID()));
@@ -381,7 +389,7 @@ public class GUIViewController implements Initializable {
     }
 
     private void attention(){
-        Map<Tag,Double> check = this.mainController.check();
+        Map<Tag,Double> check = this.controller.check();
         if(!check.isEmpty())
             notificationLabel.setText("ATTENTION: "+check.toString());
         else

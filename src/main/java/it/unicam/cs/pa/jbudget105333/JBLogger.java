@@ -39,8 +39,8 @@ public class JBLogger {
     public static Logger generateLogger(Class aClass) {
         logger = Logger.getLogger(aClass.getName());
         logger.setUseParentHandlers(false);
-        logger.addHandler(fileHandler(aClass.getSimpleName()));
         logger.setLevel(Level.INFO);
+        logger.addHandler(fileHandler(aClass.getSimpleName()));
         return logger;
     }
 
@@ -55,10 +55,10 @@ public class JBLogger {
             String path = dirPath+"/log_"+name;
             new File(path).mkdirs();
             fileHandler = new FileHandler(path+"/"+LocalDateTime.now()+".txt");
+            fileHandler.setFormatter(new SimpleFormatter());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        fileHandler.setFormatter(new SimpleFormatter());
         return fileHandler;
     }
 }

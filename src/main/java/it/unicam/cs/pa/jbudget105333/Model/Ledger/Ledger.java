@@ -5,6 +5,7 @@ import it.unicam.cs.pa.jbudget105333.Model.IDGenerator.IDGenerator;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
 
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -35,7 +36,7 @@ public interface Ledger {
      * Metodo responsabile di aggiungere una serie di Account al Ledger.
      * @param accounts Accounts da aggiungere.
      */
-    void addAccounts(Set<Account> accounts);
+    void addAccounts(Collection<Account> accounts);
 
     /**
      * Metodo responsabile di rimuovere un Account dal Ledger.
@@ -66,7 +67,7 @@ public interface Ledger {
      * Metodo responsabile di aggiungere una serie di Transazioni al Ledger.
      * @param transactions Transazioni da aggiungere.
      */
-    void addTransactions(Set<Transaction> transactions);
+    void addTransactions(Collection<Transaction> transactions);
 
     /**
      * Metodo responsabile di rimuovere una Transazione dal Ledger.
@@ -97,7 +98,7 @@ public interface Ledger {
      * Metodo responsabile di aggiungere una serie di Tag al Ledger.
      * @param tags Tag da aggiungere.
      */
-    void addTags(Set<Tag> tags);
+    void addTags(Collection<Tag> tags);
 
     /**
      * Metodo responsabile di rimuovere un tag dal Ledger.

@@ -60,7 +60,7 @@ class TagBaseTest {
     }
 
     @Test
-    void getMovement(){
+    void getMovements(){
         assertFalse(this.sport.getMovements().contains(this.credito1));
         this.sport.addMovement(this.credito1);
         assertTrue(this.sport.getMovements().contains(this.credito1));
@@ -77,6 +77,14 @@ class TagBaseTest {
         assertFalse(this.sport.getMovements().contains(this.credito1));
         this.sport.addMovement(this.credito1);
         assertTrue(this.sport.getMovements().contains(this.credito1));
+    }
+
+    @Test
+    void removeMovement(){
+        this.sport.addMovement(this.credito1);
+        assertTrue(this.sport.getMovements().contains(this.credito1));
+        this.sport.removeMovement(this.credito1);
+        assertFalse(this.sport.getMovements().contains(this.credito1));
     }
 
     @Test

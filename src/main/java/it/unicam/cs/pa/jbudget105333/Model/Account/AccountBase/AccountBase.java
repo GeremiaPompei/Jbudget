@@ -139,6 +139,16 @@ public class AccountBase implements Account {
     }
 
     /**
+     * Metodo responsabile di rimuovere un movimento dall'Account.
+     * @param movement Movimento da rimuovere dall'Account.
+     */
+    @Override
+    public void removeMovement(Movement movement) {
+        this.movements.remove(movement);
+        this.logger.finest("Removal of Movement: ["+movement.toString()+"]");
+    }
+
+    /**
      * Metodo responsabile di restituire i movimenti dell'AccountBase.
      * @return Movimenti dell'AccountBase.
      */

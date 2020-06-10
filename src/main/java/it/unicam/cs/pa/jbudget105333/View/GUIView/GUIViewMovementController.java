@@ -1,7 +1,7 @@
 package it.unicam.cs.pa.jbudget105333.View.GUIView;
 
-import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
 import it.unicam.cs.pa.jbudget105333.Controller.MainController;
+import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
 import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
 import it.unicam.cs.pa.jbudget105333.Model.Movement.MovementManager;
 import it.unicam.cs.pa.jbudget105333.Model.Movement.MovementType;
@@ -55,26 +55,28 @@ public class GUIViewMovementController implements Initializable {
 
     public void removeMovement(ActionEvent actionEvent) {
         Movement m = this.tableNewMovements.getSelectionModel().getSelectedItem();
-        if(!olMovements.isEmpty()&&m!=null)
-            transaction.removeMovement(m);
+        if(!olMovements.isEmpty()&&m!=null){
+            this.olMovements.remove(m);
+            this.mainController.removeMovement(m);
+        }
         initializeMovement();
     }
 
     public void addMovement(ActionEvent actionEvent) {
         try {
-            transaction.addMovement(MovementManager.generateMovement(movementNewType.getValue()
+            olMovements.add(MovementManager.generateMovement(movementNewType.getValue()
                     , Double.parseDouble(movementNewAmount.getText())
                     , transaction, movementNewAccountId.getValue(), movementNewTagId.getValue()
                     , movementNewDescription.getText(), this.mainController.idGenerator().generate()));
-            initializeMovement();
         }catch (Exception e){ }
+        initializeMovement();
         movementNewAmount.clear();
         movementNewDescription.clear();
     }
 
     public void saveMovements(ActionEvent actionEvent) throws IOException {
-        if(!transaction.getMovements().isEmpty()) {
-            this.mainController.addTransaction(transaction);
+        if(!olMovements.isEmpty()) {
+            this.mainController.addTransaction(transaction, olMovements);
             guiViewController.initializeTransaction();
             guiViewController.initializeAccount();
             this.mainController.update();
@@ -98,8 +100,6 @@ public class GUIViewMovementController implements Initializable {
     }
 
     private void initializeMovement(){
-        olMovements.removeAll(olMovements);
-        olMovements.addAll(transaction.getMovements());
         tableNewMovements.setItems(olMovements);
         movementType.setCellValueFactory
                 (cellData -> new SimpleObjectProperty<>(cellData.getValue().getType()));

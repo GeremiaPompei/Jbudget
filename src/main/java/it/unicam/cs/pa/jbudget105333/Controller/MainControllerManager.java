@@ -17,8 +17,7 @@ public interface MainControllerManager {
      * Metodo responsabile della generazione di un MainController.
      * @return MainController generato.
      */
-    static MainController generateMainController(){
-        String path = "src/file/jbudget";
+    static MainController generateMainController(String path){
         Reader<BudgetReport> reader;
         Writer<BudgetReport> writer = null;
         try {

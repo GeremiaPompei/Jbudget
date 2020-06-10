@@ -40,6 +40,12 @@ public interface Account extends Comparable<Account> {
     void addMovement(Movement movement);
 
     /**
+     * Metodo responsabile di rimuovere un movimento dall'Account.
+     * @param movement Movimento da rimuovere dall'Account.
+     */
+    void removeMovement(Movement movement);
+
+    /**
      * Metodo responsabile di restituire i movimenti dell'Account.
      * @return Movimenti dell'Account.
      */

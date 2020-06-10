@@ -4,6 +4,7 @@ import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -27,7 +28,7 @@ public interface Transaction extends Comparable<Transaction> {
      * Metodo responsabile di aggiungere una serie di movimenti alla Transazione.
      * @param movements Serie di movimenti aggiunti alla Transazione.
      */
-    void addMovements(Set<Movement> movements);
+    void addMovements(Collection<Movement> movements);
 
     /**
      * Metodo che ha la responsabilità di ritornare i movimenti della Transazione.
