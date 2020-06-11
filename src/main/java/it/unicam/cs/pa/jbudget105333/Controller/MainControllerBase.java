@@ -1,6 +1,5 @@
 package it.unicam.cs.pa.jbudget105333.Controller;
 
-import it.unicam.cs.pa.jbudget105333.JBLogger;
 import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
 import it.unicam.cs.pa.jbudget105333.Model.Budget.Budget;
 import it.unicam.cs.pa.jbudget105333.Model.Budget.BudgetManager;
@@ -29,7 +28,7 @@ public class MainControllerBase implements MainController{
     /**
      * Variabile utile alla gestione del log del MainController.
      */
-    private Logger logger = JBLogger.generateLogger(this.getClass());
+    private static final Logger logger = Logger.getGlobal();
 
     /**
      * Ledger del MainControllerBase.

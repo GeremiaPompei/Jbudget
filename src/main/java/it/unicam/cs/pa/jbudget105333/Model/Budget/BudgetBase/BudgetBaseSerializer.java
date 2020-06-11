@@ -1,7 +1,6 @@
 package it.unicam.cs.pa.jbudget105333.Model.Budget.BudgetBase;
 
 import com.google.gson.*;
-import it.unicam.cs.pa.jbudget105333.JBLogger;
 import it.unicam.cs.pa.jbudget105333.Model.Budget.Budget;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 
@@ -16,7 +15,7 @@ public class BudgetBaseSerializer implements JsonSerializer<Budget> {
     /**
      * Variabile utile alla gestione del log del BudgetBaseSerializer.
      */
-    private Logger logger = JBLogger.generateLogger(this.getClass());
+    private static final Logger logger = Logger.getGlobal();
 
     /**
      * Metodo responsabile della serializzazione del BudgetBase.

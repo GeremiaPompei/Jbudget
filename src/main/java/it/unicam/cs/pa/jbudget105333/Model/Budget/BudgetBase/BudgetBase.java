@@ -1,6 +1,5 @@
 package it.unicam.cs.pa.jbudget105333.Model.Budget.BudgetBase;
 
-import it.unicam.cs.pa.jbudget105333.JBLogger;
 import it.unicam.cs.pa.jbudget105333.Model.Budget.Budget;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 
@@ -17,7 +16,7 @@ public class BudgetBase implements Budget {
     /**
      * Variabile utile alla gestione del log del BudgetBase.
      */
-    private Logger logger = JBLogger.generateLogger(this.getClass());
+    private static final Logger logger = Logger.getGlobal();
 
     /**
      * Mappa avente un tag come chiave e un double come valore associato.

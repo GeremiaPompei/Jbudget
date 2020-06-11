@@ -1,7 +1,6 @@
 package it.unicam.cs.pa.jbudget105333.Model.Transaction.TransactionBase;
 
 import com.google.gson.*;
-import it.unicam.cs.pa.jbudget105333.JBLogger;
 import it.unicam.cs.pa.jbudget105333.Model.Ledger.Ledger;
 import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
 import it.unicam.cs.pa.jbudget105333.Model.Movement.MovementBase.MovementBaseDeserializer;
@@ -21,7 +20,7 @@ public class TransactionBaseDeserializer implements JsonDeserializer<Transaction
     /**
      * Ledger utile alla gestione del log dell'TransactionBaseDeserializer.
      */
-    private Logger logger = JBLogger.generateLogger(this.getClass());
+    private static final Logger logger = Logger.getGlobal();
 
 
     /**

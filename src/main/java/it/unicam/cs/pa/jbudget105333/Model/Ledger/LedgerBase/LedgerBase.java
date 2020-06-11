@@ -1,6 +1,5 @@
 package it.unicam.cs.pa.jbudget105333.Model.Ledger.LedgerBase;
 
-import it.unicam.cs.pa.jbudget105333.JBLogger;
 import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
 import it.unicam.cs.pa.jbudget105333.Model.IDGenerator.IDGenerator;
 import it.unicam.cs.pa.jbudget105333.Model.IDGenerator.IDGeneratorBase;
@@ -22,7 +21,7 @@ public class LedgerBase implements Ledger {
     /**
      * Variabile utile alla gestione del log del LedgerBase.
      */
-    private Logger logger = JBLogger.generateLogger(this.getClass());
+    private static final Logger logger = Logger.getGlobal();
 
     /**
      * Accounts del LedgerBase.

@@ -4,7 +4,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import it.unicam.cs.pa.jbudget105333.JBLogger;
 import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
 import it.unicam.cs.pa.jbudget105333.Model.Account.AccountBase.AccountBaseSerializer;
 import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
@@ -23,7 +22,7 @@ public class MovementBaseSerializer implements JsonSerializer<Movement> {
     /**
      * Variabile utile alla gestione del log del MovementBaseSerializer.
      */
-    private Logger logger = JBLogger.generateLogger(this.getClass());
+    private static final Logger logger = Logger.getGlobal();
 
     /**
      * Metodo responsabile della serializzazione di un MovementBase.

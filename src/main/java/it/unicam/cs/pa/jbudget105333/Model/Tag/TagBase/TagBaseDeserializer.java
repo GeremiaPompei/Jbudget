@@ -1,7 +1,6 @@
 package it.unicam.cs.pa.jbudget105333.Model.Tag.TagBase;
 
 import com.google.gson.*;
-import it.unicam.cs.pa.jbudget105333.JBLogger;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 
 import java.lang.reflect.Type;
@@ -15,7 +14,7 @@ public class TagBaseDeserializer implements JsonDeserializer<Tag> {
     /**
      * Ledger utile alla gestione del log del TagBaseDeserializer.
      */
-    private Logger logger = JBLogger.generateLogger(this.getClass());
+    private static final Logger logger = Logger.getGlobal();
 
     /**
      * Metodo responsabile della deserializzazione del TagBase.

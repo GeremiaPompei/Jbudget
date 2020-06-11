@@ -1,7 +1,5 @@
 package it.unicam.cs.pa.jbudget105333.Model.Transaction.TransactionBase;
 
-import it.unicam.cs.pa.jbudget105333.JBLogger;
-
 import java.util.logging.Logger;
 
 /**
@@ -12,7 +10,7 @@ public class InstantTransaction extends TransactionBase {
     /**
      * Variabile utile alla gestione del log della InstantTransaction.
      */
-    private Logger logger = JBLogger.generateLogger(this.getClass());
+    private static final Logger logger = Logger.getGlobal();
 
     /**
      * Costruttore della Transazione Istantanea.

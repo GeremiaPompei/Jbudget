@@ -1,6 +1,5 @@
 package it.unicam.cs.pa.jbudget105333.View.GUIView;
 
-import it.unicam.cs.pa.jbudget105333.JBLogger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,7 +16,7 @@ public class GUIViewStart extends Application {
     /**
      * Variabile utile alla gestione del log della GUIViewStart.
      */
-    private Logger logger = JBLogger.generateLogger(this.getClass());
+    private static final Logger logger = Logger.getGlobal();
 
     /**
      * Mwtodo che ha la responsabilità di impostare i parametri e far partire lo stage della GUIView.

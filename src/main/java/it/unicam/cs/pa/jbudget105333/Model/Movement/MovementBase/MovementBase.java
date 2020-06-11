@@ -1,6 +1,5 @@
 package it.unicam.cs.pa.jbudget105333.Model.Movement.MovementBase;
 
-import it.unicam.cs.pa.jbudget105333.JBLogger;
 import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
 import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
 import it.unicam.cs.pa.jbudget105333.Model.Movement.MovementType;
@@ -18,7 +17,7 @@ public class MovementBase implements Movement {
     /**
      * Variabile utile alla gestione del log del MovimentoBase.
      */
-    private Logger logger = JBLogger.generateLogger(this.getClass());
+    private static final Logger logger = Logger.getGlobal();
 
     /**
      * Descrizione del MovimentoBase.

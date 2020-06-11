@@ -1,6 +1,5 @@
 package it.unicam.cs.pa.jbudget105333.Model.Account.AccountBase;
 
-import it.unicam.cs.pa.jbudget105333.JBLogger;
 import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
 import it.unicam.cs.pa.jbudget105333.Model.Account.AccountType;
 import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
@@ -18,7 +17,7 @@ public class AccountBase implements Account {
     /**
      * Variabile utile alla gestione del log dell'AccountBase.
      */
-    private Logger logger = JBLogger.generateLogger(this.getClass());
+    private static final Logger logger = Logger.getGlobal();
 
     /**
      * ID dell'AccountBase.

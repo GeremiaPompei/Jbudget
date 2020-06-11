@@ -1,0 +1,8 @@
+giu 11, 2020 1:32:03 PM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController addAccount
+AVVERTENZA: Failed in Account Addition.
+giu 11, 2020 1:32:06 PM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController addTag
+AVVERTENZA: Failed in Tag Addition.
+giu 11, 2020 1:32:07 PM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController addTransaction
+AVVERTENZA: Failed in Transaction Addition.
+giu 11, 2020 1:32:09 PM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController addBudget
+AVVERTENZA: Failed in Budget Addition.

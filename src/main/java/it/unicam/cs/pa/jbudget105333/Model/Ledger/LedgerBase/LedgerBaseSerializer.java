@@ -1,7 +1,6 @@
 package it.unicam.cs.pa.jbudget105333.Model.Ledger.LedgerBase;
 
 import com.google.gson.*;
-import it.unicam.cs.pa.jbudget105333.JBLogger;
 import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
 import it.unicam.cs.pa.jbudget105333.Model.Account.AccountBase.AccountBaseSerializer;
 import it.unicam.cs.pa.jbudget105333.Model.Ledger.Ledger;
@@ -22,7 +21,7 @@ public class LedgerBaseSerializer implements JsonSerializer<Ledger> {
     /**
      * Variabile utile alla gestione del log di un LedgerBaseSerializer.
      */
-    private Logger logger = JBLogger.generateLogger(this.getClass());
+    private static final Logger logger = Logger.getGlobal();
 
     /**
      * Metodo responsabile della serializzazione di un LedgerBase.

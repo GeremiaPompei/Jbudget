@@ -2,7 +2,6 @@ package it.unicam.cs.pa.jbudget105333.Model.Store.Json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.unicam.cs.pa.jbudget105333.JBLogger;
 import it.unicam.cs.pa.jbudget105333.Model.BudgetReport.BudgetReport;
 import it.unicam.cs.pa.jbudget105333.Model.BudgetReport.BudgetReportBase.BudgetReportBase;
 import it.unicam.cs.pa.jbudget105333.Model.BudgetReport.BudgetReportBase.BudgetReportBaseDeserializer;
@@ -21,7 +20,7 @@ public class JBudgetReaderJson implements Reader<BudgetReport> {
     /**
      * Variabile utile alla gestione del log del JBudgetReaderJson.
      */
-    private Logger logger = JBLogger.generateLogger(this.getClass());
+    private static final Logger logger = Logger.getGlobal();
 
     /**
      * Variabile utile per leggere da un file.

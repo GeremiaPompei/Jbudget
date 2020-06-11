@@ -36,7 +36,7 @@
                                  <children>
                                     <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <center>
-                                          <TableView fx:id="tableAccount" onMouseClicked="#tableAccountClicked" prefHeight="317.0" prefWidth="1026.0" BorderPane.alignment="CENTER">
+                                          <TableView fx:id="tableAccount" onKeyPressed="#tableAccountClicked" onMouseClicked="#tableAccountClicked" prefHeight="317.0" prefWidth="1026.0" BorderPane.alignment="CENTER">
                                             <columns>
                                                 <TableColumn fx:id="accountID" prefWidth="86.0" text="ID" />
                                               <TableColumn fx:id="accountName" prefWidth="150.0" text="Name" />
@@ -81,7 +81,7 @@
                                  <children>
                                     <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <center>
-                                          <TableView fx:id="tableTag" onMouseClicked="#tableTagClicked" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                          <TableView fx:id="tableTag" onKeyPressed="#tableTagClicked" onMouseClicked="#tableTagClicked" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                              <columns>
                                                 <TableColumn fx:id="tagID" prefWidth="75.0" text="ID" />
                                                 <TableColumn fx:id="tagName" prefWidth="179.0" text="Name" />
@@ -121,7 +121,7 @@
                                  <children>
                                     <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <center>
-                                          <TableView fx:id="tableTransaction" onMouseClicked="#tableTransactionClicked" prefHeight="232.0" prefWidth="1026.0" BorderPane.alignment="CENTER">
+                                          <TableView fx:id="tableTransaction" onKeyPressed="#tableTransactionClicked" onMouseClicked="#tableTransactionClicked" prefHeight="232.0" prefWidth="1026.0" BorderPane.alignment="CENTER">
                                             <columns>
                                               <TableColumn fx:id="transactionID" prefWidth="75.0" text="ID" />
                                               <TableColumn fx:id="transactionDate" prefWidth="156.0" text="Date" />
@@ -212,7 +212,7 @@
                                  <children>
                                     <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <center>
-                                          <TableView fx:id="tableBudget" onMouseClicked="#budgetTableClicked" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                          <TableView fx:id="tableBudget" onKeyPressed="#budgetTableClicked" onMouseClicked="#budgetTableClicked" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                              <columns>
                                                 <TableColumn fx:id="budgetTagID" prefWidth="169.0" text="Tag ID" />
                                                 <TableColumn fx:id="budgetValue" prefWidth="143.0" text="Value" />

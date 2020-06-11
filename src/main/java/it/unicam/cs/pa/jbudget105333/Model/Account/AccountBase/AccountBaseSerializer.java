@@ -4,7 +4,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import it.unicam.cs.pa.jbudget105333.JBLogger;
 import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
 
 import java.lang.reflect.Type;
@@ -18,7 +17,7 @@ public class AccountBaseSerializer implements JsonSerializer<Account> {
     /**
      * Variabile utile alla gestione del log dell'AccountBaseSerializer.
      */
-    private Logger logger = JBLogger.generateLogger(this.getClass());
+    private static final Logger logger = Logger.getGlobal();
 
     /**
      * Metodo responsabile della serializzazione dell'AccountBase.

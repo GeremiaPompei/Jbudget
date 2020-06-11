@@ -1,6 +1,5 @@
 package it.unicam.cs.pa.jbudget105333.Model.Tag.TagBase;
 
-import it.unicam.cs.pa.jbudget105333.JBLogger;
 import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 
@@ -18,7 +17,7 @@ public class TagBase implements Tag {
     /**
      * Variabile utile alla gestione del log dell'TagBase.
      */
-    private Logger logger = JBLogger.generateLogger(this.getClass());
+    private static final Logger logger =Logger.getGlobal();
 
     /**
      * Nome del TagBase.

@@ -1,6 +1,5 @@
 package it.unicam.cs.pa.jbudget105333.Model.Transaction.TransactionBase;
 
-import it.unicam.cs.pa.jbudget105333.JBLogger;
 import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
@@ -20,7 +19,7 @@ public abstract class TransactionBase implements Transaction {
     /**
      * Variabile utile alla gestione del log della TransactionBase.
      */
-    private Logger logger = JBLogger.generateLogger(this.getClass());
+    private static final Logger logger = Logger.getGlobal();
 
     /**
      * Movimenti della transazione.

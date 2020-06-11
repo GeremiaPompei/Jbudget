@@ -1,7 +1,5 @@
 package it.unicam.cs.pa.jbudget105333.Model.IDGenerator;
 
-import it.unicam.cs.pa.jbudget105333.JBLogger;
-
 import java.io.Serializable;
 import java.util.logging.Logger;
 
@@ -13,7 +11,7 @@ public class IDGeneratorBase implements IDGenerator, Serializable {
     /**
      * Variabile utile alla gestione del log dell'IDGeneratorBase.
      */
-    private Logger logger = JBLogger.generateLogger(this.getClass());
+    private static final Logger logger = Logger.getGlobal();
 
     /**
      * Variabile utilizzata incrementare l'ID.

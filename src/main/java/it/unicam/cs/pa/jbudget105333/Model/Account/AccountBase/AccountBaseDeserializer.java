@@ -1,7 +1,6 @@
 package it.unicam.cs.pa.jbudget105333.Model.Account.AccountBase;
 
 import com.google.gson.*;
-import it.unicam.cs.pa.jbudget105333.JBLogger;
 import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
 import it.unicam.cs.pa.jbudget105333.Model.Account.AccountType;
 
@@ -16,7 +15,7 @@ public class AccountBaseDeserializer implements JsonDeserializer<Account>{
     /**
      * Ledger utile alla gestione del log dell'AccountBaseDeserializer.
      */
-    private Logger logger = JBLogger.generateLogger(this.getClass());
+    private static final Logger logger = Logger.getGlobal();
 
     /**
      * Metodo responsabile della deserializzazione dell'AccountBase.

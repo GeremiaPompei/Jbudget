@@ -1,7 +1,6 @@
 package it.unicam.cs.pa.jbudget105333.Model.Transaction.TransactionBase;
 
 import com.google.gson.*;
-import it.unicam.cs.pa.jbudget105333.JBLogger;
 import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
 import it.unicam.cs.pa.jbudget105333.Model.Movement.MovementBase.MovementBaseSerializer;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
@@ -19,7 +18,7 @@ public class TransactionBaseSerializer implements JsonSerializer<Transaction> {
     /**
      * Variabile utile alla gestione del log dell'TransactionBaseSerializer.
      */
-    private Logger logger = JBLogger.generateLogger(this.getClass());
+    private static final Logger logger = Logger.getGlobal();
 
     /**
      * Metodo responsabile della serializzazione della TransactionBase.

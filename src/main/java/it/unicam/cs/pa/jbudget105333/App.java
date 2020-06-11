@@ -3,13 +3,13 @@
  */
 package it.unicam.cs.pa.jbudget105333;
 
-import it.unicam.cs.pa.jbudget105333.Controller.MainController;
-import it.unicam.cs.pa.jbudget105333.Controller.MainControllerManager;
-import it.unicam.cs.pa.jbudget105333.View.GUIView.GUIView;
-import it.unicam.cs.pa.jbudget105333.View.View;
+import it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewStart;
+import javafx.application.Application;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.logging.Logger;
+import java.time.LocalDateTime;
+import java.util.logging.*;
 
 /**
  * Classe che ha la responsabilità di gestire la JBudget App.
@@ -19,61 +19,35 @@ public class App {
     /**
      * Variabile utile alla gestione del log dell'App.
      */
-    private Logger logger = JBLogger.generateLogger(this.getClass());
+    private static final Logger logger = Logger.getGlobal();
 
     /**
-     * Controller dell'App.
-     */
-    private final MainController controller;
-
-    /**
-     * View dell'App.
-     */
-    private final View view;
-
-    /**
-     * Costruttore di App che prende un Controller e una View.
-     * @param controller controller dell'App.
-     * @param view view dell'App.
-     */
-    public App(MainController controller, View view) {
-        this.controller = controller;
-        this.view = view;
-        this.logger.info("App created.");
-    }
-
-    /**
-     * Metodo main.
+     * Metodo main responsabile di lanciare la GUI View.
      * @param args
      */
     public static void main(String[] args) {
-        createApp().start();
+        setLogger();
+        logger.info("Start app.");
+        Application.launch(GUIViewStart.class);
+        logger.info("Stop app.");
     }
 
     /**
-     * Metodo responsabile di eseguire la view passandole il controller come parametro
-     * dopodiché chiudere la View.
+     * Metodo responsabile della personalizzazione del logger per permettere di
+     * essere scritto su file, inizializzare le directory dove i file di logging
+     * vengono salvati e non essere stampato a console.
      */
-    private void start() {
+    private static void setLogger() {
+        String dirPath = "src/file/logging";
+        new File((dirPath)).mkdirs();
+        logger.setUseParentHandlers(false);
+        logger.setLevel(Level.WARNING);
+        Handler handler = null;
         try {
-            this.logger.info("App started.");
-            this.view.open(this.controller);
-        } catch (IOException e) {
-            e.printStackTrace();
-            this.logger.info("App failed.");
-        }finally {
-            this.view.close();
-            this.logger.info("App closed.");
-        }
-    }
-
-    /**
-     * Factory Mathod responsabile di creare un'App.
-     * @return nuova App.
-     */
-    private static App createApp() {
-        String path = "src/file/jbudget";
-        MainController controller = MainControllerManager.generateMainController(path);
-        return new App(controller,new GUIView());
+            handler = new FileHandler(dirPath+"/log_"
+                    + LocalDateTime.now()+".txt");
+            handler.setFormatter(new SimpleFormatter());
+        } catch (IOException e) {}
+        logger.addHandler(handler);
     }
 }

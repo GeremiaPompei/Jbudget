@@ -4,7 +4,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import it.unicam.cs.pa.jbudget105333.JBLogger;
 import it.unicam.cs.pa.jbudget105333.Model.Budget.Budget;
 import it.unicam.cs.pa.jbudget105333.Model.Budget.BudgetBase.BudgetBaseSerializer;
 import it.unicam.cs.pa.jbudget105333.Model.BudgetReport.BudgetReport;
@@ -22,7 +21,7 @@ public class BudgetReportBaseSerializer implements JsonSerializer<BudgetReport> 
     /**
      * Variabile utile alla gestione del log del BudgetReportBaseSerializer.
      */
-    private Logger logger = JBLogger.generateLogger(this.getClass());
+    private static final Logger logger = Logger.getGlobal();
 
     /**
      * Metodo responsabile della serializzazione dei un BudgetReportBase.

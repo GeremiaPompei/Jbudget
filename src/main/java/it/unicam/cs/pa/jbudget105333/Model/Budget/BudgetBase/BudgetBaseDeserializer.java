@@ -4,7 +4,6 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import it.unicam.cs.pa.jbudget105333.JBLogger;
 import it.unicam.cs.pa.jbudget105333.Model.Budget.Budget;
 import it.unicam.cs.pa.jbudget105333.Model.Ledger.Ledger;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
@@ -20,7 +19,7 @@ public class BudgetBaseDeserializer implements JsonDeserializer<Budget> {
     /**
      * Variabile utile alla gestione del log del BudgetBaseDeserializer.
      */
-    private Logger logger = JBLogger.generateLogger(this.getClass());
+    private static final Logger logger = Logger.getGlobal();
 
     /**
      * Variabile utile alla deserializzazione di un BudgetBase.

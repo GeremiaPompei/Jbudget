@@ -1,7 +1,6 @@
 package it.unicam.cs.pa.jbudget105333.Model.BudgetReport.BudgetReportBase;
 
 import com.google.gson.*;
-import it.unicam.cs.pa.jbudget105333.JBLogger;
 import it.unicam.cs.pa.jbudget105333.Model.Budget.Budget;
 import it.unicam.cs.pa.jbudget105333.Model.Budget.BudgetBase.BudgetBaseDeserializer;
 import it.unicam.cs.pa.jbudget105333.Model.BudgetReport.BudgetReport;
@@ -19,7 +18,7 @@ public class BudgetReportBaseDeserializer implements JsonDeserializer<BudgetRepo
     /**
      * Variabile utile alla gestione del log del BudgetReportBaseDeserializer.
      */
-    private Logger logger = JBLogger.generateLogger(this.getClass());
+    private static final Logger logger = Logger.getGlobal();
 
     /**
      * Metodo responsabile della deserializzazione deli un BudgetReportBase.
