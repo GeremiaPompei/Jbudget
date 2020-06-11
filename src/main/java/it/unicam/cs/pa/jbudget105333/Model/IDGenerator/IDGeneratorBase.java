@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.util.logging.Logger;
 
 /**
- * Classe che ha la responsabilità di generare un ID univoco.
+ * Questa interfaccia è implementata dalle classi che hanno la responsabilità di gestire un generatore
+ * di ID. Essa permette di generare un id univoco che si autoincrementa.
  */
 public class IDGeneratorBase implements IDGenerator, Serializable {
 

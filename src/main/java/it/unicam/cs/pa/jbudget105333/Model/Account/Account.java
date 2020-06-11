@@ -5,7 +5,11 @@ import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
 import java.util.Set;
 
 /**
- * Interfaccia che ha la responsabilità di dichiarare i metodi di un Account.
+ * Interfaccia che sarà implementata dalle classi che hanno la responsabilità di gestire un conto sul
+ * quale possono essere fatti dei movimenti che ne alterano il saldo iniziale in un saldo effettivo.
+ * Tali implementazioni permetteranno di accedere al proprio id, nome, descrizione, tipo, bilancio iniziale,
+ * bilancio effettivo, ad una serie di movimenti eseguiti su di esso, di aggiungere o rimuovere un movimento
+ * e di essere aggiornato.
  */
 public interface Account extends Comparable<Account> {
 

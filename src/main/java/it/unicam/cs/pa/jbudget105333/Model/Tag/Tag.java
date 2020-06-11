@@ -5,7 +5,10 @@ import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
 import java.util.Set;
 
 /**
- * Interfaccia che ha la responsabilità di dichiarare i metodi di un Tagt.
+ * Questa interfaccia è implementata dalle classi che hanno la responsabilità di definire una categoria di
+ * un movimento. Tale interfaccia permette alle classi che la implementano di accedere al proprio id,
+ * nome, descrizione, ad una serie di movimenti etichettati con essa, alla somma del saldo di questi e
+ * di aggiungere o rimuovere un movimento.
  */
 public interface Tag extends Comparable<Tag> {
 

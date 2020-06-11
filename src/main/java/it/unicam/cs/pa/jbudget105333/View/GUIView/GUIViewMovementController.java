@@ -12,10 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -126,6 +123,12 @@ public class GUIViewMovementController implements Initializable {
     private Stage stage;
 
     /**
+     * Campo di avviso di successo o fallimento riguardo ad un'operazione.
+     */
+    @FXML
+    Label notificationLabel;
+
+    /**
      * Controller della view principale utile per aggiornare il suo stato.
      */
     private GUIViewController guiViewController;
@@ -169,8 +172,10 @@ public class GUIViewMovementController implements Initializable {
                     , transaction, movementNewAccountId.getValue(), movementNewTagId.getValue()
                     , movementNewDescription.getText(), this.mainController.idGenerator().generate());
             olMovements.add(m);
+            notificationLabel.setText("Success!");
             logger.info("Addition of movement: ["+m.toString()+"]");
         }catch (Exception e){
+            notificationLabel.setText("Failed in Movement Addition.");
             logger.warning("Failed in Addition of movement.");
         }
         updateMovements();

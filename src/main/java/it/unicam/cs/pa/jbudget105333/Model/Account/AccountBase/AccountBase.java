@@ -10,7 +10,10 @@ import java.util.TreeSet;
 import java.util.logging.Logger;
 
 /**
- * Classe che ha la responsabilità di gestire e dare informazioni su un AccountBase.
+ * Classe che ha la responsabilità di gestire un conto sul quale possono essere fatti dei movimenti
+ * che ne alterano il saldo iniziale in un saldo effettivo. Tale implementazione permette di accedere
+ * al proprio id, nome, descrizione, tipo, bilancio iniziale, bilancio effettivo, ad una serie di
+ * movimenti eseguiti su di esso, di aggiungere o rimuovere un movimento e di essere aggiornato.
  */
 public class AccountBase implements Account {
 

@@ -6,7 +6,10 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Interfaccia che ha la responsabilità di dichiarare i metodi di un Budget.
+ * Interfaccia implementata dalle classi che hanno la responsabilità di gestire una serie di budget
+ * ognuno fissato per un certo tag. Tale interfaccia permette alle classi che la implementano di
+ * accedere alla tabella contenente i budget, al valore di un budget dato un tag,
+ * ad una serie di tag per i quali è stato fissato un budget e di aggiungere o rimuovere un tag.
  */
 public interface Budget {
 

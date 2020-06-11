@@ -12,7 +12,11 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Interfaccia che ha la responsabilità di dichiarare i metodi di un MainController.
+ * Interfaccia sarà estesa dalle classi che hanno la responsabilità di dare un'implementazione
+ * del controller dell'MVC per coordinare le attività eseguite sull'applicazione. Le implementazioni
+ * permetteranno di gestire accounts, tags, transazioni e budgets di un budget report oltre a dare
+ * la possibilità di aggiornare lo stato dei diversi componenti, salvare il budget report, ritornare
+ * il generatore degli id e tener traccia del valore di superamento di un budget con relativo tag.
  */
 public interface MainController {
 

@@ -14,7 +14,12 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
 
 /**
- * Classe che ha la responsabilità di gestire e dare informazioni su un LedgerBase.
+ * Classe che ha la responsabilità di gestire un ledger, ovvero un libro mastro che permette di
+ * aggiungere, leggere e rimuovere oggetti come account, tag e transazioni. Tale implementazione
+ * permette di accedere ad una serie di tag, account o transazioni, di aggiungerli o rimuoverli,
+ * di accedere al generatore di id o impostarlo ad un certo id di partenza. Inoltre questa classe
+ * permette di aggiornare ogni account, rimuovere un movimento e accedere ad un account, tag o
+ * transazione tramite il loro id.
  */
 public class LedgerBase implements Ledger {
 

@@ -9,7 +9,10 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 /**
- * Classe che ha la responsabilità di gestire e dare informazioni su un BudgetBase.
+ * Classe che ha la responsabilità di gestire una serie di budget ognuno fissato per un certo tag.
+ * Tale implementazione permette di accedere alla tabella contenente i budget, al valore di un budget
+ * dato un tag, ad una serie di tag per i quali è stato fissato un budget e di aggiungere o
+ * rimuovere un tag.
  */
 public class BudgetBase implements Budget {
 

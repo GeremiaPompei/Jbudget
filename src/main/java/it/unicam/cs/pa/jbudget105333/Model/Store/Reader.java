@@ -3,7 +3,7 @@ package it.unicam.cs.pa.jbudget105333.Model.Store;
 import java.io.IOException;
 
 /**
- * Interfaccia che ha la responsabilità di dichiarare i metodi per leggere da qualche parte.
+ * Interfaccia che ha la responsabilità di leggere da qualche parte.
  * @param <O> Tipo di ritorno dell'oggetto letto.
  */
 public interface Reader<O> {

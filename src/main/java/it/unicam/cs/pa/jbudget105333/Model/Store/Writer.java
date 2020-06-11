@@ -3,7 +3,7 @@ package it.unicam.cs.pa.jbudget105333.Model.Store;
 import java.io.IOException;
 
 /**
- * Interfaccia che ha la responsabilità di dichiarare i metodi per scrivere da qualche parte.
+ * Interfaccia che ha la responsabilità di scrivere da qualche parte.
  * @param <O> Tipo dell'oggetto scritto.
  */
 public interface Writer <O> {

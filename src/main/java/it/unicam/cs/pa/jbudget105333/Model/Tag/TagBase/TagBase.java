@@ -10,7 +10,9 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
 
 /**
- * Classe che ha la responsabilità di gestire e dare informazioni su un TagBase.
+ * Classe che ha la responsabilità di definire una categoria di un movimento. Tale classe permette
+ * di accedere al proprio id, nome, descrizione, ad una serie di movimenti etichettati con essa,
+ * alla somma del saldo di questi e di aggiungere o rimuovere un movimento.
  */
 public class TagBase implements Tag {
 

@@ -303,7 +303,7 @@ public class GUIViewController implements Initializable {
     private ObservableList<Movement> olMovement;
 
     /**
-     * Campo di avviso di successo o fallimento riguardo ad un'operazione e notifiche.
+     * Campo di avviso di successo o fallimento riguardo un'operazione e notifiche.
      */
     @FXML Label notificationLabel;
 

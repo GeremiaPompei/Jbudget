@@ -1,7 +1,8 @@
 package it.unicam.cs.pa.jbudget105333.Model.IDGenerator;
 
 /**
- * Interfaccia che ha la responsabilità di dichiarare i metodi di un IDGenerator.
+ * Questa interfaccia è implementata dalle classi che hanno la responsabilità di gestire un generatore
+ * di ID. Essa permette di generare un id univoco.
  */
 public interface IDGenerator {
 

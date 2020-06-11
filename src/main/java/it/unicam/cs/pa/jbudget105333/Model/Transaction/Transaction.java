@@ -8,7 +8,11 @@ import java.util.Collection;
 import java.util.Set;
 
 /**
- * Interfaccia responsabile della creazione di un Transazione.
+ * Questa interfaccia sarà implementata dalle classi che hanno la responsabilità di gestire una singola
+ * transazione. Essa non è altro che un gruppo di movimenti eseguiti in una certa data. Tale interfaccia
+ * permette alle classi che la implementano di accedere al proprio id, data, saldo totale (dato dalla
+ * somma dei saldi dei movimenti che la compongono), la serie di movimenti che la popolano, di aggiungere
+ * o rimuovere un movimento o aggiungere una serie di movimenti.
  */
 public interface Transaction extends Comparable<Transaction> {
 

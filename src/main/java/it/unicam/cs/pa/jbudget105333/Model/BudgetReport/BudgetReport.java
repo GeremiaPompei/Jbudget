@@ -7,7 +7,11 @@ import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import java.util.Map;
 
 /**
- * Interfaccia che ha la responsabilità di dichiarare i metodi di un BudgetReport.
+ * Interfaccia implementata dalle classi che hanno la responsabilità di gestire un budget report,
+ * ovvero un aggeggio capace di stilare il resoconto del valore dato dalla differenza tra un budget
+ * e il saldo totale speso per un certo tag. Con tale resoconto si puo monitorare i budget superati
+ * o no, o quanto mancherebbe per superarli. Tale interfaccia permette alle classi che la implementano
+ * di accedere al ledger, al budget e alla tabella del resoconto.
  */
 public interface BudgetReport {
 

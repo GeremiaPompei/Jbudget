@@ -1,0 +1,6 @@
+giu 11, 2020 4:12:48 PM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController addTransaction
+AVVERTENZA: Failed in Transaction Addition.
+giu 11, 2020 4:12:53 PM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewMovementController addMovement
+AVVERTENZA: Failed in Addition of movement.
+giu 11, 2020 4:13:05 PM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewMovementController addMovement
+AVVERTENZA: Failed in Addition of movement.

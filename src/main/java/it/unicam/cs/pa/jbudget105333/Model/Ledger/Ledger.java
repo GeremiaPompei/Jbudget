@@ -9,7 +9,12 @@ import java.util.Collection;
 import java.util.Set;
 
 /**
- * Interfaccia che ha la responsabilità di dichiarare i metodi di un Ledger.
+ * Questa interfaccia è implementata dalle classi che hanno la responsabilità di gestire un ledger,
+ * ovvero un libro mastro che permette di aggiungere, leggere e rimuovere oggetti come account, tag e
+ * transazioni. Tale interfaccia permette alle classi che la implementano di accedere ad una serie di
+ * tag, account o transazioni, di aggiungerli o rimuoverli, di accedere al generatore di id o impostarlo
+ * ad un certo id di partenza. Inoltre tali classi potranno aggiornare ogni account, rimuovere un movimento
+ * e accedere ad un account, tag o transazione tramite il loro id.
  */
 public interface Ledger {
 

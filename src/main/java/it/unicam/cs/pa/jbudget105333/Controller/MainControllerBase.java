@@ -21,7 +21,11 @@ import java.util.*;
 import java.util.logging.Logger;
 
 /**
- * Classe che ha la responsabilità di gestire l'interazione tra View e Model.
+ * Classe che ha la responsabilità di dare un'implementazione del controller dell'MVC per coordinare
+ * le attività eseguite sull'applicazione. Tale implementazione permette di gestire accounts, tags,
+ * transazioni e budgets di un budget report oltre a dare la possibilità di aggiornare lo stato dei
+ * diversi componenti, salvare il budget report, ritornare il generatore degli id e tener traccia
+ * del valore di superamento di un budget con relativo tag.
  */
 public class MainControllerBase implements MainController{
 

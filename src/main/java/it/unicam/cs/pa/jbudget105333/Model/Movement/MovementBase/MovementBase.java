@@ -10,7 +10,9 @@ import java.time.LocalDateTime;
 import java.util.logging.Logger;
 
 /**
- * Classe che ha la responsabilità di gestire e dare informazioni su un MovimentoBase.
+ * Classe che ha la responsabilità di gestire un singolo movimento che verrà associato ad una
+ * transazione da cui ne prenderà la data. Implementazione che permette di accedere al proprio id,
+ * data, descrizione, tipo, saldo, transazione, account e tag.
  */
 public class MovementBase implements Movement {
 

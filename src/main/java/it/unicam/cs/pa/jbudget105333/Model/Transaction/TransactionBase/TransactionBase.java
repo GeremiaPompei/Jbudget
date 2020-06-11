@@ -12,7 +12,12 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
 
 /**
- * Classe che ha la responsabilità di gestire e dare informazioni su un TransactionBase.
+ * Questa classe astratta sarà estesa dalle classi che hanno la responsabilità di gestire una singola
+ * transazione. Essa non è altro che un gruppo di movimenti eseguiti in una certa data. Tale classe astratta
+ * permette alle classi che la implementano di accedere al proprio id, data, saldo totale (dato dalla
+ * somma dei saldi dei movimenti che la compongono), la serie di movimenti che la popolano, di aggiungere
+ * o rimuovere un movimento o aggiungere una serie di movimenti. Essa da l'implementazione di tutti i metodi
+ * dell'interfaccia che implementa e mette a disposizione due costruttori.
  */
 public abstract class TransactionBase implements Transaction {
 

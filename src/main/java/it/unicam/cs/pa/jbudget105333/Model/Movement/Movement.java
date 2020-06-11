@@ -7,7 +7,10 @@ import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
 import java.time.LocalDateTime;
 
 /**
- * Interfaccia che ha la responsabilità di dichiarare i metodi di un Movimento.
+ * Questa interfaccia è implementata dalle classi che hanno la responsabilità di gestire un singolo
+ * movimento che verrà associato ad una transazione da cui ne prenderà la data. Tale interfaccia
+ * permette alle classi che la implementano di accedere al proprio id, data, descrizione, tipo, saldo,
+ * transazione, account e tag.
  */
 public interface Movement extends Comparable<Movement> {
 

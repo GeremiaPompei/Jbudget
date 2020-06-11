@@ -10,7 +10,10 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 /**
- * Classe che ha la responsabilità di gestire e dare informazioni su un BudgetReportBase.
+ * Classe che ha la responsabilità di gestire un budget report, ovvero un aggeggio capace di stilare
+ * il resoconto del valore dato dalla differenza tra un budget e il saldo totale speso per un certo tag.
+ * Con tale resoconto si puo monitorare i budget superati o no, o quanto mancherebbe per superarli.
+ * Tale implementazione permette di accedere al ledger, al budget e alla tabella del resoconto.
  */
 public class BudgetReportBase implements BudgetReport {
 
