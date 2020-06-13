@@ -33,7 +33,7 @@ class JBudgetWriterJsonTest {
         try {
             Writer<BudgetReport> writer = new JBudgetWriterJson(path);
             writer.write(BudgetReportManager.generateReport(LedgerManager.generateLedger()
-                    ,BudgetManager.generateBudget(),null));
+                    ,BudgetManager.generateBudget()));
             writer.close();
             this.writer = new JBudgetWriterJson(path);
         } catch (IOException e) {
@@ -48,7 +48,7 @@ class JBudgetWriterJsonTest {
     void write() {
         try {
             BudgetReport report1 = BudgetReportManager.generateReport(LedgerManager.generateLedger()
-                    , BudgetManager.generateBudget(),null);
+                    , BudgetManager.generateBudget());
             Tag sport = new TagBase("Sport","Tennis",new IDGeneratorBase().generate());
             report1.getLedger().addTag(sport);
             this.writer.write(report1);

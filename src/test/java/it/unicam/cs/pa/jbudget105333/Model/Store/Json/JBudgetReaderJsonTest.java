@@ -35,7 +35,7 @@ class JBudgetReaderJsonTest {
         try {
             Writer<BudgetReport> writer = new JBudgetWriterJson(path);
             writer.write(BudgetReportManager.generateReport(LedgerManager.generateLedger()
-                    ,BudgetManager.generateBudget(),null));
+                    ,BudgetManager.generateBudget()));
             writer.close();
             MainControllerManager.generateMainController(path).save();
             this.reader = new JBudgetReaderJson(path);
@@ -51,7 +51,7 @@ class JBudgetReaderJsonTest {
     void read() {
         try {
             Ledger ledger = LedgerManager.generateLedger();
-            BudgetReport report1 = BudgetReportManager.generateReport(ledger, BudgetManager.generateBudget(),null);
+            BudgetReport report1 = BudgetReportManager.generateReport(ledger, BudgetManager.generateBudget());
             Tag sport = new TagBase("Sport","Tennis",ledger.getIDGenerator().generate());
             ledger.addTag(sport);
             report1.getLedger().addTag(sport);
