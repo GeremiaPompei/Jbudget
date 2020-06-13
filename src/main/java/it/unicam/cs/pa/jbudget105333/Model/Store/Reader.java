@@ -11,10 +11,8 @@ public interface Reader<O> {
     /**
      * Metodo che ha la responsabilità di leggere e ritornare un O.
      * @return Oggetto letto.
-     * @throws IOException
-     * @throws ClassNotFoundException
      */
-    O read() throws IOException, ClassNotFoundException;
+    O read();
 
     /**
      * Metodo che ha la responsabilità di chiudere le variabili istanziate per leggere.

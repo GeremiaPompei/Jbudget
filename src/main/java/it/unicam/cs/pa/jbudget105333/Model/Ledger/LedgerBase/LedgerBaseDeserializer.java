@@ -57,6 +57,7 @@ public class LedgerBaseDeserializer implements JsonDeserializer<Ledger> {
         this.ledger.addTags(tagsDeserialize(json.getAsJsonObject().get("Tags"), context));
         this.ledger.addAccounts(accountsDeserialize(json.getAsJsonObject().get("Accounts"),context));
         this.ledger.addTransactions(transactionsDeserialize(json.getAsJsonObject().get("Transactions"),context));
+        this.ledger.update();
         this.logger.info("Stop deserialization.");
         return this.ledger;
     }

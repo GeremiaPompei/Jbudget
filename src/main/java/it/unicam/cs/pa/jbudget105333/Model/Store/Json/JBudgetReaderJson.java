@@ -46,13 +46,14 @@ public class JBudgetReaderJson implements Reader<BudgetReport> {
     /**
      * Metodo che ha la responsabilità di leggere da file Json e ritornare un BudgetReport.
      * @return BudgetReport del file Json.
-     * @throws IOException
-     * @throws ClassNotFoundException
      */
     @Override
-    public BudgetReport read() throws IOException, ClassNotFoundException {
+    public BudgetReport read(){
         this.logger.info("Reading.");
-        return this.gson.fromJson(in,BudgetReportBase.class);
+        BudgetReport report = this.gson.fromJson(in,BudgetReportBase.class);
+        if(report == null)
+            throw new NullPointerException();
+        return report;
     }
 
     /**

@@ -47,7 +47,7 @@ public class MainControllerBase implements MainController{
     /**
      * BudgetReport del MainControllerBase.
      */
-    private final BudgetReport budgetReport;
+    private BudgetReport budgetReport;
 
     /**
      * Writer del MainControllerBase.
@@ -67,8 +67,7 @@ public class MainControllerBase implements MainController{
      * @param writer Writer del MainControllerBase.
      */
     public MainControllerBase(Reader<BudgetReport> reader, Writer<BudgetReport> writer) {
-        this.budgetReport = BudgetReportManager.generateReport(LedgerManager.generateLedger()
-                ,BudgetManager.generateBudget(),reader);
+        readBudgetReport(reader);
         this.ledger = this.budgetReport.getLedger();
         this.budget = this.budgetReport.getBudget();
         this.writer = writer;
@@ -76,11 +75,29 @@ public class MainControllerBase implements MainController{
     }
 
     /**
+     * Metodo che ha la responsabilità di leggere il budget report e inizializzarlo o in caso
+     * di fallimento assegnargliene uno nuovo.
+     * @param reader Permette la lettura del budget report.
+     */
+    private void readBudgetReport(Reader<BudgetReport> reader){
+        try{
+            this.budgetReport = reader.read();
+            reader.close();
+            logger.info("File read correctly.");
+        } catch (Exception e) {
+            this.budgetReport = BudgetReportManager.generateReport(
+                    LedgerManager.generateLedger()
+                    ,BudgetManager.generateBudget());
+            logger.warning("File not read, is created a new budget report.");
+        }
+    }
+
+    /**
      * Metodo responsabile di restituire gli account.
      * @return Accounts restituiti.
      */
     @Override
-    public synchronized Set<Account> getAccounts(){
+    public Set<Account> getAccounts(){
         this.logger.fine("Accounts getter.");
         return this.ledger.getAccounts();
     }
@@ -91,7 +108,7 @@ public class MainControllerBase implements MainController{
      * @return Account ricercato.
      */
     @Override
-    public synchronized Account getAccount(int ID){
+    public Account getAccount(int ID){
         this.logger.fine("Account getter with ID:["+ID+"]");
         return this.ledger.getAccount(ID);
     }
@@ -101,7 +118,7 @@ public class MainControllerBase implements MainController{
      * @param account Account da aggiungere.
      */
     @Override
-    public synchronized void addAccount(Account account){
+    public void addAccount(Account account){
         this.ledger.addAccount(account);
         this.logger.fine("Addition of Account: ["+account.toString()+"]");
     }
@@ -111,7 +128,7 @@ public class MainControllerBase implements MainController{
      * @param account Account da rimuovere.
      */
     @Override
-    public synchronized void removeAccount(Account account){
+    public void removeAccount(Account account){
         this.ledger.removeAccount(account);
         this.logger.fine("Removal of Account: ["+account.toString()+"]");
     }
@@ -121,7 +138,7 @@ public class MainControllerBase implements MainController{
      * @return Tags restituiti.
      */
     @Override
-    public synchronized Set<Tag> getTags(){
+    public Set<Tag> getTags(){
         this.logger.fine("Tags getter.");
         return this.ledger.getTags();
     }
@@ -132,7 +149,7 @@ public class MainControllerBase implements MainController{
      * @return Tag ricercato.
      */
     @Override
-    public synchronized Tag getTag(int ID){
+    public Tag getTag(int ID){
         this.logger.fine("Tag getter with ID: ["+ID+"]");
         return this.ledger.getTag(ID);
     }
@@ -142,7 +159,7 @@ public class MainControllerBase implements MainController{
      * @param tag Tag da aggiungere.
      */
     @Override
-    public synchronized void addTag(Tag tag){
+    public void addTag(Tag tag){
         this.ledger.addTag(tag);
         this.logger.fine("Addition of Tag: ["+tag.toString()+"]");
     }
@@ -152,7 +169,7 @@ public class MainControllerBase implements MainController{
      * @param tag Tag da rimuovere.
      */
     @Override
-    public synchronized void removeTag(Tag tag){
+    public void removeTag(Tag tag){
         this.ledger.removeTag(tag);
         removeBudgetRecord(tag);
         this.logger.fine("Removal of Tag: ["+tag.toString()+"]");
@@ -163,7 +180,7 @@ public class MainControllerBase implements MainController{
      * @return Trasazioni restituite.
      */
     @Override
-    public synchronized Set<Transaction> getTransactions(){
+    public Set<Transaction> getTransactions(){
         this.logger.fine("Transactions getter.");
         return this.ledger.getTransactions();
     }
@@ -174,7 +191,7 @@ public class MainControllerBase implements MainController{
      * @return Transazione ricercata.
      */
     @Override
-    public synchronized Transaction getTransaction(int ID){
+    public Transaction getTransaction(int ID){
         this.logger.fine("Transaction getter with ID: ["+ID+"]");
         return this.ledger.getTransaction(ID);
     }
@@ -186,7 +203,7 @@ public class MainControllerBase implements MainController{
      * @return
      */
     @Override
-    public synchronized boolean addTransaction(Transaction transaction, Collection<Movement> movements){
+    public boolean addTransaction(Transaction transaction, Collection<Movement> movements){
         if(!movements.isEmpty()&&transaction.getDate().toLocalDate().compareTo(LocalDate.now())>=0){
             transaction.addMovements(movements);
             this.ledger.addTransaction(transaction);
@@ -203,7 +220,7 @@ public class MainControllerBase implements MainController{
      * @param transaction Transazione da rimuovere.
      */
     @Override
-    public synchronized void removeTransaction(Transaction transaction){
+    public void removeTransaction(Transaction transaction){
         this.ledger.removeTransaction(transaction);
         this.logger.fine("Removal of transaction: ["+transaction.toString()+"]");
     }
@@ -213,7 +230,7 @@ public class MainControllerBase implements MainController{
      * @param movement Movimento da rimuovere.
      */
     @Override
-    public synchronized void removeMovement(Movement movement) {
+    public void removeMovement(Movement movement) {
         movement.getTransaction().removeMovement(movement);
         movement.getTag().removeMovement(movement);
         movement.getAccount().removeMovement(movement);
@@ -227,7 +244,7 @@ public class MainControllerBase implements MainController{
      * @return Serie di transazioni date dalla schedulazione.
      */
     @Override
-    public synchronized Set<Transaction> scheduleTransactionsDate(LocalDateTime start, LocalDateTime stop) {
+    public Set<Transaction> scheduleTransactionsDate(LocalDateTime start, LocalDateTime stop) {
         if(start.isBefore(stop)) {
             Set<Transaction> stransactions = new TreeSet();
             this.ledger.getTransactions()
@@ -248,7 +265,7 @@ public class MainControllerBase implements MainController{
      * @return Serie di transazioni date dalla schedulazione.
      */
     @Override
-    public synchronized Set<Transaction> scheduleTransactionsTag(Tag tag){
+    public Set<Transaction> scheduleTransactionsTag(Tag tag){
         if(tag != null) {
             Set<Transaction> stransactions = new TreeSet();
             this.ledger.getTransactions()
@@ -267,7 +284,7 @@ public class MainControllerBase implements MainController{
      * @return Mappa di tag e double.
      */
     @Override
-    public synchronized Map<Tag,Double> getBudgetRecords(){
+    public Map<Tag,Double> getBudgetRecords(){
         this.logger.fine("BudgetRecords getter.");
         return this.budget.getBudgetMap();
     }
@@ -278,7 +295,7 @@ public class MainControllerBase implements MainController{
      * @param value Value relativo al tag.
      */
     @Override
-    public synchronized boolean addBudgetRecord(Tag tag, Double value){
+    public boolean addBudgetRecord(Tag tag, Double value){
         if(tag!=null && this.ledger.getTags().contains(tag)) {
             this.budget.add(tag,value);
             this.logger.fine("Addition of budget record with key: ["
@@ -295,7 +312,7 @@ public class MainControllerBase implements MainController{
      * @param tag Tag da rimuovere.
      */
     @Override
-    public synchronized void removeBudgetRecord(Tag tag){
+    public void removeBudgetRecord(Tag tag){
         this.budget.remove(tag);
         this.logger.fine("Removal of budget record with key :["+tag.toString()+"]");
     }
@@ -307,7 +324,7 @@ public class MainControllerBase implements MainController{
      * @return
      */
     @Override
-    public synchronized Map<Tag, Double> check(){
+    public Map<Tag, Double> check(){
         Map<Tag, Double> result = new HashMap<>();
         this.budgetReport.check().keySet().parallelStream()
                 .filter(t->this.budgetReport.check().get(t)<0)
@@ -320,7 +337,7 @@ public class MainControllerBase implements MainController{
      * Metodo che ha la responsabilità di aggiornare il MainController.
      */
     @Override
-    public synchronized void update(){
+    public void update(){
         this.ledger.update();
         this.logger.fine("MainController updated.");
     }
@@ -329,7 +346,7 @@ public class MainControllerBase implements MainController{
      * Metodo che ha la responsabilità di salvare un BudgetReport da qualche parte.
      */
     @Override
-    public synchronized void save() {
+    public void save() {
         if(this.writer!= null) {
             try {
                 this.writer.write(this.budgetReport);

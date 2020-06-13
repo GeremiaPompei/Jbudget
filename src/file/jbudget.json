@@ -1,32 +1,25 @@
 {
   "Ledger": {
-    "IDGenerator": 136,
+    "IDGenerator": 11,
     "Tags": [
       {
-        "ID": 57,
-        "Name": "a",
+        "ID": 3,
+        "Name": "yckjc",
         "Description": ""
       }
     ],
     "Accounts": [
       {
-        "ID": 67,
-        "Name": "aerg",
+        "ID": 1,
+        "Name": "jydytk",
         "Description": "",
-        "Type": "LIABILITIES",
-        "OpeningBalance": -66.0
-      },
-      {
-        "ID": 120,
-        "Name": "rr",
-        "Description": "",
-        "Type": "LIABILITIES",
-        "OpeningBalance": -5.0
+        "Type": "ASSETS",
+        "OpeningBalance": 9.0
       }
     ],
     "Transactions": [
       {
-        "ID": 117,
+        "ID": 5,
         "Date": {
           "date": {
             "year": 2020,
@@ -34,249 +27,28 @@
             "day": 11
           },
           "time": {
-            "hour": 13,
-            "minute": 28,
-            "second": 26,
-            "nano": 453871000
-          }
-        },
-        "TotalAmounts": 5.0,
-        "Movements": [
-          {
-            "ID": 118,
-            "Type": "CREDITS",
-            "Amount": 5.0,
-            "Account": {
-              "ID": 115,
-              "Name": "ee",
-              "Description": "",
-              "Type": "LIABILITIES",
-              "OpeningBalance": -4.0
-            },
-            "Tag": {
-              "ID": 57,
-              "Name": "a",
-              "Description": ""
-            },
-            "Description": ""
-          }
-        ]
-      },
-      {
-        "ID": 101,
-        "Date": {
-          "date": {
-            "year": 2020,
-            "month": 6,
-            "day": 11
-          },
-          "time": {
-            "hour": 13,
-            "minute": 23,
-            "second": 47,
-            "nano": 518132000
-          }
-        },
-        "TotalAmounts": -66.0,
-        "Movements": [
-          {
-            "ID": 102,
-            "Type": "DEBIT",
-            "Amount": -66.0,
-            "Account": {
-              "ID": 67,
-              "Name": "aerg",
-              "Description": "",
-              "Type": "LIABILITIES",
-              "OpeningBalance": -66.0
-            },
-            "Tag": {
-              "ID": 57,
-              "Name": "a",
-              "Description": ""
-            },
-            "Description": ""
-          }
-        ]
-      },
-      {
-        "ID": 108,
-        "Date": {
-          "date": {
-            "year": 2020,
-            "month": 6,
-            "day": 11
-          },
-          "time": {
-            "hour": 13,
-            "minute": 25,
+            "hour": 23,
+            "minute": 43,
             "second": 54,
-            "nano": 716568000
-          }
-        },
-        "TotalAmounts": -5.0,
-        "Movements": [
-          {
-            "ID": 109,
-            "Type": "DEBIT",
-            "Amount": -5.0,
-            "Account": {
-              "ID": 67,
-              "Name": "aerg",
-              "Description": "",
-              "Type": "LIABILITIES",
-              "OpeningBalance": -66.0
-            },
-            "Tag": {
-              "ID": 57,
-              "Name": "a",
-              "Description": ""
-            },
-            "Description": ""
-          }
-        ]
-      },
-      {
-        "ID": 127,
-        "Date": {
-          "date": {
-            "year": 2020,
-            "month": 6,
-            "day": 11
-          },
-          "time": {
-            "hour": 16,
-            "minute": 12,
-            "second": 50,
-            "nano": 103241000
-          }
-        },
-        "TotalAmounts": 89.0,
-        "Movements": [
-          {
-            "ID": 128,
-            "Type": "CREDITS",
-            "Amount": 9.0,
-            "Account": {
-              "ID": 67,
-              "Name": "aerg",
-              "Description": "",
-              "Type": "LIABILITIES",
-              "OpeningBalance": -66.0
-            },
-            "Tag": {
-              "ID": 57,
-              "Name": "a",
-              "Description": ""
-            },
-            "Description": ""
-          },
-          {
-            "ID": 129,
-            "Type": "CREDITS",
-            "Amount": 80.0,
-            "Account": {
-              "ID": 67,
-              "Name": "aerg",
-              "Description": "",
-              "Type": "LIABILITIES",
-              "OpeningBalance": -66.0
-            },
-            "Tag": {
-              "ID": 57,
-              "Name": "a",
-              "Description": ""
-            },
-            "Description": ""
-          }
-        ]
-      },
-      {
-        "ID": 104,
-        "Date": {
-          "date": {
-            "year": 2020,
-            "month": 6,
-            "day": 11
-          },
-          "time": {
-            "hour": 13,
-            "minute": 24,
-            "second": 15,
-            "nano": 928847000
-          }
-        },
-        "TotalAmounts": 51.0,
-        "Movements": [
-          {
-            "ID": 105,
-            "Type": "DEBIT",
-            "Amount": -5.0,
-            "Account": {
-              "ID": 67,
-              "Name": "aerg",
-              "Description": "",
-              "Type": "LIABILITIES",
-              "OpeningBalance": -66.0
-            },
-            "Tag": {
-              "ID": 57,
-              "Name": "a",
-              "Description": ""
-            },
-            "Description": ""
-          },
-          {
-            "ID": 106,
-            "Type": "CREDITS",
-            "Amount": 56.0,
-            "Account": {
-              "ID": 67,
-              "Name": "aerg",
-              "Description": "",
-              "Type": "LIABILITIES",
-              "OpeningBalance": -66.0
-            },
-            "Tag": {
-              "ID": 57,
-              "Name": "a",
-              "Description": ""
-            },
-            "Description": ""
-          }
-        ]
-      },
-      {
-        "ID": 131,
-        "Date": {
-          "date": {
-            "year": 2020,
-            "month": 6,
-            "day": 11
-          },
-          "time": {
-            "hour": 16,
-            "minute": 15,
-            "second": 3,
-            "nano": 2569000
+            "nano": 230660000
           }
         },
         "TotalAmounts": 6.0,
         "Movements": [
           {
-            "ID": 133,
+            "ID": 6,
             "Type": "CREDITS",
             "Amount": 6.0,
             "Account": {
-              "ID": 67,
-              "Name": "aerg",
+              "ID": 1,
+              "Name": "jydytk",
               "Description": "",
-              "Type": "LIABILITIES",
-              "OpeningBalance": -66.0
+              "Type": "ASSETS",
+              "OpeningBalance": 9.0
             },
             "Tag": {
-              "ID": 57,
-              "Name": "a",
+              "ID": 3,
+              "Name": "yckjc",
               "Description": ""
             },
             "Description": ""
@@ -284,73 +56,36 @@
         ]
       },
       {
-        "ID": 122,
+        "ID": 9,
         "Date": {
           "date": {
             "year": 2020,
             "month": 6,
-            "day": 11
+            "day": 13
           },
           "time": {
-            "hour": 13,
-            "minute": 28,
-            "second": 53,
-            "nano": 131729000
+            "hour": 1,
+            "minute": 13,
+            "second": 8,
+            "nano": 511256000
           }
         },
-        "TotalAmounts": -6.0,
+        "TotalAmounts": -9.0,
         "Movements": [
           {
-            "ID": 123,
+            "ID": 10,
             "Type": "DEBIT",
-            "Amount": -6.0,
+            "Amount": -9.0,
             "Account": {
-              "ID": 120,
-              "Name": "rr",
+              "ID": 1,
+              "Name": "jydytk",
               "Description": "",
-              "Type": "LIABILITIES",
-              "OpeningBalance": -5.0
+              "Type": "ASSETS",
+              "OpeningBalance": 9.0
             },
             "Tag": {
-              "ID": 57,
-              "Name": "a",
-              "Description": ""
-            },
-            "Description": ""
-          }
-        ]
-      },
-      {
-        "ID": 97,
-        "Date": {
-          "date": {
-            "year": 2020,
-            "month": 6,
-            "day": 11
-          },
-          "time": {
-            "hour": 13,
-            "minute": 7,
-            "second": 38,
-            "nano": 407360000
-          }
-        },
-        "TotalAmounts": -5.0,
-        "Movements": [
-          {
-            "ID": 98,
-            "Type": "DEBIT",
-            "Amount": -5.0,
-            "Account": {
-              "ID": 67,
-              "Name": "aerg",
-              "Description": "",
-              "Type": "LIABILITIES",
-              "OpeningBalance": -66.0
-            },
-            "Tag": {
-              "ID": 57,
-              "Name": "a",
+              "ID": 3,
+              "Name": "yckjc",
               "Description": ""
             },
             "Description": ""
@@ -361,8 +96,8 @@
   },
   "Budget": [
     {
-      "Tag": 57,
-      "Value": -889.0
+      "Tag": 3,
+      "Value": 8.0
     }
   ]
 }
