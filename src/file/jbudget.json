@@ -1,103 +1,226 @@
 {
   "Ledger": {
-    "IDGenerator": 11,
+    "IDGenerator": 31,
     "Tags": [
       {
         "ID": 3,
-        "Name": "yckjc",
+        "Name": "arg",
+        "Description": ""
+      },
+      {
+        "ID": 14,
+        "Name": "jhckc",
         "Description": ""
       }
     ],
     "Accounts": [
       {
-        "ID": 1,
-        "Name": "jydytk",
+        "ID": 5,
+        "Name": "aerty",
         "Description": "",
         "Type": "ASSETS",
-        "OpeningBalance": 9.0
+        "OpeningBalance": 7.0
       }
     ],
     "Transactions": [
       {
-        "ID": 5,
+        "ID": 16,
         "Date": {
           "date": {
             "year": 2020,
             "month": 6,
-            "day": 11
+            "day": 19
           },
           "time": {
-            "hour": 23,
-            "minute": 43,
-            "second": 54,
-            "nano": 230660000
+            "hour": 0,
+            "minute": 0,
+            "second": 0,
+            "nano": 0
           }
         },
-        "TotalAmounts": 6.0,
+        "TotalAmounts": -56.0,
         "Movements": [
           {
-            "ID": 6,
-            "Type": "CREDITS",
-            "Amount": 6.0,
+            "ID": 17,
+            "Type": "DEBIT",
+            "Amount": -56.0,
             "Account": {
-              "ID": 1,
-              "Name": "jydytk",
+              "ID": 5,
+              "Name": "aerty",
               "Description": "",
               "Type": "ASSETS",
-              "OpeningBalance": 9.0
+              "OpeningBalance": 7.0
             },
             "Tag": {
-              "ID": 3,
-              "Name": "yckjc",
+              "ID": 14,
+              "Name": "jhckc",
               "Description": ""
             },
             "Description": ""
           }
-        ]
+        ],
+        "Description": "programmata 1"
       },
       {
-        "ID": 9,
+        "ID": 20,
         "Date": {
           "date": {
             "year": 2020,
             "month": 6,
-            "day": 13
+            "day": 14
           },
           "time": {
-            "hour": 1,
-            "minute": 13,
-            "second": 8,
-            "nano": 511256000
+            "hour": 17,
+            "minute": 48,
+            "second": 10,
+            "nano": 21930000
           }
         },
-        "TotalAmounts": -9.0,
+        "TotalAmounts": -5610.0,
         "Movements": [
           {
-            "ID": 10,
+            "ID": 21,
             "Type": "DEBIT",
-            "Amount": -9.0,
+            "Amount": -55.0,
             "Account": {
-              "ID": 1,
-              "Name": "jydytk",
+              "ID": 5,
+              "Name": "aerty",
               "Description": "",
               "Type": "ASSETS",
-              "OpeningBalance": 9.0
+              "OpeningBalance": 7.0
             },
             "Tag": {
-              "ID": 3,
-              "Name": "yckjc",
+              "ID": 14,
+              "Name": "jhckc",
+              "Description": ""
+            },
+            "Description": "awte"
+          },
+          {
+            "ID": 22,
+            "Type": "DEBIT",
+            "Amount": -5555.0,
+            "Account": {
+              "ID": 5,
+              "Name": "aerty",
+              "Description": "",
+              "Type": "ASSETS",
+              "OpeningBalance": 7.0
+            },
+            "Tag": {
+              "ID": 14,
+              "Name": "jhckc",
               "Description": ""
             },
             "Description": ""
           }
-        ]
+        ],
+        "Description": "istant"
+      },
+      {
+        "ID": 24,
+        "Date": {
+          "date": {
+            "year": 2020,
+            "month": 6,
+            "day": 14
+          },
+          "time": {
+            "hour": 17,
+            "minute": 52,
+            "second": 5,
+            "nano": 599541000
+          }
+        },
+        "TotalAmounts": -55.0,
+        "Movements": [
+          {
+            "ID": 25,
+            "Type": "DEBIT",
+            "Amount": -55.0,
+            "Account": {
+              "ID": 5,
+              "Name": "aerty",
+              "Description": "",
+              "Type": "ASSETS",
+              "OpeningBalance": 7.0
+            },
+            "Tag": {
+              "ID": 3,
+              "Name": "arg",
+              "Description": ""
+            },
+            "Description": ""
+          }
+        ],
+        "Description": "zffg"
+      },
+      {
+        "ID": 27,
+        "Date": {
+          "date": {
+            "year": 2020,
+            "month": 6,
+            "day": 14
+          },
+          "time": {
+            "hour": 17,
+            "minute": 52,
+            "second": 36,
+            "nano": 92498000
+          }
+        },
+        "TotalAmounts": 133.0,
+        "Movements": [
+          {
+            "ID": 28,
+            "Type": "CREDITS",
+            "Amount": 66.0,
+            "Account": {
+              "ID": 5,
+              "Name": "aerty",
+              "Description": "",
+              "Type": "ASSETS",
+              "OpeningBalance": 7.0
+            },
+            "Tag": {
+              "ID": 3,
+              "Name": "arg",
+              "Description": ""
+            },
+            "Description": ""
+          },
+          {
+            "ID": 29,
+            "Type": "CREDITS",
+            "Amount": 67.0,
+            "Account": {
+              "ID": 5,
+              "Name": "aerty",
+              "Description": "",
+              "Type": "ASSETS",
+              "OpeningBalance": 7.0
+            },
+            "Tag": {
+              "ID": 3,
+              "Name": "arg",
+              "Description": ""
+            },
+            "Description": ""
+          }
+        ],
+        "Description": ""
       }
     ]
   },
   "Budget": [
     {
+      "Tag": 14,
+      "Value": 9.0
+    },
+    {
       "Tag": 3,
-      "Value": 8.0
+      "Value": 6.0
     }
   ]
 }

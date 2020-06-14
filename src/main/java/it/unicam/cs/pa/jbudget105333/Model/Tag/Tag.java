@@ -1,6 +1,7 @@
 package it.unicam.cs.pa.jbudget105333.Model.Tag;
 
 import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
+import it.unicam.cs.pa.jbudget105333.Model.Utility;
 
 import java.util.Set;
 
@@ -10,25 +11,13 @@ import java.util.Set;
  * nome, descrizione, ad una serie di movimenti etichettati con essa, alla somma del saldo di questi e
  * di aggiungere o rimuovere un movimento.
  */
-public interface Tag extends Comparable<Tag> {
+public interface Tag extends Comparable<Tag>, Utility {
 
     /**
      * Metodo responsabile di restituire il nome del Tag.
      * @return Nome del tag.
      */
     String getName();
-
-    /**
-     * Metodo responsabile di restituire la descrizione del Tag.
-     * @return Descrizione del tag.
-     */
-    String getDescription();
-
-    /**
-     * Metodo responsabile di restituire l'ID del Tag.
-     * @return ID del tag.
-     */
-    int getID();
 
     /**
      * Metodo responsabile di restituire i movimenti che usano il Tag.

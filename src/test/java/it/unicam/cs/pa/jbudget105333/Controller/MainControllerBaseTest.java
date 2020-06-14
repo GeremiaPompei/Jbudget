@@ -53,9 +53,9 @@ class MainControllerBaseTest {
         this.controller = MainControllerManager.generateMainController(path);
         this.idGenerator =  this.controller.idGenerator();
         this.transaction1 = new ProgramTransaction(LocalDateTime.of(LocalDate.of(2021,2,5)
-                , LocalTime.MIN),idGenerator.generate());
+                , LocalTime.MIN),"transaction 1",idGenerator.generate());
         this.transaction2 = new ProgramTransaction(LocalDateTime.of(LocalDate.of(2020,9,9)
-                , LocalTime.MIN),idGenerator.generate());
+                , LocalTime.MIN),"transaction 2",idGenerator.generate());
         this.fondoCassa = new AccountBase("FondoCassa","personale"
                 ,500, AccountType.ASSETS,idGenerator.generate());
         this.prepagata = new AccountBase("Prepagata","personale"
@@ -215,6 +215,30 @@ class MainControllerBaseTest {
     }
 
     @Test
+    void getMovement(){
+        this.controller.addTransaction(this.transaction1,transaction1.getMovements());
+        this.controller.addTransaction(this.transaction2,transaction2.getMovements());
+        assertEquals(this.controller.getMovement(this.debito1.getID()),this.debito1);
+        assertEquals(this.controller.getMovement(this.credito1.getID()),this.credito1);
+    }
+
+    @Test
+    void setDescription(){
+        assertEquals(this.credito1.getDescription(),"movimento");
+        this.controller.setDescription(this.credito1,"credito 1");
+        assertEquals(this.credito1.getDescription(),"credito 1");
+        assertEquals(this.sport.getDescription(),"tennis");
+        this.controller.setDescription(this.sport,"calcio");
+        assertEquals(this.sport.getDescription(),"calcio");
+        assertEquals(this.fondoCassa.getDescription(),"personale");
+        this.controller.setDescription(this.fondoCassa,"cassa");
+        assertEquals(this.fondoCassa.getDescription(),"cassa");
+        assertEquals(this.transaction1.getDescription(),"transaction 1");
+        this.controller.setDescription(this.transaction1,"transaction");
+        assertEquals(this.transaction1.getDescription(),"transaction");
+    }
+
+    @Test
     void scheduleTransactionsDate() {
         this.controller.addTransaction(this.transaction1,this.transaction1.getMovements());
         this.controller.addTransaction(this.transaction2,this.transaction2.getMovements());
@@ -281,7 +305,7 @@ class MainControllerBaseTest {
                 ,200,AccountType.LIABILITIES,idGenerator.generate());
         Tag sport = new TagBase("Sport","tennis",idGenerator.generate());
         Tag utenza = new TagBase("Utenza","luce",idGenerator.generate());
-        Transaction transaction = new InstantTransaction(idGenerator.generate());
+        Transaction transaction = new InstantTransaction(null, idGenerator.generate());
         Movement debito1 = new MovementBase(MovementType.DEBIT,800,transaction
                 , fondoCassa,sport,"movimento1",idGenerator.generate());
         Movement debito2 = new MovementBase(MovementType.DEBIT,80,transaction
@@ -302,7 +326,7 @@ class MainControllerBaseTest {
     @Test
     void update() {
         //Creo e aggiungo il primo movimento credito aggiornando
-        Transaction transaction1 = new InstantTransaction(this.idGenerator.generate());
+        Transaction transaction1 = new InstantTransaction(null, this.idGenerator.generate());
         Movement credito1 = new MovementBase(MovementType.CREDITS,88,transaction1
                 , this.prepagata,sport,"movimento credito aggiornando",idGenerator.generate());
         this.controller.addAccount(this.prepagata);
@@ -312,7 +336,7 @@ class MainControllerBaseTest {
         assertEquals(this.controller.getAccounts().stream().iterator().next().getBalance()
                 ,this.prepagata.getOpeningBalance()+credito1.getAmount());
         //Creo e aggiungo il secondo movimento credito non aggiornando
-        Transaction transaction2 = new InstantTransaction(this.idGenerator.generate());
+        Transaction transaction2 = new InstantTransaction(null, this.idGenerator.generate());
         Movement credito2 = new MovementBase(MovementType.CREDITS,30,transaction2
                 , this.prepagata,sport,"movimento credito non aggiornando",idGenerator.generate());
         this.controller.addTransaction(transaction2,transaction2.getMovements());

@@ -35,6 +35,7 @@ public class TransactionBaseSerializer implements JsonSerializer<Transaction> {
         jo.add("Date", context.serialize(src.getDate(), LocalDateTime.class));
         jo.add("TotalAmounts", context.serialize(src.getTotalAmount()));
         jo.add("Movements", movementsSerializer(src.getMovements(),context));
+        jo.add("Description", context.serialize(src.getDescription()));
         this.logger.info("Stop serializzation.");
         return jo;
     }

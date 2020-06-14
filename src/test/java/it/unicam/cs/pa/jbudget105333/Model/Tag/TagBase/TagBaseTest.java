@@ -30,7 +30,7 @@ class TagBaseTest {
         IDGenerator idGenerator = new IDGeneratorBase();
         this.sport = new TagBase("Sport","Tennis",idGenerator.generate());
         this.macchina = new TagBase("Macchina","Benzina",idGenerator.generate());
-        this.transaction = new InstantTransaction(idGenerator.generate());
+        this.transaction = new InstantTransaction(null, idGenerator.generate());
         this.fondoCassa = new AccountBase("FondoCassa","personale"
                 ,500, AccountType.ASSETS,idGenerator.generate());
         this.prepagata = new AccountBase("Prepagata","personale"
@@ -51,6 +51,17 @@ class TagBaseTest {
         assertTrue(this.sport.getDescription() instanceof String);
         assertEquals(this.sport.getDescription(),"Tennis");
         assertEquals(this.macchina.getDescription(),"Benzina");
+    }
+
+    @Test
+    void setDescription() {
+        assertTrue(this.sport.getDescription() instanceof String);
+        assertEquals(this.sport.getDescription(),"Tennis");
+        assertEquals(this.macchina.getDescription(),"Benzina");
+        this.sport.setDescription("Calcio");
+        this.macchina.setDescription("Metano");
+        assertEquals(this.sport.getDescription(),"Calcio");
+        assertEquals(this.macchina.getDescription(),"Metano");
     }
 
     @Test

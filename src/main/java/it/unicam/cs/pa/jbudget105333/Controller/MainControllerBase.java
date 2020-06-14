@@ -13,6 +13,7 @@ import it.unicam.cs.pa.jbudget105333.Model.Store.Reader;
 import it.unicam.cs.pa.jbudget105333.Model.Store.Writer;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
+import it.unicam.cs.pa.jbudget105333.Model.Utility;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -197,7 +198,7 @@ public class MainControllerBase implements MainController{
     }
 
     /**
-     * Metodo responsabile di aggiungere una Transazione e di aggiungere a questa una serie di movimenti..
+     * Metodo responsabile di aggiungere una Transazione e di aggiungere a questa una serie di movimenti.
      * @param transaction Transazione da aggiungere.
      * @param movements Movimenti da aggiungere alla transazione.
      * @return
@@ -238,6 +239,28 @@ public class MainControllerBase implements MainController{
     }
 
     /**
+     * Metodo responsabile di restituire il Movimento avente l'ID dato.
+     * @param ID ID del movimento ricercato.
+     * @return Movimento ricercato.
+     */
+    @Override
+    public Movement getMovement(int ID) {
+        this.logger.fine("Movement getter with ID: ["+ID+"]");
+        return this.ledger.getMovement(ID);
+    }
+
+    /**
+     * Metodo che ha la responsabilità di modificare la descrizione di un oggetto istanziato da una classe
+     * che implementa l'interfaccia Utility.
+     * @param u Oggetto istanziato da una classe che implementa l'interfaccia Utility.
+     * @param description Descrizione da sostituire.
+     */
+    @Override
+    public void setDescription(Utility u, String description) {
+        u.setDescription(description);
+    }
+
+    /**
      * Metodo che ha la responsabilità di schedulare le transazioni in un certo range temporale.
      * @param start Inizio range.
      * @param stop Fine rande.
@@ -248,7 +271,7 @@ public class MainControllerBase implements MainController{
         if(start.isBefore(stop)) {
             Set<Transaction> stransactions = new TreeSet();
             this.ledger.getTransactions()
-                    .parallelStream()
+                    .stream()
                     .filter(t -> t.getDate().isAfter(start))
                     .filter(t -> t.getDate().isBefore(stop))
                     .forEach(t -> stransactions.add(t));
@@ -269,7 +292,7 @@ public class MainControllerBase implements MainController{
         if(tag != null) {
             Set<Transaction> stransactions = new TreeSet();
             this.ledger.getTransactions()
-                    .parallelStream()
+                    .stream()
                     .filter(t -> t.getTags().contains(tag))
                     .forEach(t -> stransactions.add(t));
             this.logger.fine("Transactions scheduled by tag :["+tag.toString()+"]");

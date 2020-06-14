@@ -1,6 +1,7 @@
 package it.unicam.cs.pa.jbudget105333.Model.Account;
 
 import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
+import it.unicam.cs.pa.jbudget105333.Model.Utility;
 
 import java.util.Set;
 
@@ -11,19 +12,13 @@ import java.util.Set;
  * bilancio effettivo, ad una serie di movimenti eseguiti su di esso, di aggiungere o rimuovere un movimento
  * e di essere aggiornato.
  */
-public interface Account extends Comparable<Account> {
+public interface Account extends Comparable<Account>, Utility {
 
     /**
      * Metodo responsabile di restituire il nome dell'Account.
      * @return nome dell'Account.
      */
     String getName();
-
-    /**
-     * Metodo responsabile di restituire la descrizione dell'Account.
-     * @return descrizione dell'Account.
-     */
-    String getDescription();
 
     /**
      * Metodo responsabile di restituire il bilancio iniziale dell'Account.
@@ -60,12 +55,6 @@ public interface Account extends Comparable<Account> {
      * @return Tipo dell'Account.
      */
     AccountType getAccountType();
-
-    /**
-     * Metodo responsabile di restituire l'ID dell'Account.
-     * @return ID dell'Account.
-     */
-    int getID();
 
     /**
      * Metodo responsabile di aggiornare il bilancio dell'Account.

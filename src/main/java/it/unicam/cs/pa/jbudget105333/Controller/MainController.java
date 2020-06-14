@@ -5,6 +5,7 @@ import it.unicam.cs.pa.jbudget105333.Model.IDGenerator.IDGenerator;
 import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
+import it.unicam.cs.pa.jbudget105333.Model.Utility;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -102,6 +103,21 @@ public interface MainController {
      * @param movement Movimento da rimuovere.
      */
     void removeMovement(Movement movement);
+
+    /**
+     * Metodo responsabile di restituire il Movimento avente l'ID dato.
+     * @param ID ID del movimento ricercato.
+     * @return Movimento ricercato.
+     */
+    Movement getMovement(int ID);
+
+    /**
+     * Metodo che ha la responsabilità di modificare la descrizione di un oggetto istanziato da una classe
+     * che implementa l'interfaccia Utility.
+     * @param u Oggetto istanziato da una classe che implementa l'interfaccia Utility.
+     * @param description Descrizione da sostituire.
+     */
+    void setDescription(Utility u, String description);
 
     /**
      * Metodo che ha la responsabilità di schedulare le transazioni in un certo range temporale.

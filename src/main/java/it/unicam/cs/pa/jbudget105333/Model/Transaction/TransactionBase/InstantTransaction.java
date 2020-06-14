@@ -16,8 +16,8 @@ public class InstantTransaction extends TransactionBase {
      * Costruttore della Transazione Istantanea.
      * @param ID ID della Transazione Istantanea.
      */
-    public InstantTransaction(int ID) {
-        super(ID);
+    public InstantTransaction(String description, int ID) {
+        super(description, ID);
         this.logger.finest("InstantTransaction created.");
     }
 

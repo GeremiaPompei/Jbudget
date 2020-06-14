@@ -3,6 +3,7 @@ package it.unicam.cs.pa.jbudget105333.Model.Movement;
 import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
+import it.unicam.cs.pa.jbudget105333.Model.Utility;
 
 import java.time.LocalDateTime;
 
@@ -12,13 +13,7 @@ import java.time.LocalDateTime;
  * permette alle classi che la implementano di accedere al proprio id, data, descrizione, tipo, saldo,
  * transazione, account e tag.
  */
-public interface Movement extends Comparable<Movement> {
-
-    /**
-     * Metodo che ha la responsabilità di ritornare la descrizione del Movimento.
-     * @return Descrizione del Movimento.
-     */
-    String getDescription();
+public interface Movement extends Comparable<Movement>, Utility {
 
     /**
      * Metodo che ha la responsabilità di ritornare il tipo del Movimento.
@@ -55,10 +50,4 @@ public interface Movement extends Comparable<Movement> {
      * @return Tag del Movimento.
      */
     Tag getTag();
-
-    /**
-     * Metodo che ha la responsabilità di ritornare l'ID del Movimento.
-     * @return ID del Movimento.
-     */
-    int getID();
 }

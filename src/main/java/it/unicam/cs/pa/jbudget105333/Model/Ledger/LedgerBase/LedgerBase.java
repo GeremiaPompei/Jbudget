@@ -4,8 +4,10 @@ import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
 import it.unicam.cs.pa.jbudget105333.Model.IDGenerator.IDGenerator;
 import it.unicam.cs.pa.jbudget105333.Model.IDGenerator.IDGeneratorBase;
 import it.unicam.cs.pa.jbudget105333.Model.Ledger.Ledger;
+import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
+import it.unicam.cs.pa.jbudget105333.Model.Utility;
 
 import java.util.Collection;
 import java.util.Set;
@@ -44,6 +46,11 @@ public class LedgerBase implements Ledger {
     private final Set<Tag> tags;
 
     /**
+     * Movimenti del LedgerBase.
+     */
+    private Set<Movement> movements;
+
+    /**
      * IDGenerator del LedgerBase.
      */
     private IDGenerator idGenerator;
@@ -56,7 +63,19 @@ public class LedgerBase implements Ledger {
         this.transactions = new TreeSet<>();
         this.tags = new TreeSet<>();
         this.idGenerator = new IDGeneratorBase();
+        assignMovements();
         this.logger.finest("LedgerBase created.");
+    }
+
+    /**
+     * Metodo responsabile di assegnare al Set dei movimenti quelli appartenenti a
+     * tutti i tag, account e transazioni.
+     */
+    private void assignMovements(){
+        this.movements = new TreeSet<>();
+        this.tags.parallelStream().forEach(t->this.movements.addAll(t.getMovements()));
+        this.transactions.parallelStream().forEach(t->this.movements.addAll(t.getMovements()));
+        this.accounts.parallelStream().forEach(t->this.movements.addAll(t.getMovements()));
     }
 
     /**
@@ -76,10 +95,8 @@ public class LedgerBase implements Ledger {
      */
     @Override
     public Account getAccount(int ID) {
-        AtomicReference<Account> account = new AtomicReference<>();
-        this.accounts.parallelStream().filter(a->a.getID()==ID).forEach(a->account.set(a));
         this.logger.finest("Account getter with ID:["+ID+"]");
-        return account.get();
+        return this.get(this.accounts,ID);
     }
 
     /**
@@ -129,10 +146,8 @@ public class LedgerBase implements Ledger {
      */
     @Override
     public Transaction getTransaction(int ID) {
-        AtomicReference<Transaction> transaction = new AtomicReference<>();
-        this.transactions.parallelStream().filter(t->t.getID()==ID).forEach(t->transaction.set(t));
         this.logger.finest("Transaction getter with ID:["+ID+"]");
-        return transaction.get();
+        return this.get(this.transactions,ID);
     }
 
     /**
@@ -142,6 +157,7 @@ public class LedgerBase implements Ledger {
     @Override
     public void addTransaction(Transaction transaction) {
         this.transactions.add(transaction);
+        this.movements.addAll(transaction.getMovements());
         this.logger.finest("Addition of Transaction:["+transaction.toString()+"]");
     }
 
@@ -151,7 +167,7 @@ public class LedgerBase implements Ledger {
      */
     @Override
     public void addTransactions(Collection<Transaction> transactions) {
-        this.transactions.addAll(transactions);
+        transactions.parallelStream().forEach(t->this.transactions.add(t));
         this.logger.finest("Addition of Transactions:["+transactions.toString()+"]");
     }
 
@@ -182,10 +198,8 @@ public class LedgerBase implements Ledger {
      */
     @Override
     public Tag getTag(int ID) {
-        AtomicReference<Tag> tag = new AtomicReference<>();
-        this.tags.parallelStream().filter(t->t.getID()==ID).forEach(t->tag.set(t));
         this.logger.finest("Tag getter with ID:["+ID+"]");
-        return tag.get();
+        return this.get(this.tags,ID);
     }
 
     /**
@@ -219,6 +233,27 @@ public class LedgerBase implements Ledger {
     }
 
     /**
+     * Metodo responsabile di restituire i movimenti del Ledger.
+     * @return Movimenti del Ledger.
+     */
+    @Override
+    public Set<Movement> getMovements() {
+        this.logger.finest("Movements getter.");
+        return this.movements;
+    }
+
+    /**
+     * Metodo responsabile di restituire il movimento del LedgerBase avente l'ID dato.
+     * @param ID ID del movimento ricercato.
+     * @return Movimento ricercato.
+     */
+    @Override
+    public Movement getMovement(int ID) {
+        this.logger.finest("Movement getter with ID:["+ID+"]");
+        return this.get(this.movements,ID);
+    }
+
+    /**
      * Metodo responsabile di ritornare l'IDGenerator.
      * @return IDGenerator del LedgerBase.
      */
@@ -247,6 +282,20 @@ public class LedgerBase implements Ledger {
         if(!this.accounts.isEmpty())
             this.accounts.parallelStream().forEach(a->a.update());
         this.logger.finer("LedgerBase updated.");
+    }
+
+    /**
+     * Metodo che ha la responsabilità di ritornare un certo elemento T ricercato per id in una
+     * Collenction parametrizzata rispetto a lui.
+     * @param collection Collection nella quale ricercare il determinato oggetto.
+     * @param ID Identificativo dell'oggetto ricercato.
+     * @param <T> Tipo dell'oggetto ricercato.
+     * @return Oggetto ricercato.
+     */
+    private <T extends Utility> T get(Collection<T> collection, int ID){
+        AtomicReference<T> v = new AtomicReference<>();
+        collection.parallelStream().filter(t->t.getID()==ID).forEach(t->v.set(t));
+        return v.get();
     }
 
 }

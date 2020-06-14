@@ -18,8 +18,8 @@ public class ProgramTransaction extends TransactionBase {
      * @param date Data della Transazione Programmata nel futuro.
      * @param ID ID della Transazione Programmata nel futuro.
      */
-    public ProgramTransaction(LocalDateTime date, int ID) {
-        super(date, ID);
+    public ProgramTransaction(LocalDateTime date, String description, int ID) {
+        super(date, description, ID);
         this.logger.finest("ProgramTransaction created.");
     }
 }

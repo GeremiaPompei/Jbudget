@@ -15,8 +15,8 @@ public interface TransactionManager {
      * @param ID ID della transazione.
      * @return Transazione generata.
      */
-    static Transaction generateTransaction(int ID){
-        return new InstantTransaction(ID);
+    static Transaction generateTransaction(String description, int ID){
+        return new InstantTransaction(description, ID);
     }
 
     /**
@@ -25,7 +25,7 @@ public interface TransactionManager {
      * @param ID ID della transazione.
      * @return Transazione generata.
      */
-    static Transaction generateTransaction(LocalDateTime date,int ID){
-        return new ProgramTransaction(date,ID);
+    static Transaction generateTransaction(LocalDateTime date, String description, int ID){
+        return new ProgramTransaction(date, description, ID);
     }
 }

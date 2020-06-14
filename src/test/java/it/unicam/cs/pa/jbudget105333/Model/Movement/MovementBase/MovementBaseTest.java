@@ -35,7 +35,7 @@ class MovementBaseTest {
     @BeforeEach
     void createMovementBase(){
         this.idGenerator = new IDGeneratorBase();
-        this.transaction1 = new InstantTransaction(idGenerator.generate());
+        this.transaction1 = new InstantTransaction(null, idGenerator.generate());
         this.fondoCassa = new AccountBase("FondoCassa","personale"
                 ,500, AccountType.ASSETS,idGenerator.generate());
         this.prepagata = new AccountBase("Prepagata","personale"
@@ -47,7 +47,7 @@ class MovementBaseTest {
         this.debito2 = new MovementBase(MovementType.DEBIT,80,this.transaction1
                 , fondoCassa,benzina,"movimento",idGenerator.generate());
         this.transaction2 = new ProgramTransaction(LocalDateTime.of(2020,9
-                ,9,00,00,00),idGenerator.generate());
+                ,9,00,00,00),null, idGenerator.generate());
         this.credito1 = new MovementBase(MovementType.CREDITS,870,this.transaction2
                 , fondoCassa,sport,"movimento",idGenerator.generate());
     }
@@ -56,6 +56,14 @@ class MovementBaseTest {
     void getDescription() {
         assertTrue(this.credito1.getDescription() instanceof String);
         assertEquals(this.credito1.getDescription(),"movimento");
+    }
+
+    @Test
+    void setDescription() {
+        assertTrue(this.credito1.getDescription() instanceof String);
+        assertEquals(this.credito1.getDescription(),"movimento");
+        this.credito1.setDescription("movimento 2");
+        assertEquals(this.credito1.getDescription(),"movimento 2");
     }
 
     @Test

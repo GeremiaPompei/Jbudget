@@ -62,7 +62,7 @@ class BudgetReportBaseTest {
                 ,500, AccountType.ASSETS,idGenerator.generate());
         Tag sport = new TagBase("Sport","tennis",idGenerator.generate());
         Tag benzina = new TagBase("Viaggio","macchina",idGenerator.generate());
-        Transaction transaction = new InstantTransaction(idGenerator.generate());
+        Transaction transaction = new InstantTransaction(null, idGenerator.generate());
         Movement debito1 = new MovementBase(MovementType.DEBIT,800,transaction
                 , fondoCassa,sport,"movimento",idGenerator.generate());
         Movement debito2 = new MovementBase(MovementType.DEBIT,80,transaction

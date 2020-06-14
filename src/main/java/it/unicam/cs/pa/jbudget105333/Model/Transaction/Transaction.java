@@ -2,6 +2,7 @@ package it.unicam.cs.pa.jbudget105333.Model.Transaction;
 
 import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
+import it.unicam.cs.pa.jbudget105333.Model.Utility;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -14,7 +15,7 @@ import java.util.Set;
  * somma dei saldi dei movimenti che la compongono), la serie di movimenti che la popolano, di aggiungere
  * o rimuovere un movimento o aggiungere una serie di movimenti.
  */
-public interface Transaction extends Comparable<Transaction> {
+public interface Transaction extends Comparable<Transaction>, Utility {
 
     /**
      * Metodo responsabile di aggiungere il movimento alla Transazione.
@@ -57,10 +58,4 @@ public interface Transaction extends Comparable<Transaction> {
      * @return Saldo totale della transazione.
      */
     double getTotalAmount();
-
-    /**
-     * Metodo che ha la responsabilità di ritornare l'ID della Transazione.
-     * @return ID della transazione.
-     */
-    int getID();
 }

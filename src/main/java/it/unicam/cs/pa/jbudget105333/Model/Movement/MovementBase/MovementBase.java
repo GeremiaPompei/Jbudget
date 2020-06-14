@@ -24,7 +24,7 @@ public class MovementBase implements Movement {
     /**
      * Descrizione del MovimentoBase.
      */
-    private final String descrizione;
+    private String description;
 
     /**
      * Tipo del MovimentoBase.
@@ -68,14 +68,14 @@ public class MovementBase implements Movement {
      * @param transaction Transazione del MovimentoBase.
      * @param account Account del MovimentoBase.
      * @param tag Tag del MovimentoBase.
-     * @param descrizione Descrizione del MovimentoBase.
+     * @param description Descrizione del MovimentoBase.
      * @param ID ID del MovimentoBase.
      */
     public MovementBase(MovementType movementType, double amount, Transaction transaction
-            , Account account, Tag tag, String descrizione, int ID) {
-        if(movementType==null || transaction==null || account==null || tag==null || descrizione==null)
+            , Account account, Tag tag, String description, int ID) {
+        if(movementType==null || transaction==null || account==null || tag==null || description ==null)
             throw new NullPointerException();
-        this.descrizione = descrizione;
+        this.description = description;
         this.movementType = movementType;
         if(movementType.equals(MovementType.CREDITS))
             this.amount = amount;
@@ -99,7 +99,16 @@ public class MovementBase implements Movement {
     @Override
     public String getDescription() {
         this.logger.finest("Description getter.");
-        return this.descrizione;
+        return this.description;
+    }
+
+    /**
+     * Metodo che ha la responsabilità di modificare la descrizione del Movimento.
+     * @param description Descrizione con cui sostituire quella gia presente.
+     */
+    @Override
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**

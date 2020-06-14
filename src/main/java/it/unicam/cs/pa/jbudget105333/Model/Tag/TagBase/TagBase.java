@@ -29,7 +29,7 @@ public class TagBase implements Tag {
     /**
      * Descrizione del TagBase.
      */
-    private final String description;
+    private String description;
 
     /**
      * ID del TagBase.
@@ -77,6 +77,15 @@ public class TagBase implements Tag {
     public String getDescription() {
         this.logger.finest("Description getter.");
         return this.description;
+    }
+
+    /**
+     * Metodo che ha la responsabilità di modificare la descrizione del Tag.
+     * @param description Descrizione con cui sostituire quella gia presente.
+     */
+    @Override
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**

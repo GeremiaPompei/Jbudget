@@ -34,8 +34,8 @@ class TransactionBaseTest {
     @BeforeEach
     void createTransactionBase(){
         this.idGenerator = new IDGeneratorBase();
-        this.transaction = new InstantTransaction(idGenerator.generate());
-        this.transaction2 = new InstantTransaction(idGenerator.generate());
+        this.transaction = new InstantTransaction("transaction 1", idGenerator.generate());
+        this.transaction2 = new InstantTransaction("transaction 2", idGenerator.generate());
         this.fondoCassa = new AccountBase("FondoCassa","personale"
                 ,500, AccountType.ASSETS,idGenerator.generate());
         this.sport = new TagBase("Sport","tennis",idGenerator.generate());
@@ -45,6 +45,19 @@ class TransactionBaseTest {
         this.debito2 = new MovementBase(MovementType.DEBIT,80,transaction
                 , fondoCassa,benzina,"movimento",idGenerator.generate());
 
+    }
+
+    @Test
+    void getDescription(){
+        assertEquals(this.transaction.getDescription(),"transaction 1");
+        assertEquals(this.transaction2.getDescription(),"transaction 2");
+    }
+
+    @Test
+    void setDescription(){
+        assertEquals(this.transaction.getDescription(),"transaction 1");
+        this.transaction.setDescription("transaction");
+        assertEquals(this.transaction.getDescription(),"transaction");
     }
 
     @Test
@@ -78,7 +91,7 @@ class TransactionBaseTest {
         Set<Movement> movements = new TreeSet<>();
         movements.add(debito3);
         movements.add(debito4);
-        Transaction transaction = new InstantTransaction(idGenerator.generate());
+        Transaction transaction = new InstantTransaction(null, idGenerator.generate());
         assertFalse(transaction.getMovements().contains(debito3));
         assertFalse(transaction.getMovements().contains(debito4));
         transaction.addMovements(movements);

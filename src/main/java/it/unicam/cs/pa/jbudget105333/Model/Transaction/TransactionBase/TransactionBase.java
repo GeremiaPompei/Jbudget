@@ -42,13 +42,16 @@ public abstract class TransactionBase implements Transaction {
     private final int ID;
 
     /**
+     * Descrizione della transazione.
+     */
+    private String description;
+
+    /**
      * Costruttore di TransactionBase con un solo parametro ID.
      * @param ID ID della Transazione.
      */
-    public TransactionBase(int ID) {
-        this.ID = ID;
-        this.date = LocalDateTime.now();
-        this.movements = new TreeSet<>();
+    public TransactionBase(String description, int ID) {
+        this(LocalDateTime.now(),description,ID);
         this.logger.finest("Transaction created");
     }
 
@@ -57,9 +60,10 @@ public abstract class TransactionBase implements Transaction {
      * @param date Data della Transazione.
      * @param ID ID della Transazione.
      */
-    public TransactionBase(LocalDateTime date, int ID) {
+    public TransactionBase(LocalDateTime date, String description, int ID) {
         if(date == null)
             throw new NullPointerException();
+        this.description = description;
         this.ID = ID;
         this.date = date;
         this.movements = new TreeSet<>();
@@ -149,6 +153,24 @@ public abstract class TransactionBase implements Transaction {
     public int getID(){
         this.logger.finest("ID getter");
         return this.ID;
+    }
+
+    /**
+     * Metodo che ha la responsabilità di ritornare la descrizione della Transazione.
+     * @return Descrizione della Transazione.
+     */
+    @Override
+    public String getDescription(){
+        return this.description;
+    }
+
+    /**
+     * Metodo che ha la responsabilità di modificare la descrizione della Transazione.
+     * @param description Descrizione con cui sostituire quella gia presente.
+     */
+    @Override
+    public void setDescription(String description){
+        this.description = description;
     }
 
     /**

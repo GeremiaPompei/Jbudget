@@ -34,7 +34,7 @@ class LedgerBaseTest {
     void createLedgerBase(){
         this.ledger = new LedgerBase();
         this.idGenerator = ledger.getIDGenerator();
-        this.transaction = new InstantTransaction(idGenerator.generate());
+        this.transaction = new InstantTransaction(null, idGenerator.generate());
         this.fondoCassa = new AccountBase("FondoCassa","personale"
                 ,500, AccountType.ASSETS,idGenerator.generate());
         this.prepagata = new AccountBase("Prepagata","personale"
@@ -109,7 +109,7 @@ class LedgerBaseTest {
 
     @Test
     void addTransactions() {
-        Transaction transaction = new InstantTransaction(idGenerator.generate());
+        Transaction transaction = new InstantTransaction(null, idGenerator.generate());
         Set<Transaction> transactions = new TreeSet<>();
         transactions.add(this.transaction);
         transactions.add(transaction);
@@ -198,7 +198,7 @@ class LedgerBaseTest {
         assertEquals(this.ledger.getAccounts().stream().iterator().next().getBalance()
                 ,this.prepagata.getOpeningBalance()+credito1.getAmount());
         //Creo e aggiungo il secondo movimento credito non aggiornando
-        Transaction transaction2 = new InstantTransaction(this.idGenerator.generate());
+        Transaction transaction2 = new InstantTransaction(null, this.idGenerator.generate());
         Movement credito2 = new MovementBase(MovementType.CREDITS,30,transaction2
                 , this.prepagata,sport,"movimento credito non aggiornando",idGenerator.generate());
         this.ledger.addTransaction(transaction2);

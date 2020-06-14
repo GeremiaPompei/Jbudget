@@ -32,13 +32,13 @@ class AccountBaseTest {
                 , 200, AccountType.LIABILITIES, idGenerator.generate());
         this.sport = new TagBase("Sport", "tennis", idGenerator.generate());
         this.debito1 = new MovementBase(MovementType.DEBIT, 40, new InstantTransaction(
-                this.idGenerator.generate()), fondoCassa, sport, "primo movimento debito"
+                null, this.idGenerator.generate()), fondoCassa, sport, "primo movimento debito"
                 , idGenerator.generate());
         this.credito1 = new MovementBase(MovementType.CREDITS, 89, new InstantTransaction(
-                this.idGenerator.generate()), fondoCassa, sport, "primo movimento credito"
+                null, this.idGenerator.generate()), fondoCassa, sport, "primo movimento credito"
                 , idGenerator.generate());
         this.credito2 = new MovementBase(MovementType.CREDITS, 123, new InstantTransaction(
-                this.idGenerator.generate()), fondoCassa, sport, "secondo movimento credito"
+                null, this.idGenerator.generate()), fondoCassa, sport, "secondo movimento credito"
                 , idGenerator.generate());
     }
 
@@ -58,6 +58,13 @@ class AccountBaseTest {
     void getDescription() {
         assertEquals(this.fondoCassa.getDescription(),"personale");
         assertEquals(this.prepagata.getDescription(),"personale");
+    }
+
+    @Test
+    void detDescription() {
+        assertEquals(this.fondoCassa.getDescription(),"personale");
+        this.fondoCassa.setDescription("globale");
+        assertEquals(this.fondoCassa.getDescription(),"globale");
     }
 
     @Test
@@ -99,7 +106,7 @@ class AccountBaseTest {
     void update() {
         //Creo e aggiungo il primo movimento credito aggiornando
         Movement credito1 = new MovementBase(MovementType.CREDITS,88,new InstantTransaction(
-                this.idGenerator.generate()), fondoCassa,sport,"movimento credito aggiornando"
+                null, this.idGenerator.generate()), fondoCassa,sport,"movimento credito aggiornando"
                 , idGenerator.generate());
         this.prepagata.addMovement(credito1);
         this.prepagata.update();
@@ -107,7 +114,7 @@ class AccountBaseTest {
                 +credito1.getAmount());
         //Creo e aggiungo il secondo movimento credito non aggiornando
         Movement credito2 = new MovementBase(MovementType.CREDITS,30,new InstantTransaction(
-                this.idGenerator.generate()), fondoCassa,sport,"movimento credito non aggiornando"
+                null, this.idGenerator.generate()), fondoCassa,sport,"movimento credito non aggiornando"
                 ,idGenerator.generate());
         this.prepagata.addMovement(credito2);
         //Senza update

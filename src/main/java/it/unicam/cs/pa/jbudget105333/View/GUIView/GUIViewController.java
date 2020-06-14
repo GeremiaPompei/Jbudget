@@ -14,6 +14,7 @@ import it.unicam.cs.pa.jbudget105333.Model.Transaction.TransactionManager;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -164,6 +165,11 @@ public class GUIViewController implements Initializable {
     @FXML TableColumn<Tag,String> tagName;
 
     /**
+     * Colonna della tabella deei Tag che memorizza il saldo totale dei Tag.
+     */
+    @FXML TableColumn<Tag,Double> tagTAmount;
+
+    /**
      * Colonna della tabella dei Tag che memorizza le descrizioni dei Tag.
      */
     @FXML TableColumn<Tag,String> tagDescription;
@@ -204,6 +210,11 @@ public class GUIViewController implements Initializable {
     @FXML TableColumn<Transaction,Double> transactionTAmount;
 
     /**
+     * Colonna della tabella delle Transazioni che memorizza le descrizioni delle Transazioni.
+     */
+    @FXML TableColumn<Transaction,String> transactionDescription;
+
+    /**
      * ObservableList che contiene tutte le transazioni del ledger..
      */
     private ObservableList<Transaction> olTransaction;
@@ -222,6 +233,11 @@ public class GUIViewController implements Initializable {
      * Meccanismo utile per visualizzare e scegliere una data da assegnare alla transazione programmata.
      */
     @FXML DatePicker transactionNewDate;
+
+    /**
+     * Campo responsabile di gestire l'aggiunta della descrizione della transazione.
+     */
+    @FXML TextField transactionNewDescription;
 
     /**
      * Campo da scegliere per selezionare il tag da usare per schedulare le transazioni.
@@ -413,6 +429,7 @@ public class GUIViewController implements Initializable {
             notificationLabel.setText("Add Transaction Failed");
             logger.warning("Failed in Transaction Addition.");
         }
+        transactionNewDescription.clear();
     }
 
     /**
@@ -420,7 +437,7 @@ public class GUIViewController implements Initializable {
      */
     private Transaction addInstantTransaction(){
         Transaction transaction = TransactionManager
-                .generateTransaction(this.controller.idGenerator().generate());
+                .generateTransaction(this.transactionNewDescription.getText(), this.controller.idGenerator().generate());
         logger.info("Addition of instant transaction: ["+transaction.toString()+"]");
         return transaction;
     }
@@ -432,7 +449,7 @@ public class GUIViewController implements Initializable {
         Transaction transaction = null;
         if(transactionNewDate.getValue()!=null && transactionNewDate.getValue().compareTo(LocalDate.now())>=0) {
             transaction = TransactionManager.generateTransaction(LocalDateTime.of(transactionNewDate.getValue()
-                    , LocalTime.MIN), this.controller.idGenerator().generate());
+                    , LocalTime.MIN),this.transactionNewDescription.getText(),  this.controller.idGenerator().generate());
             logger.info("Addition of program transaction: ["+transaction.toString()+"]");
         }
         return transaction;
@@ -555,7 +572,8 @@ public class GUIViewController implements Initializable {
      * Metodo che ha la responsabilità di mostrare tutti i movimenti appartenenti ad un
      * certo tag selezionato.
      */
-    public void tableTagClicked() {
+    @FXML
+    public void tableTagClicked(Event event) {
         Tag t = tableTag.getSelectionModel().getSelectedItem();
         if(!tableTag.getItems().isEmpty()&&t!=null) {
             updateMovements(t.getMovements());
@@ -658,6 +676,8 @@ public class GUIViewController implements Initializable {
                 (cellData -> new SimpleObjectProperty<>(cellData.getValue().getID()));
         tagName.setCellValueFactory
                 (cellData -> new SimpleObjectProperty<>(cellData.getValue().getName()));
+        tagTAmount.setCellValueFactory
+                (cellData -> new SimpleObjectProperty<>(cellData.getValue().totalAmount()));
         tagDescription.setCellValueFactory
                 (cellData -> new SimpleObjectProperty<>(cellData.getValue().getDescription()));
         tableTag.refresh();
@@ -693,6 +713,8 @@ public class GUIViewController implements Initializable {
                 (cellData -> new SimpleObjectProperty<>(cellData.getValue().getDate().toLocalDate()));
         transactionTAmount.setCellValueFactory
                 (cellData -> new SimpleObjectProperty<>(cellData.getValue().getTotalAmount()));
+        transactionDescription.setCellValueFactory
+                (cellData -> new SimpleObjectProperty<>(cellData.getValue().getDescription()));
         tableTransaction.refresh();
         attention();
         logger.finest("Transactions updated.");

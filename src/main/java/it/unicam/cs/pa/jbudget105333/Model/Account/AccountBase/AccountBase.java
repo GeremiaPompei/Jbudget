@@ -45,7 +45,7 @@ public class AccountBase implements Account {
     /**
      * Descrizione dell'AccountBase.
      */
-    private final String description;
+    private String description;
 
     /**
      * Movimenti dell'AccountBase.
@@ -108,6 +108,15 @@ public class AccountBase implements Account {
     public String getDescription() {
         this.logger.finest("Description getter.");
         return this.description;
+    }
+
+    /**
+     * Metodo che ha la responsabilità di modificare la descrizione dell'Account.
+     * @param description Descrizione con cui sostituire quella gia presente.
+     */
+    @Override
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**

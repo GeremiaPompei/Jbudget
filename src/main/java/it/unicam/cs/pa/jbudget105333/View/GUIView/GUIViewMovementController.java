@@ -192,6 +192,7 @@ public class GUIViewMovementController implements Initializable {
             this.mainController.addTransaction(transaction, olMovements);
             guiViewController.updateTransactions();
             guiViewController.updateAccounts();
+            guiViewController.updateTags();
             this.mainController.update();
             this.mainController.save();
         }
