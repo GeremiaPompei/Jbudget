@@ -215,14 +215,6 @@ class MainControllerBaseTest {
     }
 
     @Test
-    void getMovement(){
-        this.controller.addTransaction(this.transaction1,transaction1.getMovements());
-        this.controller.addTransaction(this.transaction2,transaction2.getMovements());
-        assertEquals(this.controller.getMovement(this.debito1.getID()),this.debito1);
-        assertEquals(this.controller.getMovement(this.credito1.getID()),this.credito1);
-    }
-
-    @Test
     void setDescription(){
         assertEquals(this.credito1.getDescription(),"movimento");
         this.controller.setDescription(this.credito1,"credito 1");

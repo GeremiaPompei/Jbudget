@@ -117,6 +117,7 @@ public class AccountBase implements Account {
     @Override
     public void setDescription(String description) {
         this.description = description;
+        this.logger.finest("Description modified with: ["+description+"]");
     }
 
     /**

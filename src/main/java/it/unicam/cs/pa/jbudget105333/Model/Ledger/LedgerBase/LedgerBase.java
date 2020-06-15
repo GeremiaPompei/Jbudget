@@ -4,7 +4,6 @@ import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
 import it.unicam.cs.pa.jbudget105333.Model.IDGenerator.IDGenerator;
 import it.unicam.cs.pa.jbudget105333.Model.IDGenerator.IDGeneratorBase;
 import it.unicam.cs.pa.jbudget105333.Model.Ledger.Ledger;
-import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
 import it.unicam.cs.pa.jbudget105333.Model.Utility;
@@ -46,11 +45,6 @@ public class LedgerBase implements Ledger {
     private final Set<Tag> tags;
 
     /**
-     * Movimenti del LedgerBase.
-     */
-    private Set<Movement> movements;
-
-    /**
      * IDGenerator del LedgerBase.
      */
     private IDGenerator idGenerator;
@@ -63,19 +57,7 @@ public class LedgerBase implements Ledger {
         this.transactions = new TreeSet<>();
         this.tags = new TreeSet<>();
         this.idGenerator = new IDGeneratorBase();
-        assignMovements();
         this.logger.finest("LedgerBase created.");
-    }
-
-    /**
-     * Metodo responsabile di assegnare al Set dei movimenti quelli appartenenti a
-     * tutti i tag, account e transazioni.
-     */
-    private void assignMovements(){
-        this.movements = new TreeSet<>();
-        this.tags.parallelStream().forEach(t->this.movements.addAll(t.getMovements()));
-        this.transactions.parallelStream().forEach(t->this.movements.addAll(t.getMovements()));
-        this.accounts.parallelStream().forEach(t->this.movements.addAll(t.getMovements()));
     }
 
     /**
@@ -157,7 +139,6 @@ public class LedgerBase implements Ledger {
     @Override
     public void addTransaction(Transaction transaction) {
         this.transactions.add(transaction);
-        this.movements.addAll(transaction.getMovements());
         this.logger.finest("Addition of Transaction:["+transaction.toString()+"]");
     }
 
@@ -167,7 +148,7 @@ public class LedgerBase implements Ledger {
      */
     @Override
     public void addTransactions(Collection<Transaction> transactions) {
-        transactions.parallelStream().forEach(t->this.transactions.add(t));
+        this.transactions.addAll(transactions);
         this.logger.finest("Addition of Transactions:["+transactions.toString()+"]");
     }
 
@@ -230,27 +211,6 @@ public class LedgerBase implements Ledger {
     public void removeTag(Tag tag) {
         this.tags.remove(tag);
         this.logger.finest("Removal of Tags:["+tag.toString()+"]");
-    }
-
-    /**
-     * Metodo responsabile di restituire i movimenti del Ledger.
-     * @return Movimenti del Ledger.
-     */
-    @Override
-    public Set<Movement> getMovements() {
-        this.logger.finest("Movements getter.");
-        return this.movements;
-    }
-
-    /**
-     * Metodo responsabile di restituire il movimento del LedgerBase avente l'ID dato.
-     * @param ID ID del movimento ricercato.
-     * @return Movimento ricercato.
-     */
-    @Override
-    public Movement getMovement(int ID) {
-        this.logger.finest("Movement getter with ID:["+ID+"]");
-        return this.get(this.movements,ID);
     }
 
     /**

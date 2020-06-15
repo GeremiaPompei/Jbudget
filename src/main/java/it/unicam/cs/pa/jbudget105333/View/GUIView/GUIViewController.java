@@ -11,10 +11,10 @@ import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.TagManager;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.TransactionManager;
+import it.unicam.cs.pa.jbudget105333.Model.Utility;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -319,6 +319,16 @@ public class GUIViewController implements Initializable {
     private ObservableList<Movement> olMovement;
 
     /**
+     * Variabile che fa riferimento all'Utility selezionata.
+     */
+    private Utility selectedUtility;
+
+    /**
+     * Area di testo che contiene la descrizione dell'Utility.
+     */
+    @FXML TextArea descriptionArea;
+
+    /**
      * Campo di avviso di successo o fallimento riguardo un'operazione e notifiche.
      */
     @FXML Label notificationLabel;
@@ -548,6 +558,8 @@ public class GUIViewController implements Initializable {
     public void tableAccountClicked() {
         Account a = tableAccount.getSelectionModel().getSelectedItem();
         if(!tableAccount.getItems().isEmpty()&&a!=null) {
+            selectedUtility = a;
+            descriptionArea.setText(a.getDescription());
             updateMovements(a.getMovements());
             tableMovement.refresh();
             logger.info("Account selected: ["+a.toString()+"]");
@@ -562,6 +574,8 @@ public class GUIViewController implements Initializable {
     public void tableTransactionClicked() {
         Transaction t = tableTransaction.getSelectionModel().getSelectedItem();
         if(!tableTransaction.getItems().isEmpty()&&t!=null) {
+            selectedUtility = t;
+            descriptionArea.setText(t.getDescription());
             updateMovements(t.getMovements());
             tableMovement.refresh();
             logger.info("Transaction selected: ["+t.toString()+"]");
@@ -573,9 +587,11 @@ public class GUIViewController implements Initializable {
      * certo tag selezionato.
      */
     @FXML
-    public void tableTagClicked(Event event) {
+    public void tableTagClicked() {
         Tag t = tableTag.getSelectionModel().getSelectedItem();
         if(!tableTag.getItems().isEmpty()&&t!=null) {
+            selectedUtility = t;
+            descriptionArea.setText(t.getDescription());
             updateMovements(t.getMovements());
             tableMovement.refresh();
             logger.info("Transaction selected: ["+t.toString()+"]");
@@ -589,9 +605,22 @@ public class GUIViewController implements Initializable {
     public void budgetTableClicked() {
         Map.Entry<Tag, Double> b = tableBudget.getSelectionModel().getSelectedItem();
         if(!tableBudget.getItems().isEmpty()&&b!=null) {
+            selectedUtility = b.getKey();
+            descriptionArea.setText(b.getKey().getDescription());
             updateMovements(b.getKey().getMovements());
             tableMovement.refresh();
             logger.info("Budget selected: ["+b.toString()+"]");
+        }
+    }
+
+    /**
+     * Metodo che ha la responsabilità di gestire il movimento selezionato.
+     */
+    public void tableMovementClicked() {
+        Movement m = tableMovement.getSelectionModel().getSelectedItem();
+        if(!tableMovement.getItems().isEmpty()&&m!=null) {
+            selectedUtility = m;
+            descriptionArea.setText(m.getDescription());
         }
     }
 
@@ -606,6 +635,22 @@ public class GUIViewController implements Initializable {
         }
         else
             notificationLabel.setText("");
+    }
+
+    /**
+     * Metodo che ha la responsabilità di cambiare la descrizione dell'Utility selezionata.
+     */
+    public void changeDescription() {
+        if (selectedUtility!=null){
+            this.controller.setDescription(selectedUtility,descriptionArea.getText());
+            this.controller.save();
+            notificationLabel.setText("Success!");
+            logger.info("Description changed.");
+        }
+        tableTag.refresh();
+        tableAccount.refresh();
+        tableTransaction.refresh();
+        tableMovement.refresh();
     }
 
     /**

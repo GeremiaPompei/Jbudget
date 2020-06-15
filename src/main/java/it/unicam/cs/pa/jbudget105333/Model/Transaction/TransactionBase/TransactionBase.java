@@ -161,6 +161,7 @@ public abstract class TransactionBase implements Transaction {
      */
     @Override
     public String getDescription(){
+        this.logger.finest("Description getter");
         return this.description;
     }
 
@@ -171,6 +172,7 @@ public abstract class TransactionBase implements Transaction {
     @Override
     public void setDescription(String description){
         this.description = description;
+        this.logger.finest("Description modified with: ["+description+"]");
     }
 
     /**

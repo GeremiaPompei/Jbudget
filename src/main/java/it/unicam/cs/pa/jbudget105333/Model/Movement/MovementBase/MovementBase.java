@@ -109,6 +109,7 @@ public class MovementBase implements Movement {
     @Override
     public void setDescription(String description) {
         this.description = description;
+        this.logger.finest("Description modified with: ["+description+"]");
     }
 
     /**

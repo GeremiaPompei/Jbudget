@@ -2,7 +2,6 @@ package it.unicam.cs.pa.jbudget105333.Model.Ledger;
 
 import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
 import it.unicam.cs.pa.jbudget105333.Model.IDGenerator.IDGenerator;
-import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
 
@@ -111,19 +110,6 @@ public interface Ledger {
      * @param tag Tag da rimuovere.
      */
     void removeTag(Tag tag);
-
-    /**
-     * Metodo responsabile di restituire i movimenti del Ledger.
-     * @return Movimenti del Ledger.
-     */
-    Set<Movement> getMovements();
-
-    /**
-     * Metodo responsabile di restituire il movimento del LedgerBase avente l'ID dato.
-     * @param ID ID del movimento ricercato.
-     * @return Movimento ricercato.
-     */
-    Movement getMovement(int ID);
 
     /**
      * Metodo responsabile di ritornare l'IDGenerator.

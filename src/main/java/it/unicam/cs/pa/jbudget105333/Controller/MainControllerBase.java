@@ -239,17 +239,6 @@ public class MainControllerBase implements MainController{
     }
 
     /**
-     * Metodo responsabile di restituire il Movimento avente l'ID dato.
-     * @param ID ID del movimento ricercato.
-     * @return Movimento ricercato.
-     */
-    @Override
-    public Movement getMovement(int ID) {
-        this.logger.fine("Movement getter with ID: ["+ID+"]");
-        return this.ledger.getMovement(ID);
-    }
-
-    /**
      * Metodo che ha la responsabilità di modificare la descrizione di un oggetto istanziato da una classe
      * che implementa l'interfaccia Utility.
      * @param u Oggetto istanziato da una classe che implementa l'interfaccia Utility.
@@ -258,6 +247,7 @@ public class MainControllerBase implements MainController{
     @Override
     public void setDescription(Utility u, String description) {
         u.setDescription(description);
+        this.logger.fine("Description of utility: ["+u.toString()+"] changed with: ["+description+"]");
     }
 
     /**

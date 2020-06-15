@@ -105,13 +105,6 @@ public interface MainController {
     void removeMovement(Movement movement);
 
     /**
-     * Metodo responsabile di restituire il Movimento avente l'ID dato.
-     * @param ID ID del movimento ricercato.
-     * @return Movimento ricercato.
-     */
-    Movement getMovement(int ID);
-
-    /**
      * Metodo che ha la responsabilità di modificare la descrizione di un oggetto istanziato da una classe
      * che implementa l'interfaccia Utility.
      * @param u Oggetto istanziato da una classe che implementa l'interfaccia Utility.

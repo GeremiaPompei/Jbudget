@@ -86,6 +86,7 @@ public class TagBase implements Tag {
     @Override
     public void setDescription(String description) {
         this.description = description;
+        this.logger.finest("Description modified with: ["+description+"]");
     }
 
     /**
