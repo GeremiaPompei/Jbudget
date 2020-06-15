@@ -29,14 +29,14 @@ public class TransactionBaseSerializer implements JsonSerializer<Transaction> {
      */
     @Override
     public JsonElement serialize(Transaction src, Type typeOfSrc, JsonSerializationContext context) {
-        this.logger.info("Start serializzation.");
+        this.logger.finer("Start serializzation.");
         JsonObject jo = new JsonObject();
         jo.add("ID", context.serialize(src.getID()));
         jo.add("Date", context.serialize(src.getDate(), LocalDateTime.class));
         jo.add("TotalAmounts", context.serialize(src.getTotalAmount()));
         jo.add("Movements", movementsSerializer(src.getMovements(),context));
         jo.add("Description", context.serialize(src.getDescription()));
-        this.logger.info("Stop serializzation.");
+        this.logger.finer("Stop serializzation.");
         return jo;
     }
 

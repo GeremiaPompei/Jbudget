@@ -53,7 +53,7 @@ public class MovementBaseDeserializer implements JsonDeserializer<Movement> {
      */
     @Override
     public Movement deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        this.logger.info("Start deserialization.");
+        this.logger.finer("Start deserialization.");
         JsonObject jo =json.getAsJsonObject();
         int ID = jo.get("ID").getAsInt();
         MovementType type = MovementType.valueOf(jo.get("Type").getAsString());
@@ -65,7 +65,7 @@ public class MovementBaseDeserializer implements JsonDeserializer<Movement> {
         String description = jo.get("Description").getAsString();
         Tag tag = deserializeTag(jo,context);
         Account account = deserializeAccount(jo,context);
-        this.logger.info("Stop deserialization.");
+        this.logger.finer("Stop deserialization.");
         return new MovementBase(type,amount,this.transaction,account,tag,description,ID);
     }
 

@@ -26,12 +26,12 @@ public class TagBaseDeserializer implements JsonDeserializer<Tag> {
      */
     @Override
     public Tag deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        this.logger.info("Start deserialization.");
+        this.logger.finer("Start deserialization.");
         JsonObject jo = json.getAsJsonObject();
         int ID = jo.get("ID").getAsInt();
         String name = jo.get("Name").getAsString();
         String description = jo.get("Description").getAsString();
-        this.logger.info("Stop deserialization.");
+        this.logger.finer("Stop deserialization.");
         return new TagBase(name,description,ID);
     }
 }

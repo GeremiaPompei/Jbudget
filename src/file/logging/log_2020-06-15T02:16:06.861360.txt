@@ -1,2 +1,0 @@
-giu 15, 2020 2:16:22 AM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController addTransaction
-AVVERTENZA: Failed in Transaction Addition.

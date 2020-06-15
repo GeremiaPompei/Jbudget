@@ -32,13 +32,13 @@ public class LedgerBaseSerializer implements JsonSerializer<Ledger> {
      */
     @Override
     public JsonElement serialize(Ledger src, Type typeOfSrc, JsonSerializationContext context) {
-        this.logger.info("Start serializzation.");
+        this.logger.finer("Start serializzation.");
         JsonObject jo = new JsonObject();
         jo.add("IDGenerator",context.serialize(src.getIDGenerator().generate()));
         jo.add("Tags",tagsSerializer(src.getTags(), context));
         jo.add("Accounts", accountsSerializer(src.getAccounts(),context));
         jo.add("Transactions", transactionsSerializer(src.getTransactions(),context));
-        this.logger.info("Stop serializzation.");
+        this.logger.finer("Stop serializzation.");
         return jo;
     }
 

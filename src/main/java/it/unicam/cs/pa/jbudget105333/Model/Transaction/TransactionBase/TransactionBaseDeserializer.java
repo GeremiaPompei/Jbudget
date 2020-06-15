@@ -46,14 +46,14 @@ public class TransactionBaseDeserializer implements JsonDeserializer<Transaction
      */
     @Override
     public Transaction deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        this.logger.info("Start deserialization.");
+        this.logger.finer("Start deserialization.");
         JsonObject jo = json.getAsJsonObject();
         int ID = jo.get("ID").getAsInt();
         String description = jo.get("Description").getAsString();
         LocalDateTime date = context.deserialize(jo.get("Date"),LocalDateTime.class);
         Transaction t = (new ProgramTransaction(date,description,ID));
         t.addMovements(movementsDeserialize(jo.get("Movements"),context,t));
-        this.logger.info("Stop deserialization.");
+        this.logger.finer("Stop deserialization.");
         return t;
     }
 

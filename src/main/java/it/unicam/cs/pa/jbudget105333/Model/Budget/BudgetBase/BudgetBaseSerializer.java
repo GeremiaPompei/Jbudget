@@ -26,7 +26,7 @@ public class BudgetBaseSerializer implements JsonSerializer<Budget> {
      */
     @Override
     public JsonElement serialize(Budget src, Type typeOfSrc, JsonSerializationContext context) {
-        this.logger.info("Start serializzation.");
+        this.logger.finer("Start serializzation.");
         JsonArray ja = new JsonArray();
         for(Tag t : src.getBudgetMap().keySet()) {
             JsonObject jo = new JsonObject();
@@ -34,7 +34,7 @@ public class BudgetBaseSerializer implements JsonSerializer<Budget> {
             jo.add("Value",context.serialize(src.getValue(t)));
             ja.add(jo);
         }
-        this.logger.info("Stop serializzation.");
+        this.logger.finer("Stop serializzation.");
         return ja;
     }
 }

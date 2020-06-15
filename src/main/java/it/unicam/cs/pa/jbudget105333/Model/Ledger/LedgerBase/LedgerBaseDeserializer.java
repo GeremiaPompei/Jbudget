@@ -51,14 +51,14 @@ public class LedgerBaseDeserializer implements JsonDeserializer<Ledger> {
      */
     @Override
     public Ledger deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        this.logger.info("Start deserialization.");
+        this.logger.finer("Start deserialization.");
         this.ledger.setIdGenerator(new IDGeneratorBase(context.deserialize(json.getAsJsonObject().get("IDGenerator")
                 ,Integer.class)));
         this.ledger.addTags(tagsDeserialize(json.getAsJsonObject().get("Tags"), context));
         this.ledger.addAccounts(accountsDeserialize(json.getAsJsonObject().get("Accounts"),context));
         this.ledger.addTransactions(transactionsDeserialize(json.getAsJsonObject().get("Transactions"),context));
         this.ledger.update();
-        this.logger.info("Stop deserialization.");
+        this.logger.finer("Stop deserialization.");
         return this.ledger;
     }
 

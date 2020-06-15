@@ -27,7 +27,7 @@ public class AccountBaseDeserializer implements JsonDeserializer<Account>{
      */
     @Override
     public Account deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        this.logger.info("Start deserialization.");
+        this.logger.finer("Start deserialization.");
         JsonObject jo = json.getAsJsonObject();
         int ID = jo.get("ID").getAsInt();
         String name = jo.get("Name").getAsString();
@@ -38,7 +38,7 @@ public class AccountBaseDeserializer implements JsonDeserializer<Account>{
             openingBalance = jo.get("OpeningBalance").getAsDouble();
         else
             openingBalance = -jo.get("OpeningBalance").getAsDouble();
-        this.logger.info("Stop deserialization.");
+        this.logger.finer("Stop deserialization.");
         return new AccountBase(name,description,openingBalance,type,ID);
     }
 }

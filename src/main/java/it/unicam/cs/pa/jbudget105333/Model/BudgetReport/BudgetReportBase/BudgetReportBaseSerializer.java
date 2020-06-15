@@ -32,11 +32,11 @@ public class BudgetReportBaseSerializer implements JsonSerializer<BudgetReport> 
      */
     @Override
     public JsonElement serialize(BudgetReport src, Type typeOfSrc, JsonSerializationContext context) {
-        this.logger.info("Start serializzation.");
+        this.logger.finer("Start serializzation.");
         JsonObject jo = new JsonObject();
         jo.add("Ledger",new LedgerBaseSerializer().serialize(src.getLedger(), Ledger.class,context));
         jo.add("Budget",new BudgetBaseSerializer().serialize(src.getBudget(), Budget.class,context));
-        this.logger.info("Stop serializzation.");
+        this.logger.finer("Stop serializzation.");
         return jo;
     }
 }

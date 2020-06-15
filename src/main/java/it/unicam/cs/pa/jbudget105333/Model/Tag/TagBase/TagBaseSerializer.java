@@ -28,12 +28,12 @@ public class TagBaseSerializer implements JsonSerializer<Tag> {
      */
     @Override
     public JsonElement serialize(Tag src, Type typeOfSrc, JsonSerializationContext context) {
-        this.logger.info("Start serializzation.");
+        this.logger.finer("Start serializzation.");
         JsonObject jo = new JsonObject();
         jo.add("ID", context.serialize(src.getID()));
         jo.add("Name", context.serialize(src.getName()));
         jo.add("Description", context.serialize(src.getDescription()));
-        this.logger.info("Stop serializzation.");
+        this.logger.finer("Stop serializzation.");
         return jo;
     }
 }

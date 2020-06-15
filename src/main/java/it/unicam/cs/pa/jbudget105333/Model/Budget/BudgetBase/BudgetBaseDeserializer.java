@@ -44,7 +44,7 @@ public class BudgetBaseDeserializer implements JsonDeserializer<Budget> {
      */
     @Override
     public Budget deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        logger.info("Start deserialization.");
+        logger.finer("Start deserialization.");
         Budget budget = new BudgetBase();
         for(JsonElement je : json.getAsJsonArray()) {
             int tagId = context.deserialize(je.getAsJsonObject().get("Tag"),Integer.class);
@@ -52,7 +52,7 @@ public class BudgetBaseDeserializer implements JsonDeserializer<Budget> {
             Tag tag = this.ledger.getTag(tagId);
             budget.add(tag,value);
         }
-        logger.info("Stop deserialization.");
+        logger.finer("Stop deserialization.");
         return budget;
     }
 }

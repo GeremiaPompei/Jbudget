@@ -30,11 +30,11 @@ public class BudgetReportBaseDeserializer implements JsonDeserializer<BudgetRepo
      */
     @Override
     public BudgetReport deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        this.logger.info("Start deserialization.");
+        this.logger.finer("Start deserialization.");
         JsonObject jo = json.getAsJsonObject();
         Ledger ledger = new LedgerBaseDeserializer().deserialize(jo.get("Ledger"),Ledger.class,context);
         Budget budget = new BudgetBaseDeserializer(ledger).deserialize(jo.get("Budget"),Budget.class,context);
-        this.logger.info("Stop deserializzation.");
+        this.logger.finer("Stop deserializzation.");
         return new BudgetReportBase(ledger,budget);
     }
 }

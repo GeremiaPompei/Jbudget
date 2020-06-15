@@ -41,7 +41,7 @@ public class App {
         String dirPath = "src/file/logging";
         new File((dirPath)).mkdirs();
         logger.setUseParentHandlers(false);
-        logger.setLevel(Level.WARNING);
+        logger.setLevel(Level.INFO);
         Handler handler = null;
         try {
             handler = new FileHandler(dirPath+"/log_"
