@@ -1,0 +1,8 @@
+giu 16, 2020 2:48:56 AM it.unicam.cs.pa.jbudget105333.App main
+INFORMAZIONI: Start app.
+giu 16, 2020 2:48:58 AM it.unicam.cs.pa.jbudget105333.Controller.MainControllerBase readBudgetReport
+AVVERTENZA: File not read, is created a new budget report.
+giu 16, 2020 2:48:58 AM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController initialize
+INFORMAZIONI: GUIViewController initialized.
+giu 16, 2020 2:49:31 AM it.unicam.cs.pa.jbudget105333.App main
+INFORMAZIONI: Stop app.

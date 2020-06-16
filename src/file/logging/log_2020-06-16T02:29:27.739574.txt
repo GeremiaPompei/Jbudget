@@ -1,0 +1,2 @@
+giu 16, 2020 2:29:27 AM it.unicam.cs.pa.jbudget105333.App main
+INFORMAZIONI: Start app.

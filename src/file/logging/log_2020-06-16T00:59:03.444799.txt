@@ -1,0 +1,32 @@
+giu 16, 2020 12:59:03 AM it.unicam.cs.pa.jbudget105333.App main
+INFORMAZIONI: Start app.
+giu 16, 2020 12:59:05 AM it.unicam.cs.pa.jbudget105333.Model.Store.Json.JBudgetReaderJson read
+INFORMAZIONI: Reading.
+giu 16, 2020 12:59:05 AM it.unicam.cs.pa.jbudget105333.Controller.MainControllerBase readBudgetReport
+INFORMAZIONI: File read correctly.
+giu 16, 2020 12:59:05 AM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController initialize
+INFORMAZIONI: GUIViewController initialized.
+giu 16, 2020 12:59:14 AM it.unicam.cs.pa.jbudget105333.Model.Store.Json.JBudgetReaderJson read
+INFORMAZIONI: Reading.
+giu 16, 2020 12:59:14 AM it.unicam.cs.pa.jbudget105333.Model.Account.AccountBase.AccountBase update
+INFORMAZIONI: AccountBase updated.
+giu 16, 2020 12:59:14 AM it.unicam.cs.pa.jbudget105333.Model.Account.AccountBase.AccountBase update
+INFORMAZIONI: AccountBase updated.
+giu 16, 2020 12:59:14 AM it.unicam.cs.pa.jbudget105333.Model.Account.AccountBase.AccountBase update
+INFORMAZIONI: AccountBase updated.
+giu 16, 2020 12:59:14 AM it.unicam.cs.pa.jbudget105333.Controller.MainControllerBase readBudgetReport
+INFORMAZIONI: File read correctly.
+giu 16, 2020 12:59:29 AM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController budgetTableClicked
+INFORMAZIONI: Budget selected: [3: arg=6.0]
+giu 16, 2020 12:59:31 AM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController tableAccountClicked
+INFORMAZIONI: Account selected: [5: aerty]
+giu 16, 2020 12:59:32 AM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController tableAccountClicked
+INFORMAZIONI: Account selected: [69: fxy]
+giu 16, 2020 12:59:32 AM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController tableAccountClicked
+INFORMAZIONI: Account selected: [34: hjkv,jgc]
+giu 16, 2020 12:59:33 AM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController tableAccountClicked
+INFORMAZIONI: Account selected: [69: fxy]
+giu 16, 2020 12:59:33 AM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController tableAccountClicked
+INFORMAZIONI: Account selected: [5: aerty]
+giu 16, 2020 12:59:42 AM it.unicam.cs.pa.jbudget105333.App main
+INFORMAZIONI: Stop app.

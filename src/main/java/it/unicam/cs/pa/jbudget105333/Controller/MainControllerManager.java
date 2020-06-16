@@ -6,10 +6,8 @@ import it.unicam.cs.pa.jbudget105333.Model.Store.Json.JBudgetWriterJson;
 import it.unicam.cs.pa.jbudget105333.Model.Store.Reader;
 import it.unicam.cs.pa.jbudget105333.Model.Store.Writer;
 
-import java.io.IOException;
-
 /**
- * Interfaccia responsabile della creazione di un MainController..
+ * Interfaccia responsabile della creazione di un MainController.
  */
 public interface MainControllerManager {
 
@@ -22,14 +20,22 @@ public interface MainControllerManager {
         Writer<BudgetReport> writer = null;
         try {
             reader = new JBudgetReaderJson(path);
-        } catch (IOException e) {
+        } catch (Exception e) {
             reader = null;
         }
         try {
             writer = new JBudgetWriterJson(path);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            generateMainController();
         }
         return new MainControllerBase(reader,writer);
+    }
+
+    /**
+     * Metodo responsabile della generazione di un MainController.
+     * @return MainController generato.
+     */
+    static MainController generateMainController(){
+        return new MainControllerBase();
     }
 }

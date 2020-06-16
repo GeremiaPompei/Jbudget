@@ -7,6 +7,7 @@ import it.unicam.cs.pa.jbudget105333.Model.Account.AccountManager;
 import it.unicam.cs.pa.jbudget105333.Model.Account.AccountType;
 import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
 import it.unicam.cs.pa.jbudget105333.Model.Movement.MovementType;
+import it.unicam.cs.pa.jbudget105333.Model.Store.Json.JBudgetWriterJson;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.TagManager;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
@@ -20,9 +21,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -473,10 +476,8 @@ public class GUIViewController implements Initializable {
     private void transactionStage(Transaction transaction){
         try {
             logger.info("Start New Movements stage.");
-            Stage stage = new Stage();
+            Stage stage = createStage();
             stage.setTitle("New Movements");
-            stage.setResizable(false);
-            stage.initModality(Modality.APPLICATION_MODAL);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/JBudgetNewMovements.fxml"));
             loader.setController(new GUIViewMovementController(this.controller, transaction,stage,this));
             stage.setScene(new Scene(loader.load(), 610, 400));
@@ -602,6 +603,7 @@ public class GUIViewController implements Initializable {
      * Metodo che ha la responsabilità di mostrare tutti i movimenti appartenenti ad un
      * certo tag di un budget selezionato selezionato.
      */
+    @FXML
     public void budgetTableClicked() {
         Map.Entry<Tag, Double> b = tableBudget.getSelectionModel().getSelectedItem();
         if(!tableBudget.getItems().isEmpty()&&b!=null) {
@@ -616,6 +618,7 @@ public class GUIViewController implements Initializable {
     /**
      * Metodo che ha la responsabilità di gestire il movimento selezionato.
      */
+    @FXML
     public void tableMovementClicked() {
         Movement m = tableMovement.getSelectionModel().getSelectedItem();
         if(!tableMovement.getItems().isEmpty()&&m!=null) {
@@ -627,6 +630,7 @@ public class GUIViewController implements Initializable {
     /**
      * Metodo che ha la responsabilità di notificare se un certo budget è stato superato.
      */
+    @FXML
     private void attention(){
         Map<Tag,Double> check = this.controller.check();
         if(!check.isEmpty()) {
@@ -640,6 +644,7 @@ public class GUIViewController implements Initializable {
     /**
      * Metodo che ha la responsabilità di cambiare la descrizione dell'Utility selezionata.
      */
+    @FXML
     public void changeDescription() {
         if (selectedUtility!=null){
             this.controller.setDescription(selectedUtility,descriptionArea.getText());
@@ -654,26 +659,70 @@ public class GUIViewController implements Initializable {
     }
 
     /**
+     * Metodo che ha la responsabilità di aprire un file per gestire i dati del JBudget al suo interno.
+     */
+    @FXML
+    public void openFile() {
+        setController(createFileChooser().showOpenDialog(createStage()));
+        logger.info("File opened.");
+    }
+
+    /**
+     * Metodo che ha la responsabilità di creare un nuovo file su cui salvare JBudget.
+     */
+    @FXML
+    public void newFile() {
+        setController(createFileChooser().showSaveDialog(createStage()));
+        logger.info("File created.");
+    }
+
+    /**
+     * Metodo che ha la responsabilità di salvare il JBudget su un file.
+     */
+    @FXML
+    public void saveFile(){
+        File file = createFileChooser().showSaveDialog(createStage());
+        if (file != null) {
+            try {
+                this.controller.save(new JBudgetWriterJson(file.getAbsolutePath()
+                        .replaceAll(".json", "")));
+                notificationLabel.setText("Success!");
+                logger.info("File saved.");
+            } catch (IOException e) {
+                notificationLabel.setText("File Not Saved.");
+                logger.warning("File Not Saved.");
+            }
+        }
+    }
+
+    /**
      * Metodo che ha la responsabilità di inizializzare le variabili di istanza.
      * @param location
      * @param resources
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.controller = MainControllerManager.generateMainController("src/file/jbudget");
+        this.controller = MainControllerManager.generateMainController();
         olAccount = FXCollections.observableArrayList();
         olTag = FXCollections.observableArrayList();
         olBudget = FXCollections.observableArrayList();
         olTransaction = FXCollections.observableArrayList();
         olMovement = FXCollections.observableArrayList();
         initializeAccountType();
+        updateTables();
+        tagSchedChoice.setItems(olTag);
+        budgetNewTagId.setItems(olTag);
+        logger.info("GUIViewController initialized.");
+    }
+
+    /**
+     * Metodo che ha la responsabilità di aggiornare tutte le tabelle.
+     */
+    private void updateTables(){
         updateAccounts();
         updateTags();
         updateBudget();
         updateTransactions();
-        tagSchedChoice.setItems(olTag);
-        budgetNewTagId.setItems(olTag);
-        logger.info("GUIViewController initialized.");
     }
 
     /**
@@ -790,5 +839,40 @@ public class GUIViewController implements Initializable {
                 (cellData -> new SimpleObjectProperty<>(cellData.getValue().getDescription()));
         tableMovement.refresh();
         logger.finest("Movements updated.");
+    }
+
+    /**
+     * Metodo che ha la responsabilità di creare un FileChooser.
+     * @return FileChooser creato.
+     */
+    private FileChooser createFileChooser() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters()
+                .addAll(new FileChooser.ExtensionFilter("Json Files", "*.json"));
+        fileChooser.setInitialFileName("JBudget");
+        return fileChooser;
+    }
+
+    /**
+     * Metodo che ha la responsabilità di cambiare controller.
+     * @param file File dal quale prelevare il BudgetReport.
+     */
+    private void setController(File file){
+        if (file != null) {
+            this.controller = MainControllerManager.generateMainController(file
+                    .getAbsolutePath().replaceAll(".json", ""));
+            updateTables();
+        }
+    }
+
+    /**
+     * Metodo che ha la responsabilità di creare un nuovo stage.
+     * @return Stage creato.
+     */
+    private Stage createStage(){
+        Stage stage = new Stage();
+        stage.setResizable(false);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        return stage;
     }
 }

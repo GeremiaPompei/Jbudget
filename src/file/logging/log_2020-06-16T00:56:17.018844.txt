@@ -1,0 +1,34 @@
+giu 16, 2020 12:56:17 AM it.unicam.cs.pa.jbudget105333.App main
+INFORMAZIONI: Start app.
+giu 16, 2020 12:56:19 AM it.unicam.cs.pa.jbudget105333.Controller.MainControllerBase readBudgetReport
+AVVERTENZA: File not read, is created a new budget report.
+giu 16, 2020 12:56:19 AM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController initialize
+INFORMAZIONI: GUIViewController initialized.
+giu 16, 2020 12:56:31 AM it.unicam.cs.pa.jbudget105333.Model.Store.Json.JBudgetReaderJson read
+INFORMAZIONI: Reading.
+giu 16, 2020 12:56:31 AM it.unicam.cs.pa.jbudget105333.Model.Account.AccountBase.AccountBase update
+INFORMAZIONI: AccountBase updated.
+giu 16, 2020 12:56:31 AM it.unicam.cs.pa.jbudget105333.Model.Account.AccountBase.AccountBase update
+INFORMAZIONI: AccountBase updated.
+giu 16, 2020 12:56:31 AM it.unicam.cs.pa.jbudget105333.Controller.MainControllerBase readBudgetReport
+INFORMAZIONI: File read correctly.
+giu 16, 2020 12:56:36 AM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController addTag
+INFORMAZIONI: Addition of tag: [67: ns]
+giu 16, 2020 12:56:36 AM it.unicam.cs.pa.jbudget105333.Model.Store.Json.JBudgetWriterJson write
+INFORMAZIONI: Writing.
+giu 16, 2020 12:56:46 AM it.unicam.cs.pa.jbudget105333.Model.Store.Json.JBudgetWriterJson write
+INFORMAZIONI: Writing.
+giu 16, 2020 12:56:46 AM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController addAccount
+INFORMAZIONI: Addition of account: [69: fxy]
+giu 16, 2020 12:56:48 AM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController tableAccountClicked
+INFORMAZIONI: Account selected: [5: aerty]
+giu 16, 2020 12:56:49 AM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController tableAccountClicked
+INFORMAZIONI: Account selected: [69: fxy]
+giu 16, 2020 12:56:50 AM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController tableAccountClicked
+INFORMAZIONI: Account selected: [34: hjkv,jgc]
+giu 16, 2020 12:56:51 AM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController tableAccountClicked
+INFORMAZIONI: Account selected: [69: fxy]
+giu 16, 2020 12:56:53 AM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController tableAccountClicked
+INFORMAZIONI: Account selected: [5: aerty]
+giu 16, 2020 12:56:55 AM it.unicam.cs.pa.jbudget105333.App main
+INFORMAZIONI: Stop app.

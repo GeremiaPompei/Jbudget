@@ -3,6 +3,7 @@ package it.unicam.cs.pa.jbudget105333.Controller;
 import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
 import it.unicam.cs.pa.jbudget105333.Model.IDGenerator.IDGenerator;
 import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
+import it.unicam.cs.pa.jbudget105333.Model.Store.Writer;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
 import it.unicam.cs.pa.jbudget105333.Model.Utility;
@@ -149,6 +150,12 @@ public interface MainController {
      * Metodo che ha la responsabilità di salvare un BudgetReport da qualche parte.
      */
     void save();
+
+    /**
+     * Metodo che ha la responsabilità di salvare un BudgetReport.
+     * @param writer Writer con cui salvare il BudgetReport.
+     */
+    void save(Writer writer);
 
     /**
      * Metodo responsabile di eliminare un tag dal Budget.

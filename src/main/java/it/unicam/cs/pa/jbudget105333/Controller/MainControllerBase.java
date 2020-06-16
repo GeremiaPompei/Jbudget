@@ -356,18 +356,26 @@ public class MainControllerBase implements MainController{
     }
 
     /**
-     * Metodo che ha la responsabilità di salvare un BudgetReport da qualche parte.
+     * Metodo che ha la responsabilità di salvare un BudgetReport.
      */
     @Override
     public void save() {
-        if(this.writer!= null) {
+        save(this.writer);
+    }
+
+    /**
+     * Metodo che ha la responsabilità di salvare un BudgetReport.
+     * @param writer Writer con cui salvare il BudgetReport.
+     */
+    @Override
+    public void save(Writer writer) {
+        if(writer!= null) {
             try {
-                this.writer.write(this.budgetReport);
-                this.writer.close();
+                writer.write(this.budgetReport);
+                writer.close();
                 this.logger.fine("MainController saved.");
             } catch (IOException e) {
                 this.logger.fine("Failed in MainController save.");
-                e.printStackTrace();
             }
         }
     }

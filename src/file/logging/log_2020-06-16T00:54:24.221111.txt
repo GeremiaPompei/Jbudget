@@ -1,0 +1,14 @@
+giu 16, 2020 12:54:24 AM it.unicam.cs.pa.jbudget105333.App main
+INFORMAZIONI: Start app.
+giu 16, 2020 12:54:27 AM it.unicam.cs.pa.jbudget105333.Controller.MainControllerBase readBudgetReport
+AVVERTENZA: File not read, is created a new budget report.
+giu 16, 2020 12:54:27 AM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController initialize
+INFORMAZIONI: GUIViewController initialized.
+giu 16, 2020 12:54:45 AM it.unicam.cs.pa.jbudget105333.Controller.MainControllerBase readBudgetReport
+AVVERTENZA: File not read, is created a new budget report.
+giu 16, 2020 12:54:50 AM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController addTag
+INFORMAZIONI: Addition of tag: [1: cxyj]
+giu 16, 2020 12:54:50 AM it.unicam.cs.pa.jbudget105333.Model.Store.Json.JBudgetWriterJson write
+INFORMAZIONI: Writing.
+giu 16, 2020 12:55:04 AM it.unicam.cs.pa.jbudget105333.App main
+INFORMAZIONI: Stop app.

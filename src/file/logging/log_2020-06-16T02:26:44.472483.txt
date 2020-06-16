@@ -1,0 +1,20 @@
+giu 16, 2020 2:26:44 AM it.unicam.cs.pa.jbudget105333.App main
+INFORMAZIONI: Start app.
+giu 16, 2020 2:26:47 AM it.unicam.cs.pa.jbudget105333.Model.Store.Json.JBudgetReaderJson read
+INFORMAZIONI: Reading.
+giu 16, 2020 2:26:47 AM it.unicam.cs.pa.jbudget105333.Controller.MainControllerBase readBudgetReport
+INFORMAZIONI: File read correctly.
+giu 16, 2020 2:26:47 AM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController initialize
+INFORMAZIONI: GUIViewController initialized.
+giu 16, 2020 2:26:53 AM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController tableTagClicked
+INFORMAZIONI: Transaction selected: [1: bnc,hg]
+giu 16, 2020 2:27:06 AM it.unicam.cs.pa.jbudget105333.Model.Store.Json.JBudgetWriterJson write
+INFORMAZIONI: Writing.
+giu 16, 2020 2:27:24 AM it.unicam.cs.pa.jbudget105333.Model.Store.Json.JBudgetReaderJson read
+INFORMAZIONI: Reading.
+giu 16, 2020 2:27:24 AM it.unicam.cs.pa.jbudget105333.Controller.MainControllerBase readBudgetReport
+INFORMAZIONI: File read correctly.
+giu 16, 2020 2:27:35 AM it.unicam.cs.pa.jbudget105333.Model.Store.Json.JBudgetWriterJson write
+INFORMAZIONI: Writing.
+giu 16, 2020 2:27:59 AM it.unicam.cs.pa.jbudget105333.App main
+INFORMAZIONI: Stop app.

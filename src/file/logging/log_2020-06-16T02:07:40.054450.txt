@@ -1,0 +1,8 @@
+giu 16, 2020 2:07:40 AM it.unicam.cs.pa.jbudget105333.App main
+INFORMAZIONI: Start app.
+giu 16, 2020 2:07:43 AM it.unicam.cs.pa.jbudget105333.Model.Store.Json.JBudgetReaderJson read
+INFORMAZIONI: Reading.
+giu 16, 2020 2:07:43 AM it.unicam.cs.pa.jbudget105333.Controller.MainControllerBase readBudgetReport
+INFORMAZIONI: File read correctly.
+giu 16, 2020 2:08:00 AM it.unicam.cs.pa.jbudget105333.Controller.MainControllerBase readBudgetReport
+AVVERTENZA: File not read, is created a new budget report.
