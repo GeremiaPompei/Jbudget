@@ -38,14 +38,13 @@ public class App {
      * vengono salvati e non essere stampato a console.
      */
     private static void setLogger() {
-        String dirPath = "src/file/logging";
-        new File((dirPath)).mkdirs();
+        String dirPath = "logging";
+        new File((dirPath)).mkdir();
         logger.setUseParentHandlers(false);
         logger.setLevel(Level.INFO);
         Handler handler = null;
         try {
-            handler = new FileHandler(dirPath+"/log_"
-                    + LocalDateTime.now()+".txt");
+            handler = new FileHandler(dirPath+"/log_" + LocalDateTime.now()+".txt");
             handler.setFormatter(new SimpleFormatter());
         } catch (IOException e) {}
         logger.addHandler(handler);

@@ -41,16 +41,16 @@ class MainControllerBaseTest {
     private Movement debito1;
     private Movement credito1;
 
-    private static final String path = "src/file/jbudgetTest";
+    private static final String path = "jbudgetTest.json";
 
     @AfterAll
     static void restoreContext(){
-        new File(path+".json").delete();
+        new File(path).delete();
     }
 
     @BeforeEach
     void createMainControllerBase(){
-        this.controller = MainControllerManager.generateMainController(path);
+        this.controller = MainControllerManager.generateMainController();
         this.idGenerator =  this.controller.idGenerator();
         this.transaction1 = new ProgramTransaction(LocalDateTime.of(LocalDate.of(2021,2,5)
                 , LocalTime.MIN),"transaction 1",idGenerator.generate());
@@ -66,6 +66,18 @@ class MainControllerBaseTest {
                 , fondoCassa,utenza,"movimento",idGenerator.generate());
         this.credito1 = new MovementBase(MovementType.CREDITS,870,this.transaction2
                 , fondoCassa,sport,"movimento",idGenerator.generate());
+    }
+
+    @Test
+    void resetBudgetReport(){
+        this.controller.addTag(this.utenza);
+        assertTrue(this.controller.getTags().contains(this.utenza));
+        this.controller.resetBudgetReport();
+        assertFalse(this.controller.getTags().contains(this.utenza));
+        this.controller.addAccount(this.fondoCassa);
+        assertTrue(this.controller.getAccounts().contains(this.fondoCassa));
+        this.controller.resetBudgetReport();
+        assertFalse(this.controller.getAccounts().contains(this.fondoCassa));
     }
 
     @Test
@@ -347,13 +359,38 @@ class MainControllerBaseTest {
     budget è uguale a quella salvata e poi letta come il valore relativo al primo tag nel budget
     */
     @Test
-    void save() {
+    void read() {
         try {
-            MainController controller = new MainControllerBase(null,new JBudgetWriterJson(path));
+            MainController controller = new MainControllerBase();
             Tag sport = new TagBase("Sport","tennis",this.controller.idGenerator().generate());
             controller.addTag(sport);
             controller.addBudgetRecord(sport,60.0);
-            controller.save();
+            controller.save(new JBudgetWriterJson(path));
+            MainController controller2 = new MainControllerBase();
+            controller2.read(new JBudgetReaderJson(path));
+            assertEquals(controller2.getTag(sport.getID()).getName(),sport.getName());
+            assertEquals(controller2.getTag(sport.getID()).getID(),sport.getID());
+            assertEquals(controller2.getBudgetRecords().keySet().toArray().length
+                    ,controller.getBudgetRecords().keySet().toArray().length);
+            assertEquals(controller.getBudgetRecords().get(sport)
+                    ,controller2.getBudgetRecords().get(controller2.getTags().toArray()[0]));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /*Salvo il budgetReport e controllo se il nome e l'id del tag salvato e letto dal file sono uguali
+    a quelli del tag costruito in precedenza e controllo se la lunghezza del set della mappa del
+    budget è uguale a quella salvata e poi letta come il valore relativo al primo tag nel budget
+    */
+    @Test
+    void save() {
+        try {
+            MainController controller = new MainControllerBase();
+            Tag sport = new TagBase("Sport","tennis",this.controller.idGenerator().generate());
+            controller.addTag(sport);
+            controller.addBudgetRecord(sport,60.0);
+            controller.save(new JBudgetWriterJson(path));
             Reader<BudgetReport> reader1 = new JBudgetReaderJson(path);
             BudgetReport report = reader1.read();
             reader1.close();

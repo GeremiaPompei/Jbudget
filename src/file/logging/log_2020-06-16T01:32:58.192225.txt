@@ -1,8 +1,0 @@
-giu 16, 2020 1:32:58 AM it.unicam.cs.pa.jbudget105333.App main
-INFORMAZIONI: Start app.
-giu 16, 2020 1:33:00 AM it.unicam.cs.pa.jbudget105333.Model.Store.Json.JBudgetReaderJson read
-INFORMAZIONI: Reading.
-giu 16, 2020 1:33:01 AM it.unicam.cs.pa.jbudget105333.Controller.MainControllerBase readBudgetReport
-INFORMAZIONI: File read correctly.
-giu 16, 2020 1:33:01 AM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController initialize
-INFORMAZIONI: GUIViewController initialized.

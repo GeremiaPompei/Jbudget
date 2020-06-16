@@ -21,11 +21,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class JBudgetWriterJsonTest {
 
     private Writer<BudgetReport> writer;
-    private static final String path = "src/file/jbudgetTest";
+    private static final String path = "jbudgetTest.json";
 
     @AfterAll
     static void restoreContext(){
-        new File(path+".json").delete();
+        new File(path).delete();
     }
 
     @BeforeEach

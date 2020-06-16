@@ -72,8 +72,6 @@ public class AccountBase implements Account {
      * @param ID ID dell'AccountBase.
      */
     public AccountBase(String name, String description, double openingBalance, AccountType accountType, int ID){
-        if(name==null || description==null || accountType==null)
-            throw new NullPointerException();
         if(name.isEmpty())
             throw new IllegalArgumentException();
         this.name = name;
@@ -195,9 +193,10 @@ public class AccountBase implements Account {
      */
     @Override
     public void update(){
-        this.movements.parallelStream()
+        this.movements.stream()
                 .filter(m->m.getDate().compareTo(this.lastUpdate)>=0)
                 .filter(m->m.getDate().compareTo(LocalDateTime.now())<=0)
+                .parallel()
                 .forEach(m->this.balance+=m.getAmount());
         this.lastUpdate = LocalDateTime.now();
         this.logger.info("AccountBase updated.");

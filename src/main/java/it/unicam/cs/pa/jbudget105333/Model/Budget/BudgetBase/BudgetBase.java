@@ -42,8 +42,6 @@ public class BudgetBase implements Budget {
      */
     @Override
     public void add(Tag tag, double value) {
-        if(tag == null)
-            throw  new  NullPointerException();
         if(this.budget.containsKey(tag))
             this.budget.remove(tag);
         this.budget.put(tag,value);

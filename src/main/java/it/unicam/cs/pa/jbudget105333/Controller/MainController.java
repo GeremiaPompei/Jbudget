@@ -1,8 +1,10 @@
 package it.unicam.cs.pa.jbudget105333.Controller;
 
 import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
+import it.unicam.cs.pa.jbudget105333.Model.BudgetReport.BudgetReport;
 import it.unicam.cs.pa.jbudget105333.Model.IDGenerator.IDGenerator;
 import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
+import it.unicam.cs.pa.jbudget105333.Model.Store.Reader;
 import it.unicam.cs.pa.jbudget105333.Model.Store.Writer;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
@@ -21,6 +23,11 @@ import java.util.Set;
  * il generatore degli id e tener traccia del valore di superamento di un budget con relativo tag.
  */
 public interface MainController {
+
+    /**
+     * Metodo responsabile di resettare il BudgetReport pulendo i suoi campi.
+     */
+    void resetBudgetReport();
 
     /**
      * Metodo responsabile di restituire gli account.
@@ -147,15 +154,16 @@ public interface MainController {
     void update();
 
     /**
-     * Metodo che ha la responsabilità di salvare un BudgetReport da qualche parte.
+     * Metodo che ha la responsabilità di leggere un budget report e sostituirlo.
+     * @param reader Permette la lettura del budget report.
      */
-    void save();
+    void read(Reader<BudgetReport> reader);
 
     /**
      * Metodo che ha la responsabilità di salvare un BudgetReport.
      * @param writer Writer con cui salvare il BudgetReport.
      */
-    void save(Writer writer);
+    void save(Writer<BudgetReport> writer);
 
     /**
      * Metodo responsabile di eliminare un tag dal Budget.

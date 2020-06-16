@@ -7,7 +7,9 @@ import it.unicam.cs.pa.jbudget105333.Model.Account.AccountManager;
 import it.unicam.cs.pa.jbudget105333.Model.Account.AccountType;
 import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
 import it.unicam.cs.pa.jbudget105333.Model.Movement.MovementType;
+import it.unicam.cs.pa.jbudget105333.Model.Store.Json.JBudgetReaderJson;
 import it.unicam.cs.pa.jbudget105333.Model.Store.Json.JBudgetWriterJson;
+import it.unicam.cs.pa.jbudget105333.Model.Store.Writer;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.TagManager;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
@@ -25,7 +27,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -332,6 +333,11 @@ public class GUIViewController implements Initializable {
     @FXML TextArea descriptionArea;
 
     /**
+     * Variabile utile per salvare le operazioni all'interno dello stesso path.
+     */
+    private Writer writer;
+
+    /**
      * Campo di avviso di successo o fallimento riguardo un'operazione e notifiche.
      */
     @FXML Label notificationLabel;
@@ -344,8 +350,8 @@ public class GUIViewController implements Initializable {
         Account a = tableAccount.getSelectionModel().getSelectedItem();
         if(!tableAccount.getItems().isEmpty()&&a!=null) {
             this.controller.removeAccount(a);
-            updateAccounts();
-            this.controller.save();
+            updateTables();
+            save();
             logger.info("Removal of account: ["+a.toString()+"]");
         }
     }
@@ -360,14 +366,14 @@ public class GUIViewController implements Initializable {
                     , Double.parseDouble(accountNewOpeningBalance.getText()), accountNewType.getValue()
                     ,this.controller.idGenerator().generate());
             this.controller.addAccount(a);
-            this.controller.save();
+            save();
             notificationLabel.setText("Success!");
             logger.info("Addition of account: ["+a.toString()+"]");
         }catch (Exception e){
             notificationLabel.setText("Add Account Failed");
             logger.warning("Failed in Account Addition.");
         }finally {
-            updateAccounts();
+            updateTables();
             accountNewName.clear();
             accountNewDescription.clear();
             accountNewOpeningBalance.clear();
@@ -382,9 +388,9 @@ public class GUIViewController implements Initializable {
         Tag t = tableTag.getSelectionModel().getSelectedItem();
         if(!tableTag.getItems().isEmpty()&&t!=null) {
             this.controller.removeTag(t);
-            updateTags();
+            updateTables();
             updateBudget();
-            this.controller.save();
+            save();
             logger.info("Removal of tag: ["+t.toString()+"]");
         }
     }
@@ -404,10 +410,10 @@ public class GUIViewController implements Initializable {
             notificationLabel.setText("Add Tag Failed");
             logger.warning("Failed in Tag Addition.");
         }finally {
-            updateTags();
+            updateTables();
             tagNewName.clear();
             tagNewDescription.clear();
-            this.controller.save();
+            save();
         }
     }
 
@@ -419,8 +425,8 @@ public class GUIViewController implements Initializable {
         Transaction t = tableTransaction.getSelectionModel().getSelectedItem();
         if(!tableTransaction.getItems().isEmpty()&&t!=null) {
             this.controller.removeTransaction(t);
-            updateTransactions();
-            this.controller.save();
+            updateTables();
+            save();
             logger.info("Removal of transaction: ["+t.toString()+"]");
         }
     }
@@ -498,8 +504,8 @@ public class GUIViewController implements Initializable {
         Map.Entry<Tag,Double> b = tableBudget.getSelectionModel().getSelectedItem();
         if(!tableBudget.getItems().isEmpty()&&b!=null) {
             this.controller.removeBudgetRecord(b.getKey());
-            updateBudget();
-            this.controller.save();
+            updateTables();
+            save();
             logger.info("Removal of budget: ["+b.toString()+"]");
         }
     }
@@ -513,8 +519,8 @@ public class GUIViewController implements Initializable {
             Tag tag = budgetNewTagId.getValue();
             double value = Double.parseDouble(budgetNewValue.getText());
             this.controller.addBudgetRecord(tag,value);
-            this.controller.save();
-            updateBudget();
+            save();
+            updateTables();
             logger.info("Addition of budget: ["+tag.toString()+":"+value+"]");
         }catch (Exception e){
             attention();
@@ -648,14 +654,11 @@ public class GUIViewController implements Initializable {
     public void changeDescription() {
         if (selectedUtility!=null){
             this.controller.setDescription(selectedUtility,descriptionArea.getText());
-            this.controller.save();
+            save();
             notificationLabel.setText("Success!");
             logger.info("Description changed.");
         }
-        tableTag.refresh();
-        tableAccount.refresh();
-        tableTransaction.refresh();
-        tableMovement.refresh();
+        updateTables();
     }
 
     /**
@@ -663,8 +666,16 @@ public class GUIViewController implements Initializable {
      */
     @FXML
     public void openFile() {
-        setController(createFileChooser().showOpenDialog(createStage()));
-        logger.info("File opened.");
+        try {
+            String path = createFileChooser().showOpenDialog(createStage()).getAbsolutePath();
+            this.controller.read(new JBudgetReaderJson(path));
+            this.writer = new JBudgetWriterJson(path);
+            updateTables();
+            logger.info("File Opened.");
+        } catch (Exception e) {
+            notificationLabel.setText("File not read.");
+            logger.warning("File not read.");
+        }
     }
 
     /**
@@ -672,8 +683,18 @@ public class GUIViewController implements Initializable {
      */
     @FXML
     public void newFile() {
-        setController(createFileChooser().showSaveDialog(createStage()));
-        logger.info("File created.");
+        try {
+            String path = createFileChooser().showSaveDialog(createStage()).getAbsolutePath();
+            this.writer = new JBudgetWriterJson(path);
+            this.controller.resetBudgetReport();
+            updateTables();
+            save();
+            notificationLabel.setText("File created: " + path);
+            logger.info("File Created.");
+        } catch (Exception e) {
+            notificationLabel.setText("File Not Created.");
+            logger.warning("File Not Created.");
+        }
     }
 
     /**
@@ -681,17 +702,31 @@ public class GUIViewController implements Initializable {
      */
     @FXML
     public void saveFile(){
-        File file = createFileChooser().showSaveDialog(createStage());
-        if (file != null) {
-            try {
-                this.controller.save(new JBudgetWriterJson(file.getAbsolutePath()
-                        .replaceAll(".json", "")));
-                notificationLabel.setText("Success!");
-                logger.info("File saved.");
-            } catch (IOException e) {
-                notificationLabel.setText("File Not Saved.");
-                logger.warning("File Not Saved.");
-            }
+        try {
+            String path = createFileChooser().showSaveDialog(createStage()).getAbsolutePath();
+            this.writer = new JBudgetWriterJson(path);
+            save();
+            notificationLabel.setText("File Saved: " + path);
+            logger.info("File saved.");
+        } catch (Exception e) {
+            notificationLabel.setText("File Not Saved.");
+            logger.warning("File Not Saved.");
+        }
+    }
+
+    /**
+     * Metodo che ha la responsabilità di esportare il JBudget su un file.
+     */
+    @FXML
+    public void exportFile(){
+        try {
+            String path = createFileChooser().showSaveDialog(createStage()).getAbsolutePath();
+            this.controller.save(new JBudgetWriterJson(path));
+            notificationLabel.setText("File Exported: " + path);
+            logger.info("File exported.");
+        } catch (Exception e) {
+            notificationLabel.setText("File Not Exported.");
+            logger.warning("File Not Exported.");
         }
     }
 
@@ -718,7 +753,7 @@ public class GUIViewController implements Initializable {
     /**
      * Metodo che ha la responsabilità di aggiornare tutte le tabelle.
      */
-    private void updateTables(){
+    public void updateTables(){
         updateAccounts();
         updateTags();
         updateBudget();
@@ -739,7 +774,7 @@ public class GUIViewController implements Initializable {
     /**
      * Metodo che ha la responsabilità di aggiornare le variabili riguardanti gli account.
      */
-    public void updateAccounts(){
+    private void updateAccounts(){
         olAccount.removeAll(olAccount);
         olAccount.addAll(this.controller.getAccounts());
         tableAccount.setItems(olAccount);
@@ -762,7 +797,7 @@ public class GUIViewController implements Initializable {
     /**
      * Metodo che ha la responsabilità di aggiornare le variabili riguardanti i tag di account.
      */
-    public void updateTags(){
+    private void updateTags(){
         olTag.removeAll(olTag);
         olTag.addAll(this.controller.getTags());
         tableTag.setItems(olTag);
@@ -781,7 +816,7 @@ public class GUIViewController implements Initializable {
     /**
      * Metodo che ha la responsabilità di aggiornare le variabili riguardanti i budget.
      */
-    public void updateBudget() {
+    private void updateBudget() {
         olBudget.removeAll(olBudget);
         olBudget.addAll(this.controller.getBudgetRecords().entrySet());
         tableBudget.setItems(olBudget);
@@ -797,7 +832,7 @@ public class GUIViewController implements Initializable {
     /**
      * Metodo che ha la responsabilità di aggiornare le variabili riguardanti le transazioni.
      */
-    public void updateTransactions() {
+    private void updateTransactions() {
         olTransaction.removeAll(olTransaction);
         olTransaction.addAll(this.controller.getTransactions());
         tableTransaction.setItems(olTransaction);
@@ -842,8 +877,8 @@ public class GUIViewController implements Initializable {
     }
 
     /**
-     * Metodo che ha la responsabilità di creare un FileChooser.
-     * @return FileChooser creato.
+     * Metodo che ha la responsabilità di ritornare un file chooser.
+     * @return File chooser creato.
      */
     private FileChooser createFileChooser() {
         FileChooser fileChooser = new FileChooser();
@@ -851,18 +886,6 @@ public class GUIViewController implements Initializable {
                 .addAll(new FileChooser.ExtensionFilter("Json Files", "*.json"));
         fileChooser.setInitialFileName("JBudget");
         return fileChooser;
-    }
-
-    /**
-     * Metodo che ha la responsabilità di cambiare controller.
-     * @param file File dal quale prelevare il BudgetReport.
-     */
-    private void setController(File file){
-        if (file != null) {
-            this.controller = MainControllerManager.generateMainController(file
-                    .getAbsolutePath().replaceAll(".json", ""));
-            updateTables();
-        }
     }
 
     /**
@@ -874,5 +897,12 @@ public class GUIViewController implements Initializable {
         stage.setResizable(false);
         stage.initModality(Modality.APPLICATION_MODAL);
         return stage;
+    }
+
+    /**
+     * Metodo che ha la responsabilità di salvare le operazioni con la variabile writer.
+     */
+    public void save(){
+        this.controller.save(this.writer);
     }
 }

@@ -190,11 +190,9 @@ public class GUIViewMovementController implements Initializable {
     public void saveMovements() {
         if(!olMovements.isEmpty()) {
             this.mainController.addTransaction(transaction, olMovements);
-            guiViewController.updateTransactions();
-            guiViewController.updateAccounts();
-            guiViewController.updateTags();
             this.mainController.update();
-            this.mainController.save();
+            this.guiViewController.updateTables();
+            this.guiViewController.save();
         }
         stage.close();
         logger.info("GUIViewMovementController closed.");

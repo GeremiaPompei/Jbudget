@@ -38,8 +38,6 @@ public class BudgetReportBase implements BudgetReport {
      * @param budget Budget del BudgetReportBase.
      */
     public BudgetReportBase(Ledger ledger, Budget budget) {
-        if(ledger == null || budget == null)
-            throw new NullPointerException();
         this.ledger = ledger;
         this.budget = budget;
         this.logger.finest("BudgetReportBase created.");

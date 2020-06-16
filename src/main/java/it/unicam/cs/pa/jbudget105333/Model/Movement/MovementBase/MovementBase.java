@@ -73,8 +73,6 @@ public class MovementBase implements Movement {
      */
     public MovementBase(MovementType movementType, double amount, Transaction transaction
             , Account account, Tag tag, String description, int ID) {
-        if(movementType==null || transaction==null || account==null || tag==null || description ==null)
-            throw new NullPointerException();
         this.description = description;
         this.movementType = movementType;
         if(movementType.equals(MovementType.CREDITS))

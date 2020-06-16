@@ -1,6 +1,5 @@
 package it.unicam.cs.pa.jbudget105333.Model.Store.Json;
 
-import it.unicam.cs.pa.jbudget105333.Controller.MainControllerManager;
 import it.unicam.cs.pa.jbudget105333.Model.Budget.BudgetManager;
 import it.unicam.cs.pa.jbudget105333.Model.BudgetReport.BudgetReport;
 import it.unicam.cs.pa.jbudget105333.Model.BudgetReport.BudgetReportManager;
@@ -23,11 +22,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class JBudgetReaderJsonTest {
 
     private Reader<BudgetReport> reader;
-    private final static String path = "src/file/jbudgetTest";
+    private final static String path = "jbudgetTest.json";
 
     @AfterAll
     static void restoreContext(){
-        new File(path+".json").delete();
+        new File(path).delete();
     }
 
     @BeforeEach
@@ -37,7 +36,6 @@ class JBudgetReaderJsonTest {
             writer.write(BudgetReportManager.generateReport(LedgerManager.generateLedger()
                     ,BudgetManager.generateBudget()));
             writer.close();
-            MainControllerManager.generateMainController(path).save();
             this.reader = new JBudgetReaderJson(path);
         } catch (IOException e) {
             e.printStackTrace();

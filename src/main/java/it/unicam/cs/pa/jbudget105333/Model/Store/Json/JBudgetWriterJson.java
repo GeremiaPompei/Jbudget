@@ -40,10 +40,11 @@ public class JBudgetWriterJson implements Writer<BudgetReport> {
     /**
      * Costruttore del JBudgetWriterJson.
      * @param path Percorso del file Json.
-     * @throws IOException
      */
-    public JBudgetWriterJson(String path) throws IOException {
-        this.path = path+".json";
+    public JBudgetWriterJson(String path){
+        if(!path.contains(".json"))
+            path = path+".json";
+        this.path = path;
         this.gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter
                 (BudgetReportBase.class,new BudgetReportBaseSerializer()).create();
     }

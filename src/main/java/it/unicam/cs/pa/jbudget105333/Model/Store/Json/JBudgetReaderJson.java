@@ -38,7 +38,9 @@ public class JBudgetReaderJson implements Reader<BudgetReport> {
      * @throws IOException
      */
     public JBudgetReaderJson(String path) throws IOException {
-        this.in = new InputStreamReader(new FileInputStream(path+".json"));
+        if(!path.contains(".json"))
+            path = path+".json";
+        this.in = new InputStreamReader(new FileInputStream(path));
         this.gson = new GsonBuilder().registerTypeAdapter
                 (BudgetReportBase.class,new BudgetReportBaseDeserializer()).create();
     }

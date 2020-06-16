@@ -52,7 +52,6 @@ public abstract class TransactionBase implements Transaction {
      */
     public TransactionBase(String description, int ID) {
         this(LocalDateTime.now(),description,ID);
-        this.logger.finest("Transaction created");
     }
 
     /**
@@ -61,8 +60,6 @@ public abstract class TransactionBase implements Transaction {
      * @param ID ID della Transazione.
      */
     public TransactionBase(LocalDateTime date, String description, int ID) {
-        if(date == null)
-            throw new NullPointerException();
         this.description = description;
         this.ID = ID;
         this.date = date;

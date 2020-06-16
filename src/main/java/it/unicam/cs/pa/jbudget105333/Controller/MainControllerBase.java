@@ -1,12 +1,10 @@
 package it.unicam.cs.pa.jbudget105333.Controller;
 
 import it.unicam.cs.pa.jbudget105333.Model.Account.Account;
-import it.unicam.cs.pa.jbudget105333.Model.Budget.Budget;
 import it.unicam.cs.pa.jbudget105333.Model.Budget.BudgetManager;
 import it.unicam.cs.pa.jbudget105333.Model.BudgetReport.BudgetReport;
 import it.unicam.cs.pa.jbudget105333.Model.BudgetReport.BudgetReportManager;
 import it.unicam.cs.pa.jbudget105333.Model.IDGenerator.IDGenerator;
-import it.unicam.cs.pa.jbudget105333.Model.Ledger.Ledger;
 import it.unicam.cs.pa.jbudget105333.Model.Ledger.LedgerManager;
 import it.unicam.cs.pa.jbudget105333.Model.Movement.Movement;
 import it.unicam.cs.pa.jbudget105333.Model.Store.Reader;
@@ -36,61 +34,25 @@ public class MainControllerBase implements MainController{
     private static final Logger logger = Logger.getGlobal();
 
     /**
-     * Ledger del MainControllerBase.
-     */
-    private final Ledger ledger;
-
-    /**
-     * Budget del MainControllerBase.
-     */
-    private final Budget budget;
-
-    /**
      * BudgetReport del MainControllerBase.
      */
     private BudgetReport budgetReport;
 
     /**
-     * Writer del MainControllerBase.
-     */
-    private final Writer<BudgetReport> writer;
-
-    /**
-     * Costruttore senza parametri del mainControllerBase.
+     * Costruttore del mainControllerBase.
      */
     public MainControllerBase() {
-        this(null,null);
-    }
-
-    /**
-     * Costruttore con due parametri del MainControllerBase.
-     * @param reader Reader del BudgetReport.
-     * @param writer Writer del MainControllerBase.
-     */
-    public MainControllerBase(Reader<BudgetReport> reader, Writer<BudgetReport> writer) {
-        readBudgetReport(reader);
-        this.ledger = this.budgetReport.getLedger();
-        this.budget = this.budgetReport.getBudget();
-        this.writer = writer;
+        resetBudgetReport();
         this.logger.fine("Controller created.");
     }
 
     /**
-     * Metodo che ha la responsabilità di leggere il budget report e inizializzarlo o in caso
-     * di fallimento assegnargliene uno nuovo.
-     * @param reader Permette la lettura del budget report.
+     * Metodo responsabile di resettare il BudgetReport pulendo i suoi campi.
      */
-    private void readBudgetReport(Reader<BudgetReport> reader){
-        try{
-            this.budgetReport = reader.read();
-            reader.close();
-            logger.info("File read correctly.");
-        } catch (Exception e) {
-            this.budgetReport = BudgetReportManager.generateReport(
-                    LedgerManager.generateLedger()
-                    ,BudgetManager.generateBudget());
-            logger.warning("File not read, is created a new budget report.");
-        }
+    @Override
+    public void resetBudgetReport(){
+        this.budgetReport = BudgetReportManager.generateReport(LedgerManager.generateLedger()
+                ,BudgetManager.generateBudget());
     }
 
     /**
@@ -100,7 +62,7 @@ public class MainControllerBase implements MainController{
     @Override
     public Set<Account> getAccounts(){
         this.logger.fine("Accounts getter.");
-        return this.ledger.getAccounts();
+        return this.budgetReport.getLedger().getAccounts();
     }
 
     /**
@@ -111,7 +73,7 @@ public class MainControllerBase implements MainController{
     @Override
     public Account getAccount(int ID){
         this.logger.fine("Account getter with ID:["+ID+"]");
-        return this.ledger.getAccount(ID);
+        return this.budgetReport.getLedger().getAccount(ID);
     }
 
     /**
@@ -120,7 +82,7 @@ public class MainControllerBase implements MainController{
      */
     @Override
     public void addAccount(Account account){
-        this.ledger.addAccount(account);
+        this.budgetReport.getLedger().addAccount(account);
         this.logger.fine("Addition of Account: ["+account.toString()+"]");
     }
 
@@ -130,7 +92,7 @@ public class MainControllerBase implements MainController{
      */
     @Override
     public void removeAccount(Account account){
-        this.ledger.removeAccount(account);
+        this.budgetReport.getLedger().removeAccount(account);
         this.logger.fine("Removal of Account: ["+account.toString()+"]");
     }
 
@@ -141,7 +103,7 @@ public class MainControllerBase implements MainController{
     @Override
     public Set<Tag> getTags(){
         this.logger.fine("Tags getter.");
-        return this.ledger.getTags();
+        return this.budgetReport.getLedger().getTags();
     }
 
     /**
@@ -152,7 +114,7 @@ public class MainControllerBase implements MainController{
     @Override
     public Tag getTag(int ID){
         this.logger.fine("Tag getter with ID: ["+ID+"]");
-        return this.ledger.getTag(ID);
+        return this.budgetReport.getLedger().getTag(ID);
     }
 
     /**
@@ -161,7 +123,7 @@ public class MainControllerBase implements MainController{
      */
     @Override
     public void addTag(Tag tag){
-        this.ledger.addTag(tag);
+        this.budgetReport.getLedger().addTag(tag);
         this.logger.fine("Addition of Tag: ["+tag.toString()+"]");
     }
 
@@ -171,7 +133,7 @@ public class MainControllerBase implements MainController{
      */
     @Override
     public void removeTag(Tag tag){
-        this.ledger.removeTag(tag);
+        this.budgetReport.getLedger().removeTag(tag);
         removeBudgetRecord(tag);
         this.logger.fine("Removal of Tag: ["+tag.toString()+"]");
     }
@@ -183,7 +145,7 @@ public class MainControllerBase implements MainController{
     @Override
     public Set<Transaction> getTransactions(){
         this.logger.fine("Transactions getter.");
-        return this.ledger.getTransactions();
+        return this.budgetReport.getLedger().getTransactions();
     }
 
     /**
@@ -194,7 +156,7 @@ public class MainControllerBase implements MainController{
     @Override
     public Transaction getTransaction(int ID){
         this.logger.fine("Transaction getter with ID: ["+ID+"]");
-        return this.ledger.getTransaction(ID);
+        return this.budgetReport.getLedger().getTransaction(ID);
     }
 
     /**
@@ -207,7 +169,7 @@ public class MainControllerBase implements MainController{
     public boolean addTransaction(Transaction transaction, Collection<Movement> movements){
         if(!movements.isEmpty()&&transaction.getDate().toLocalDate().compareTo(LocalDate.now())>=0){
             transaction.addMovements(movements);
-            this.ledger.addTransaction(transaction);
+            this.budgetReport.getLedger().addTransaction(transaction);
             update();
             this.logger.fine("Addition of transaction: ["+transaction.toString()+"]");
             return true;
@@ -222,7 +184,7 @@ public class MainControllerBase implements MainController{
      */
     @Override
     public void removeTransaction(Transaction transaction){
-        this.ledger.removeTransaction(transaction);
+        this.budgetReport.getLedger().removeTransaction(transaction);
         this.logger.fine("Removal of transaction: ["+transaction.toString()+"]");
     }
 
@@ -260,7 +222,7 @@ public class MainControllerBase implements MainController{
     public Set<Transaction> scheduleTransactionsDate(LocalDateTime start, LocalDateTime stop) {
         if(start.isBefore(stop)) {
             Set<Transaction> stransactions = new TreeSet();
-            this.ledger.getTransactions()
+            this.budgetReport.getLedger().getTransactions()
                     .stream()
                     .filter(t -> t.getDate().isAfter(start))
                     .filter(t -> t.getDate().isBefore(stop))
@@ -281,7 +243,7 @@ public class MainControllerBase implements MainController{
     public Set<Transaction> scheduleTransactionsTag(Tag tag){
         if(tag != null) {
             Set<Transaction> stransactions = new TreeSet();
-            this.ledger.getTransactions()
+            this.budgetReport.getLedger().getTransactions()
                     .stream()
                     .filter(t -> t.getTags().contains(tag))
                     .forEach(t -> stransactions.add(t));
@@ -299,7 +261,7 @@ public class MainControllerBase implements MainController{
     @Override
     public Map<Tag,Double> getBudgetRecords(){
         this.logger.fine("BudgetRecords getter.");
-        return this.budget.getBudgetMap();
+        return this.budgetReport.getBudget().getBudgetMap();
     }
 
     /**
@@ -309,8 +271,8 @@ public class MainControllerBase implements MainController{
      */
     @Override
     public boolean addBudgetRecord(Tag tag, Double value){
-        if(tag!=null && this.ledger.getTags().contains(tag)) {
-            this.budget.add(tag,value);
+        if(tag!=null && this.budgetReport.getLedger().getTags().contains(tag)) {
+            this.budgetReport.getBudget().add(tag,value);
             this.logger.fine("Addition of budget record with key: ["
                     +tag.toString()+"] and value :["+value+"]");
             return true;
@@ -326,7 +288,7 @@ public class MainControllerBase implements MainController{
      */
     @Override
     public void removeBudgetRecord(Tag tag){
-        this.budget.remove(tag);
+        this.budgetReport.getBudget().remove(tag);
         this.logger.fine("Removal of budget record with key :["+tag.toString()+"]");
     }
 
@@ -339,8 +301,9 @@ public class MainControllerBase implements MainController{
     @Override
     public Map<Tag, Double> check(){
         Map<Tag, Double> result = new HashMap<>();
-        this.budgetReport.check().keySet().parallelStream()
+        this.budgetReport.check().keySet().stream()
                 .filter(t->this.budgetReport.check().get(t)<0)
+                .parallel()
                 .forEach(t->result.put(t,this.budgetReport.check().get(t)));
         this.logger.fine("Check getter.");
         return result;
@@ -351,16 +314,23 @@ public class MainControllerBase implements MainController{
      */
     @Override
     public void update(){
-        this.ledger.update();
+        this.budgetReport.getLedger().update();
         this.logger.fine("MainController updated.");
     }
 
     /**
-     * Metodo che ha la responsabilità di salvare un BudgetReport.
+     * Metodo che ha la responsabilità di leggere un budget report e sostituirlo.
+     * @param reader Permette la lettura del budget report.
      */
     @Override
-    public void save() {
-        save(this.writer);
+    public void read(Reader<BudgetReport> reader){
+        try{
+            this.budgetReport = reader.read();
+            reader.close();
+            logger.info("File read correctly.");
+        } catch (Exception e) {
+            logger.warning("File not read, is created a new budget report.");
+        }
     }
 
     /**
@@ -368,7 +338,7 @@ public class MainControllerBase implements MainController{
      * @param writer Writer con cui salvare il BudgetReport.
      */
     @Override
-    public void save(Writer writer) {
+    public void save(Writer<BudgetReport> writer) {
         if(writer!= null) {
             try {
                 writer.write(this.budgetReport);
@@ -387,6 +357,6 @@ public class MainControllerBase implements MainController{
     @Override
     public IDGenerator idGenerator(){
         this.logger.fine("IDGenerator getter.");
-        return this.ledger.getIDGenerator();
+        return this.budgetReport.getLedger().getIDGenerator();
     }
 }

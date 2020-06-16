@@ -48,8 +48,6 @@ public class TagBase implements Tag {
      * @param ID ID del TagBase.
      */
     public TagBase(String name, String description, int ID) {
-        if(name == null || description == null)
-            throw new NullPointerException();
         if(name.equalsIgnoreCase(""))
             throw new IllegalArgumentException();
         this.name = name;

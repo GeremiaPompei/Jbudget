@@ -1,0 +1,24 @@
+giu 16, 2020 12:29:13 PM it.unicam.cs.pa.jbudget105333.App main
+INFORMAZIONI: Start app.
+giu 16, 2020 12:29:19 PM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController initialize
+INFORMAZIONI: GUIViewController initialized.
+giu 16, 2020 12:29:50 PM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController newFile
+INFORMAZIONI: File Created.
+giu 16, 2020 12:29:56 PM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController addAccount
+AVVERTENZA: Failed in Account Addition.
+giu 16, 2020 12:30:00 PM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController addAccount
+AVVERTENZA: Failed in Account Addition.
+giu 16, 2020 12:30:06 PM it.unicam.cs.pa.jbudget105333.Model.Store.Json.JBudgetWriterJson write
+INFORMAZIONI: Writing.
+giu 16, 2020 12:30:06 PM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController addAccount
+INFORMAZIONI: Addition of account: [1: nvmh]
+giu 16, 2020 12:30:13 PM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController addTag
+INFORMAZIONI: Addition of tag: [3: ,jgc]
+giu 16, 2020 12:30:13 PM it.unicam.cs.pa.jbudget105333.Model.Store.Json.JBudgetWriterJson write
+INFORMAZIONI: Writing.
+giu 16, 2020 12:30:25 PM it.unicam.cs.pa.jbudget105333.Model.Store.Json.JBudgetWriterJson write
+INFORMAZIONI: Writing.
+giu 16, 2020 12:30:25 PM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController saveFile
+INFORMAZIONI: File saved.
+giu 16, 2020 12:30:51 PM it.unicam.cs.pa.jbudget105333.App main
+INFORMAZIONI: Stop app.
