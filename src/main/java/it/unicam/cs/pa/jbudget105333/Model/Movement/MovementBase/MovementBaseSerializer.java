@@ -27,8 +27,8 @@ public class MovementBaseSerializer implements JsonSerializer<Movement> {
     /**
      * Metodo responsabile della serializzazione di un MovementBase.
      * @param src Movement da serializzare.
-     * @param typeOfSrc
-     * @param context
+     * @param typeOfSrc Tipo di src.
+     * @param context Contesto di serializzazione.
      * @return JsonElement serializzato.
      */
     @Override

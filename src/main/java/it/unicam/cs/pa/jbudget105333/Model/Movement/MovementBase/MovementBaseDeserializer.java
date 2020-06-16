@@ -46,10 +46,10 @@ public class MovementBaseDeserializer implements JsonDeserializer<Movement> {
     /**
      * Metodo responsabile della deserializzazione deli un MovementBase.
      * @param json JsonElement da deserializzare.
-     * @param typeOfT
-     * @param context
+     * @param typeOfT Tipo dell'oggetto in cui deserializzare.
+     * @param context Contesto di deserializzazione.
      * @return MovementBase deserializzato.
-     * @throws JsonParseException
+     * @throws JsonParseException Eccezione dovuta al formato del file json da deserializzare.
      */
     @Override
     public Movement deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

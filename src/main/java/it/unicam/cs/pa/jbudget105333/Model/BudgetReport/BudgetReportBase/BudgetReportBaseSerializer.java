@@ -26,8 +26,8 @@ public class BudgetReportBaseSerializer implements JsonSerializer<BudgetReport> 
     /**
      * Metodo responsabile della serializzazione dei un BudgetReportBase.
      * @param src BudgetReport da serializzare.
-     * @param typeOfSrc
-     * @param context
+     * @param typeOfSrc Tipo di src.
+     * @param context Contesto di serializzazione.
      * @return JsonElement serializzato.
      */
     @Override

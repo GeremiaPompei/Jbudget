@@ -37,10 +37,10 @@ public class BudgetBaseDeserializer implements JsonDeserializer<Budget> {
     /**
      * Metodo responsabile della deserializzazione del BudgetBase.
      * @param json JsonElement da deserializzare.
-     * @param typeOfT
-     * @param context
+     * @param typeOfT Tipo dell'oggetto in cui deserializzare.
+     * @param context Contesto di deserializzazione.
      * @return BudgetBase deserializzato.
-     * @throws JsonParseException
+     * @throws JsonParseException Errore nel formato del file json da deserializzare.
      */
     @Override
     public Budget deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

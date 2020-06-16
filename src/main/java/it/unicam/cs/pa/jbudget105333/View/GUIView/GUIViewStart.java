@@ -21,7 +21,7 @@ public class GUIViewStart extends Application {
     /**
      * Mwtodo che ha la responsabilità di impostare i parametri e far partire lo stage della GUIView.
      * @param stage Stage della GUIView.
-     * @throws Exception
+     * @throws Exception Eccezione dovuta al caricamento eseguito male del file FXML.
      */
     @Override
     public void start(Stage stage) throws Exception {

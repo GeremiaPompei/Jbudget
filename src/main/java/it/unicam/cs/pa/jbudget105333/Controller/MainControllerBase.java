@@ -163,19 +163,16 @@ public class MainControllerBase implements MainController{
      * Metodo responsabile di aggiungere una Transazione e di aggiungere a questa una serie di movimenti.
      * @param transaction Transazione da aggiungere.
      * @param movements Movimenti da aggiungere alla transazione.
-     * @return
      */
     @Override
-    public boolean addTransaction(Transaction transaction, Collection<Movement> movements){
+    public void addTransaction(Transaction transaction, Collection<Movement> movements){
         if(!movements.isEmpty()&&transaction.getDate().toLocalDate().compareTo(LocalDate.now())>=0){
             transaction.addMovements(movements);
             this.budgetReport.getLedger().addTransaction(transaction);
             update();
             this.logger.fine("Addition of transaction: ["+transaction.toString()+"]");
-            return true;
-        }
-        this.logger.fine("Failed in addition of transaction: ["+transaction.toString()+"]");
-        return false;
+        }else
+            this.logger.fine("Failed in addition of transaction: ["+transaction.toString()+"]");
     }
 
     /**
@@ -270,16 +267,14 @@ public class MainControllerBase implements MainController{
      * @param value Value relativo al tag.
      */
     @Override
-    public boolean addBudgetRecord(Tag tag, Double value){
+    public void addBudgetRecord(Tag tag, Double value){
         if(tag!=null && this.budgetReport.getLedger().getTags().contains(tag)) {
             this.budgetReport.getBudget().add(tag,value);
             this.logger.fine("Addition of budget record with key: ["
                     +tag.toString()+"] and value :["+value+"]");
-            return true;
-        }
-        this.logger.fine("Failed in addition of budget record with key: ["
+        }else
+            this.logger.fine("Failed in addition of budget record with key: ["
                 +tag.toString()+"] and value :["+value+"]");
-        return false;
     }
 
     /**
@@ -293,10 +288,10 @@ public class MainControllerBase implements MainController{
     }
 
     /**
-     * Metodo responsabile di fare un controllo e restituire una mappa che associa se presenti ad ogni tag
-     * per cui è stato fissato un budget la differenza tra saldo totale e budget se questa è negativa
-     * , ovvero se il valore del budget fissato per quel tag viene superato.
-     * @return
+     * Metodo responsabile di fare un controllo e restituire una mappa che associa, se presenti, ad ogni tag
+     * per cui è stato fissato un budget la differenza tra saldo totale e il budget se questa è negativa
+     * ; ovvero se il valore del budget fissato per quel tag viene superato.
+     * @return Mappa con tag e differenze in negativo.
      */
     @Override
     public Map<Tag, Double> check(){

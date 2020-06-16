@@ -23,10 +23,10 @@ public class BudgetReportBaseDeserializer implements JsonDeserializer<BudgetRepo
     /**
      * Metodo responsabile della deserializzazione deli un BudgetReportBase.
      * @param json JsonElement da deserializzare.
-     * @param typeOfT
-     * @param context
+     * @param typeOfT Tipo dell'oggetto in cui deserializzare.
+     * @param context Contesto di deserializzazione.
      * @return BudgetReport deserializzato.
-     * @throws JsonParseException
+     * @throws JsonParseException Errore del formato del file json da deserializzare.
      */
     @Override
     public BudgetReport deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

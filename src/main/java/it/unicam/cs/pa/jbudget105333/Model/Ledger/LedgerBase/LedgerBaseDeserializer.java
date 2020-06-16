@@ -44,10 +44,10 @@ public class LedgerBaseDeserializer implements JsonDeserializer<Ledger> {
     /**
      * Metodo responsabile della deserializzazione di un LedgerBase.
      * @param json JsonElement da deserializzare.
-     * @param typeOfT
-     * @param context
+     * @param typeOfT Tipo dell'oggetto in cui deserializzare.
+     * @param context Contesto di deserializzazione.
      * @return LedgerBase deserializzato.
-     * @throws JsonParseException
+     * @throws JsonParseException Eccezione dovuta al formato del file json da deserializzare.
      */
     @Override
     public Ledger deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

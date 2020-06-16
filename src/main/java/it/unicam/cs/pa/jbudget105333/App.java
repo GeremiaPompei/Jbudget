@@ -23,7 +23,7 @@ public class App {
 
     /**
      * Metodo main responsabile di lanciare la GUI View.
-     * @param args
+     * @param args Parametri passati in input al metodo main.
      */
     public static void main(String[] args) {
         setLogger();

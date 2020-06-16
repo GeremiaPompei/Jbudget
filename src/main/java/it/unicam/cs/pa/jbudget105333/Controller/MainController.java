@@ -96,9 +96,8 @@ public interface MainController {
      * Metodo responsabile di aggiungere una Transazione e di aggiungere a questa una serie di movimenti..
      * @param transaction Transazione da aggiungere.
      * @param movements Movimenti da aggiungere alla transazione.
-     * @return
      */
-    boolean addTransaction(Transaction transaction, Collection<Movement> movements);
+    void addTransaction(Transaction transaction, Collection<Movement> movements);
 
     /**
      * Metodo responsabile di rimuovere una Transazione.
@@ -146,7 +145,7 @@ public interface MainController {
      * @param tag Tag chiave.
      * @param value Value relativo al tag.
      */
-    boolean addBudgetRecord(Tag tag, Double value);
+    void addBudgetRecord(Tag tag, Double value);
 
     /**
      * Metodo che ha la responsabilità di aggiornare il MainController.
@@ -175,7 +174,7 @@ public interface MainController {
      * Metodo responsabile di fare un controllo e restituire una mappa che associa se presenti ad ogni tag
      * per cui è stato fissato un budget la differenza tra saldo totale e budget se questa è negativa
      * , ovvero se il valore del budget fissato per quel tag viene superato.
-     * @return
+     * @return Mappa con tag e differenze in negativo.
      */
     Map<Tag, Double> check();
 

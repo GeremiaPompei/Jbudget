@@ -35,7 +35,7 @@ public class JBudgetReaderJson implements Reader<BudgetReport> {
     /**
      * Costruttore del JBudgetReaderJson.
      * @param path Percorso del file Json.
-     * @throws IOException
+     * @throws IOException Eccezione dovuta alla lettura del BudgetReport.
      */
     public JBudgetReaderJson(String path) throws IOException {
         if(!path.contains(".json"))
@@ -60,7 +60,7 @@ public class JBudgetReaderJson implements Reader<BudgetReport> {
 
     /**
      * Metodo che ha la responsabilità di chiudere le variabili utilizzate per leggere.
-     * @throws IOException
+     * @throws IOException Eccezione dovuta alla chiusura diell'InputStreamReader.
      */
     @Override
     public void close() throws IOException {

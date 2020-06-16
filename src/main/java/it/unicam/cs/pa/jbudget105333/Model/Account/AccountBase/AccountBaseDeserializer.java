@@ -20,10 +20,10 @@ public class AccountBaseDeserializer implements JsonDeserializer<Account>{
     /**
      * Metodo responsabile della deserializzazione dell'AccountBase.
      * @param json JsonElement da deserializzare.
-     * @param typeOfT
-     * @param context
+     * @param typeOfT Tipo dell'oggetto da deserializzare.
+     * @param context Contesto della deserializzazione.
      * @return AccountBase deserializzato.
-     * @throws JsonParseException
+     * @throws JsonParseException Errore nella deserializzazione del formato del file json.
      */
     @Override
     public Account deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

@@ -14,6 +14,7 @@ public class InstantTransaction extends TransactionBase {
 
     /**
      * Costruttore della Transazione Istantanea.
+     * @param description Descrizione della transazione istantanea.
      * @param ID ID della Transazione Istantanea.
      */
     public InstantTransaction(String description, int ID) {

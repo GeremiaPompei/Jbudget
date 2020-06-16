@@ -16,6 +16,7 @@ public class ProgramTransaction extends TransactionBase {
     /**
      * Costruttore della Transazione Programmata nel futuro.
      * @param date Data della Transazione Programmata nel futuro.
+     * @param description Descrizione della Transazione Programmata nel futuro.
      * @param ID ID della Transazione Programmata nel futuro.
      */
     public ProgramTransaction(LocalDateTime date, String description, int ID) {

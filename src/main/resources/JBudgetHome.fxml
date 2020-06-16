@@ -42,7 +42,7 @@
           </Menu>
         </menus>
       </MenuBar>
-      <SplitPane dividerPositions="0.5" orientation="VERTICAL" VBox.vgrow="ALWAYS">
+      <SplitPane dividerPositions="0.6059322033898306" orientation="VERTICAL" VBox.vgrow="ALWAYS">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="253.0" prefWidth="1026.0">
                <children>
@@ -54,7 +54,7 @@
                                  <children>
                                     <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <center>
-                                          <TableView fx:id="tableAccount" onKeyPressed="#tableAccountClicked" onMouseClicked="#tableAccountClicked" prefHeight="317.0" prefWidth="1026.0" BorderPane.alignment="CENTER">
+                                          <TableView fx:id="tableAccount" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyPressed="#tableAccountClicked" onMouseClicked="#tableAccountClicked" BorderPane.alignment="CENTER">
                                             <columns>
                                                 <TableColumn fx:id="accountID" prefWidth="86.0" text="ID" />
                                               <TableColumn fx:id="accountName" prefWidth="150.0" text="Name" />
@@ -79,12 +79,12 @@
                                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                             </rowConstraints>
                                              <children>
-                                                <Button mnemonicParsing="false" onAction="#removeAccount" prefHeight="27.0" prefWidth="194.0" text="REMOVE" GridPane.columnIndex="5" />
-                                                <Button mnemonicParsing="false" onAction="#addAccount" prefHeight="27.0" prefWidth="171.0" text="ADD" GridPane.columnIndex="4" />
-                                                <TextField fx:id="accountNewName" promptText="Name" />
-                                                <TextField fx:id="accountNewDescription" promptText="Description" GridPane.columnIndex="1" />
-                                                <TextField fx:id="accountNewOpeningBalance" promptText="Opening Balance" GridPane.columnIndex="2" />
-                                                <ChoiceBox fx:id="accountNewType" prefHeight="27.0" prefWidth="187.0" GridPane.columnIndex="3" />
+                                                <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#removeAccount" text="REMOVE" GridPane.columnIndex="5" />
+                                                <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addAccount" text="ADD" GridPane.columnIndex="4" />
+                                                <TextField fx:id="accountNewName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Name" />
+                                                <TextField fx:id="accountNewDescription" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Description" GridPane.columnIndex="1" />
+                                                <TextField fx:id="accountNewOpeningBalance" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Opening Balance" GridPane.columnIndex="2" />
+                                                <ChoiceBox fx:id="accountNewType" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" />
                                              </children>
                                           </GridPane>
                                        </top>
@@ -99,7 +99,7 @@
                                  <children>
                                     <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <center>
-                                          <TableView fx:id="tableTag" onKeyPressed="#tableTagClicked" onMouseClicked="#tableTagClicked" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                          <TableView fx:id="tableTag" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyPressed="#tableTagClicked" onMouseClicked="#tableTagClicked" BorderPane.alignment="CENTER">
                                              <columns>
                                                 <TableColumn fx:id="tagID" prefWidth="75.0" text="ID" />
                                                 <TableColumn fx:id="tagName" prefWidth="179.0" text="Name" />
@@ -122,10 +122,10 @@
                                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                              </rowConstraints>
                                              <children>
-                                                <Button mnemonicParsing="false" onAction="#removeTag" prefHeight="27.0" prefWidth="194.0" text="REMOVE" GridPane.columnIndex="5" />
-                                                <Button mnemonicParsing="false" onAction="#addTag" prefHeight="27.0" prefWidth="171.0" text="ADD" GridPane.columnIndex="4" />
-                                                <TextField fx:id="tagNewName" promptText="Name" />
-                                                <TextField fx:id="tagNewDescription" promptText="Description" GridPane.columnIndex="1" />
+                                                <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#removeTag" text="REMOVE" GridPane.columnIndex="5" />
+                                                <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addTag" text="ADD" GridPane.columnIndex="4" />
+                                                <TextField fx:id="tagNewName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Name" />
+                                                <TextField fx:id="tagNewDescription" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Description" GridPane.columnIndex="1" />
                                              </children>
                                           </GridPane>
                                        </top>
@@ -140,7 +140,7 @@
                                  <children>
                                     <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <center>
-                                          <TableView fx:id="tableTransaction" onKeyPressed="#tableTransactionClicked" onMouseClicked="#tableTransactionClicked" prefHeight="232.0" prefWidth="1026.0" BorderPane.alignment="CENTER">
+                                          <TableView fx:id="tableTransaction" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyPressed="#tableTransactionClicked" onMouseClicked="#tableTransactionClicked" BorderPane.alignment="CENTER">
                                             <columns>
                                               <TableColumn fx:id="transactionID" prefWidth="75.0" text="ID" />
                                               <TableColumn fx:id="transactionDate" prefWidth="156.0" text="Date" />
@@ -209,16 +209,16 @@
                                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                              </rowConstraints>
                                              <children>
-                                                <Button mnemonicParsing="false" onAction="#removeTransaction" prefHeight="27.0" prefWidth="194.0" text="REMOVE" GridPane.columnIndex="8" />
-                                                <Button mnemonicParsing="false" onAction="#addTransaction" prefHeight="27.0" prefWidth="171.0" text="ADD" GridPane.columnIndex="7" />
-                                                <DatePicker fx:id="transactionNewDate" GridPane.columnIndex="1" />
-                                                <RadioButton fx:id="programTransaction" mnemonicParsing="false" text="Program Transaction">
+                                                <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#removeTransaction" text="REMOVE" GridPane.columnIndex="8" />
+                                                <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addTransaction" text="ADD" GridPane.columnIndex="7" />
+                                                <DatePicker fx:id="transactionNewDate" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
+                                                <RadioButton fx:id="programTransaction" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Program Transaction">
                                                    <toggleGroup>
                                                       <ToggleGroup fx:id="transactionType" />
                                                    </toggleGroup>
                                                 </RadioButton>
-                                                <RadioButton fx:id="instantTransaction" mnemonicParsing="false" text="Instant Transaction" toggleGroup="$transactionType" GridPane.columnIndex="3" />
-                                                <TextField fx:id="transactionNewDescription" prefHeight="27.0" prefWidth="258.0" promptText="Description" GridPane.columnIndex="5" />
+                                                <RadioButton fx:id="instantTransaction" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Instant Transaction" toggleGroup="$transactionType" GridPane.columnIndex="3" />
+                                                <TextField fx:id="transactionNewDescription" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Description" GridPane.columnIndex="5" />
                                              </children>
                                           </GridPane>
                                        </top>
@@ -236,7 +236,7 @@
                                  <children>
                                     <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <center>
-                                          <TableView fx:id="tableBudget" onKeyPressed="#budgetTableClicked" onMouseClicked="#budgetTableClicked" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                          <TableView fx:id="tableBudget" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyPressed="#budgetTableClicked" onMouseClicked="#budgetTableClicked" BorderPane.alignment="CENTER">
                                              <columns>
                                                 <TableColumn fx:id="budgetTagID" prefWidth="169.0" text="Tag ID" />
                                                 <TableColumn fx:id="budgetValue" prefWidth="143.0" text="Value" />
@@ -257,10 +257,10 @@
                                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                              </rowConstraints>
                                              <children>
-                                                <Button mnemonicParsing="false" onAction="#removeBudget" prefHeight="27.0" prefWidth="194.0" text="REMOVE" GridPane.columnIndex="5" />
-                                                <Button mnemonicParsing="false" onAction="#addBudget" prefHeight="27.0" prefWidth="171.0" text="ADD" GridPane.columnIndex="4" />
-                                                <TextField fx:id="budgetNewValue" promptText="Value" GridPane.columnIndex="1" />
-                                                <ChoiceBox fx:id="budgetNewTagId" prefHeight="27.0" prefWidth="187.0" />
+                                                <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#removeBudget" text="REMOVE" GridPane.columnIndex="5" />
+                                                <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addBudget" text="ADD" GridPane.columnIndex="4" />
+                                                <TextField fx:id="budgetNewValue" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Value" GridPane.columnIndex="1" />
+                                                <ChoiceBox fx:id="budgetNewTagId" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                                              </children>
                                           </GridPane>
                                        </top>
@@ -291,18 +291,14 @@
             </AnchorPane>
         </items>
       </SplitPane>
-      <ButtonBar prefHeight="40.0" prefWidth="200.0">
-         <buttons>
-            <Label fx:id="notificationLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="1314.0" textFill="RED" />
-         </buttons>
-      </ButtonBar>
+      <Label fx:id="notificationLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" textFill="RED" />
       <Accordion>
         <panes>
           <TitledPane animated="false" text="Description">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TextArea fx:id="descriptionArea" prefHeight="180.0" prefWidth="1135.0" AnchorPane.bottomAnchor="-0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <TextArea fx:id="descriptionArea" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="-0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
             </content>

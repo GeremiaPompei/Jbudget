@@ -23,8 +23,8 @@ public class TransactionBaseSerializer implements JsonSerializer<Transaction> {
     /**
      * Metodo responsabile della serializzazione della TransactionBase.
      * @param src Transazione da serializzare.
-     * @param typeOfSrc
-     * @param context
+     * @param typeOfSrc Tipo di src.
+     * @param context Contesto della serializzazione.
      * @return JsonElement serializzato.
      */
     @Override

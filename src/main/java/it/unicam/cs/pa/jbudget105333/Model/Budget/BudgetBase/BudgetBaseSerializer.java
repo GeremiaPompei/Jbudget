@@ -20,8 +20,8 @@ public class BudgetBaseSerializer implements JsonSerializer<Budget> {
     /**
      * Metodo responsabile della serializzazione del BudgetBase.
      * @param src Budget da serializzare.
-     * @param typeOfSrc
-     * @param context
+     * @param typeOfSrc Tipo di src.
+     * @param context Contesto di serializzazione.
      * @return JasonElement serializzato.
      */
     @Override

@@ -12,6 +12,7 @@ public interface TransactionManager {
 
     /**
      * Metodo responsabile della generazione di una Transazione.
+     * @param description Descrizione dela transazione.
      * @param ID ID della transazione.
      * @return Transazione generata.
      */
@@ -22,6 +23,7 @@ public interface TransactionManager {
     /**
      * Metodo responsabile della generazione di una Transazione con una certa data.
      * @param date Data della transazione.
+     * @param description Descrizione dela transazione.
      * @param ID ID della transazione.
      * @return Transazione generata.
      */

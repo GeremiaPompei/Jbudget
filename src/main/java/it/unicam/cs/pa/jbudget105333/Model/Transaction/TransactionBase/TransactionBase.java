@@ -48,6 +48,7 @@ public abstract class TransactionBase implements Transaction {
 
     /**
      * Costruttore di TransactionBase con un solo parametro ID.
+     * @param description Descrizione della transazione.
      * @param ID ID della Transazione.
      */
     public TransactionBase(String description, int ID) {
@@ -57,6 +58,7 @@ public abstract class TransactionBase implements Transaction {
     /**
      * Costruttore di TransactionBase con due parametro data e ID.
      * @param date Data della Transazione.
+     * @param description Descrizione della transazione.
      * @param ID ID della Transazione.
      */
     public TransactionBase(LocalDateTime date, String description, int ID) {

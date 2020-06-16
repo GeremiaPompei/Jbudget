@@ -22,8 +22,8 @@ public class AccountBaseSerializer implements JsonSerializer<Account> {
     /**
      * Metodo responsabile della serializzazione dell'AccountBase.
      * @param src Account da serializzare.
-     * @param typeOfSrc
-     * @param context
+     * @param typeOfSrc Tipo di src.
+     * @param context Contesto della serializzazione.
      * @return JsonElement serializzato.
      */
     @Override

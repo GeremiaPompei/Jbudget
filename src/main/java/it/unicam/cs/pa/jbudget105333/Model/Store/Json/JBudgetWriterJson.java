@@ -51,20 +51,20 @@ public class JBudgetWriterJson implements Writer<BudgetReport> {
 
     /**
      * Metodo che ha la responsabilità di scrivere un BudgetReport su un file Json.
-     * @param object
-     * @throws IOException
+     * @param budgetReport BudgetReport da scrivere.
+     * @throws IOException Eccezione dovuta ad un errore in scrittura.
      */
     @Override
-    public void write(BudgetReport object) throws IOException {
+    public void write(BudgetReport budgetReport) throws IOException {
         this.out = new OutputStreamWriter(new FileOutputStream(path));
-        this.out.write(this.gson.toJson(object));
+        this.out.write(this.gson.toJson(budgetReport));
         this.out.flush();
         this.logger.info("Writing.");
     }
 
     /**
      * Metodo che ha la responsabilità di chiudere le variabili utilizzate per scrivere.
-     * @throws IOException
+     * @throws IOException Eccezione dovuta alla chiusura dell'OutputStreamWriter.
      */
     @Override
     public void close() throws IOException {

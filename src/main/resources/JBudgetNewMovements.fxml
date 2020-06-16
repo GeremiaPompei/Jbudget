@@ -24,7 +24,7 @@
       </ButtonBar>
       <BorderPane VBox.vgrow="ALWAYS">
          <center>
-            <TableView fx:id="tableNewMovements" prefHeight="335.0" prefWidth="608.0" BorderPane.alignment="CENTER">
+            <TableView fx:id="tableNewMovements" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
               <columns>
                 <TableColumn fx:id="movementType" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="121.0" text="TYPE" />
                 <TableColumn fx:id="movementAmount" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="123.0" text="AMOUNT" />
@@ -47,20 +47,16 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ChoiceBox fx:id="movementNewType" prefHeight="27.0" prefWidth="522.0" />
-                  <ChoiceBox fx:id="movementNewAccountId" prefHeight="27.0" prefWidth="436.0" GridPane.columnIndex="2" />
-                  <ChoiceBox fx:id="movementNewTagId" prefHeight="27.0" prefWidth="463.0" GridPane.columnIndex="3" />
-                  <TextField fx:id="movementNewAmount" prefHeight="27.0" prefWidth="417.0" GridPane.columnIndex="1" />
-                  <TextField fx:id="movementNewDescription" prefHeight="27.0" prefWidth="390.0" GridPane.columnIndex="4" />
+                  <ChoiceBox fx:id="movementNewType" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                  <ChoiceBox fx:id="movementNewAccountId" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="2" />
+                  <ChoiceBox fx:id="movementNewTagId" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" />
+                  <TextField fx:id="movementNewAmount" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
+                  <TextField fx:id="movementNewDescription" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="4" />
                </children>
             </GridPane>
          </top>
          <bottom>
-            <ButtonBar prefHeight="32.0" prefWidth="608.0" BorderPane.alignment="CENTER">
-               <buttons>
-                  <Label fx:id="notificationLabel" prefHeight="40.0" prefWidth="935.0" textFill="RED" />
-               </buttons>
-            </ButtonBar>
+            <Label fx:id="notificationLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" textFill="RED" BorderPane.alignment="CENTER" />
          </bottom>
       </BorderPane>
    </children>

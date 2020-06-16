@@ -16,7 +16,7 @@ public interface Reader<O> {
 
     /**
      * Metodo che ha la responsabilità di chiudere le variabili istanziate per leggere.
-     * @throws IOException
+     * @throws IOException Eccezione dovuta alla chiusura di uno stream di lettura.
      */
     void close() throws IOException;
 }

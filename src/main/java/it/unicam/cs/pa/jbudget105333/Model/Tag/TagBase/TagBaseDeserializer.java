@@ -19,10 +19,10 @@ public class TagBaseDeserializer implements JsonDeserializer<Tag> {
     /**
      * Metodo responsabile della deserializzazione del TagBase.
      * @param json JsonElement da deserializzare.
-     * @param typeOfT
-     * @param context
+     * @param typeOfT Tipo dell'oggetto in cui deserializzare.
+     * @param context Contesto di deserializzazione.
      * @return TagBase deserializzato.
-     * @throws JsonParseException
+     * @throws JsonParseException Eccezione dovuta al formato del file da deserializzare.
      */
     @Override
     public Tag deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

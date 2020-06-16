@@ -26,8 +26,8 @@ public class LedgerBaseSerializer implements JsonSerializer<Ledger> {
     /**
      * Metodo responsabile della serializzazione di un LedgerBase.
      * @param src Ledger da serializzare.
-     * @param typeOfSrc
-     * @param context
+     * @param typeOfSrc Tipo di src.
+     * @param context Contesto di serializzazione.
      * @return JsonElement serializzato.
      */
     @Override

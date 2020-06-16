@@ -22,8 +22,8 @@ public class TagBaseSerializer implements JsonSerializer<Tag> {
     /**
      * Metodo responsabile della serializzazione dell'TagBase.
      * @param src Tag da serializzare.
-     * @param typeOfSrc
-     * @param context
+     * @param typeOfSrc Tipo di src.
+     * @param context Contesto della serializzazione.
      * @return JsonElement serializzato.
      */
     @Override

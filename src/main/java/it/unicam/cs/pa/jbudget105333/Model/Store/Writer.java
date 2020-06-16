@@ -10,14 +10,14 @@ public interface Writer <O> {
 
     /**
      * Metodo che ha la responsabilità di scrivere un O.
-     * @param object
-     * @throws IOException
+     * @param object Oggetto da scrivere.
+     * @throws IOException Eccezione dovuta alla scrittura di un oggetto.
      */
     void write(O object) throws IOException;
 
     /**
      * Metodo che ha la responsabilità di chiudere le variabili istanziate per scrivere.
-     * @throws IOException
+     * @throws IOException Eccezione dovuta alla chiusura di uno stream di scrittura.
      */
     void close() throws IOException;
 }

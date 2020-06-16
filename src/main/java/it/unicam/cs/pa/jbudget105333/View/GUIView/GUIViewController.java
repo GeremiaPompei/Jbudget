@@ -367,13 +367,13 @@ public class GUIViewController implements Initializable {
                     ,this.controller.idGenerator().generate());
             this.controller.addAccount(a);
             save();
+            updateTables();
             notificationLabel.setText("Success!");
             logger.info("Addition of account: ["+a.toString()+"]");
         }catch (Exception e){
             notificationLabel.setText("Add Account Failed");
             logger.warning("Failed in Account Addition.");
         }finally {
-            updateTables();
             accountNewName.clear();
             accountNewDescription.clear();
             accountNewOpeningBalance.clear();
@@ -389,7 +389,6 @@ public class GUIViewController implements Initializable {
         if(!tableTag.getItems().isEmpty()&&t!=null) {
             this.controller.removeTag(t);
             updateTables();
-            updateBudget();
             save();
             logger.info("Removal of tag: ["+t.toString()+"]");
         }
@@ -404,13 +403,13 @@ public class GUIViewController implements Initializable {
             Tag t = TagManager.generateTag(tagNewName.getText(),tagNewDescription.getText()
                     ,this.controller.idGenerator().generate());
             this.controller.addTag(t);
+            updateTables();
             notificationLabel.setText("Success!");
             logger.info("Addition of tag: ["+t.toString()+"]");
         }catch (Exception e){
             notificationLabel.setText("Add Tag Failed");
             logger.warning("Failed in Tag Addition.");
         }finally {
-            updateTables();
             tagNewName.clear();
             tagNewDescription.clear();
             save();
@@ -524,7 +523,7 @@ public class GUIViewController implements Initializable {
             logger.info("Addition of budget: ["+tag.toString()+":"+value+"]");
         }catch (Exception e){
             attention();
-            notificationLabel.setText(notificationLabel.getText()+"Add Budget Failed");
+            notificationLabel.setText(notificationLabel.getText()+" - Add Budget Failed");
             logger.warning("Failed in Budget Addition.");
         }finally {
             budgetNewValue.clear();
@@ -687,6 +686,7 @@ public class GUIViewController implements Initializable {
             String path = createFileChooser().showSaveDialog(createStage()).getAbsolutePath();
             this.writer = new JBudgetWriterJson(path);
             this.controller.resetBudgetReport();
+            olMovement.removeAll(olMovement);
             updateTables();
             save();
             notificationLabel.setText("File created: " + path);
@@ -732,8 +732,8 @@ public class GUIViewController implements Initializable {
 
     /**
      * Metodo che ha la responsabilità di inizializzare le variabili di istanza.
-     * @param location
-     * @param resources
+     * @param location Locazione utilizzata per risolvere il path relativo dell'oggetto.
+     * @param resources Risorse utilizzate per localizzare l'oggetto root.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -758,6 +758,7 @@ public class GUIViewController implements Initializable {
         updateTags();
         updateBudget();
         updateTransactions();
+        tableMovement.refresh();
     }
 
     /**

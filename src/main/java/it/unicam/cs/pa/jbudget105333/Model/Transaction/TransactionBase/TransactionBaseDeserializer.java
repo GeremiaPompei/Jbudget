@@ -39,10 +39,10 @@ public class TransactionBaseDeserializer implements JsonDeserializer<Transaction
     /**
      * Metodo responsabile della deserializzazione dell'TransactionBase.
      * @param json JsonElement da deserializzare.
-     * @param typeOfT
-     * @param context
+     * @param typeOfT Tipo in cui deserializzare.
+     * @param context Contesto della deserializzazione.
      * @return TransactionBase deserializzato.
-     * @throws JsonParseException
+     * @throws JsonParseException Eccezione dovuta al formato.
      */
     @Override
     public Transaction deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

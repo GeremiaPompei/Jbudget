@@ -200,8 +200,8 @@ public class GUIViewMovementController implements Initializable {
 
     /**
      * Metodo che ha la responsabilità di inizializzare le variabili della View dei movimenti.
-     * @param location
-     * @param resources
+     * @param location Locazione utilizzata per risolvere il path relativo dell'oggetto.
+     * @param resources Risorse utilizzate per localizzare l'oggetto root.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
