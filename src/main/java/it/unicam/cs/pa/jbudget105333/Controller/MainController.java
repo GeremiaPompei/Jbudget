@@ -10,6 +10,7 @@ import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
 import it.unicam.cs.pa.jbudget105333.Model.Utility;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
@@ -156,13 +157,13 @@ public interface MainController {
      * Metodo che ha la responsabilità di leggere un budget report e sostituirlo.
      * @param reader Permette la lettura del budget report.
      */
-    void read(Reader<BudgetReport> reader);
+    void read(Reader<BudgetReport> reader) throws IOException;
 
     /**
      * Metodo che ha la responsabilità di salvare un BudgetReport.
      * @param writer Writer con cui salvare il BudgetReport.
      */
-    void save(Writer<BudgetReport> writer);
+    void save(Writer<BudgetReport> writer) throws IOException;
 
     /**
      * Metodo responsabile di eliminare un tag dal Budget.

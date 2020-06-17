@@ -904,6 +904,12 @@ public class GUIViewController implements Initializable {
      * Metodo che ha la responsabilità di salvare le operazioni con la variabile writer.
      */
     public void save(){
-        this.controller.save(this.writer);
+        try {
+            this.controller.save(this.writer);
+            logger.info("Informations saved.");
+        } catch (IOException e) {
+            notificationLabel.setText("Informations Not Saved");
+            logger.warning("Informations Not Saved");
+        }
     }
 }

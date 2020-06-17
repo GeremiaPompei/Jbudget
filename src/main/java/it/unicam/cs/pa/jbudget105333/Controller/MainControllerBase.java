@@ -313,34 +313,28 @@ public class MainControllerBase implements MainController{
     }
 
     /**
-     * Metodo che ha la responsabilità di leggere un budget report e sostituirlo.
+     Metodo che ha la responsabilità di leggere un budget report e sostituirlo.
      * @param reader Permette la lettura del budget report.
+     * @throws IOException Eccezione dovuta ad un errore dovuto alla lettura.
      */
     @Override
-    public void read(Reader<BudgetReport> reader){
-        try{
-            this.budgetReport = reader.read();
-            reader.close();
-            logger.info("File read correctly.");
-        } catch (Exception e) {
-            logger.warning("File not read, is created a new budget report.");
-        }
+    public void read(Reader<BudgetReport> reader) throws IOException {
+        this.budgetReport = reader.read();
+        reader.close();
+        logger.info("File read correctly.");
     }
 
     /**
      * Metodo che ha la responsabilità di salvare un BudgetReport.
      * @param writer Writer con cui salvare il BudgetReport.
+     * @throws IOException Eccezione dovuta ad un errore dovuto alla scrittura.
      */
     @Override
-    public void save(Writer<BudgetReport> writer) {
+    public void save(Writer<BudgetReport> writer) throws IOException {
         if(writer!= null) {
-            try {
-                writer.write(this.budgetReport);
-                writer.close();
-                this.logger.fine("MainController saved.");
-            } catch (IOException e) {
-                this.logger.fine("Failed in MainController save.");
-            }
+            writer.write(this.budgetReport);
+            writer.close();
+            this.logger.fine("MainController saved.");
         }
     }
 
