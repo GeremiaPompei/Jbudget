@@ -1,6 +1,0 @@
-giu 17, 2020 11:10:12 AM it.unicam.cs.pa.jbudget105333.App main
-INFORMAZIONI: Start app.
-giu 17, 2020 11:10:15 AM it.unicam.cs.pa.jbudget105333.View.GUIView.GUIViewController initialize
-INFORMAZIONI: GUIViewController initialized.
-giu 17, 2020 11:10:17 AM it.unicam.cs.pa.jbudget105333.App main
-INFORMAZIONI: Stop app.
