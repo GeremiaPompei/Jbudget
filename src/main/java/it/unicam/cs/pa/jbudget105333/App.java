@@ -9,6 +9,7 @@ import javafx.application.Application;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.*;
 
 /**
@@ -44,7 +45,8 @@ public class App {
         logger.setLevel(Level.INFO);
         Handler handler = null;
         try {
-            handler = new FileHandler(dirPath+"/log_" + LocalDateTime.now()+".txt");
+            handler = new FileHandler(dirPath+"/log_" + LocalDateTime.now()
+                    .format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss"))+".txt");
             handler.setFormatter(new SimpleFormatter());
         } catch (IOException e) {}
         logger.addHandler(handler);
