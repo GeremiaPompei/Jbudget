@@ -298,7 +298,6 @@ public class MainControllerBase implements MainController{
         Map<Tag, Double> result = new HashMap<>();
         this.budgetReport.check().keySet().stream()
                 .filter(t->this.budgetReport.check().get(t)<0)
-                .parallel()
                 .forEach(t->result.put(t,this.budgetReport.check().get(t)));
         this.logger.fine("Check getter.");
         return result;

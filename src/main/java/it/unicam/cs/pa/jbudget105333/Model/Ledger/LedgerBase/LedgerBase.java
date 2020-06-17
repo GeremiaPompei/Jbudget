@@ -254,7 +254,7 @@ public class LedgerBase implements Ledger {
      */
     private <T extends Utility> T get(Collection<T> collection, int ID){
         AtomicReference<T> v = new AtomicReference<>();
-        collection.parallelStream().filter(t->t.getID()==ID).forEach(t->v.set(t));
+        collection.stream().filter(t->t.getID()==ID).forEach(t->v.set(t));
         return v.get();
     }
 

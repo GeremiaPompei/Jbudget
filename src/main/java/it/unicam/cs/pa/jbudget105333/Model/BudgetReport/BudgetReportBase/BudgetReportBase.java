@@ -71,7 +71,7 @@ public class BudgetReportBase implements BudgetReport {
     @Override
     public Map<Tag,Double> check() {
         Map<Tag,Double> result = new HashMap<>();
-        this.budget.getTags().parallelStream()
+        this.budget.getTags().stream()
                 .filter(t->this.ledger.getTags().contains(t))
                 .forEach(t->result.put(t,this.budget.getValue(t)+this.ledger.getTag(t.getID()).totalAmount()));
         this.logger.finer("Check completed.");

@@ -196,7 +196,6 @@ public class AccountBase implements Account {
         this.movements.stream()
                 .filter(m->m.getDate().compareTo(this.lastUpdate)>=0)
                 .filter(m->m.getDate().compareTo(LocalDateTime.now())<=0)
-                .parallel()
                 .forEach(m->this.balance+=m.getAmount());
         this.lastUpdate = LocalDateTime.now();
         this.logger.info("AccountBase updated.");
