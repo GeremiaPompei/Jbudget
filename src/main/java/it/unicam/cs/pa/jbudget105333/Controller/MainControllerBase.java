@@ -313,7 +313,7 @@ public class MainControllerBase implements MainController{
     }
 
     /**
-     Metodo che ha la responsabilità di leggere un budget report e sostituirlo.
+     * Metodo che ha la responsabilità di leggere un budget report e sostituirlo.
      * @param reader Permette la lettura del budget report.
      * @throws IOException Eccezione dovuta ad un errore dovuto alla lettura.
      */

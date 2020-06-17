@@ -156,12 +156,14 @@ public interface MainController {
     /**
      * Metodo che ha la responsabilità di leggere un budget report e sostituirlo.
      * @param reader Permette la lettura del budget report.
+     * @throws IOException Eccezione dovuta ad un errore dovuto alla lettura.
      */
     void read(Reader<BudgetReport> reader) throws IOException;
 
     /**
      * Metodo che ha la responsabilità di salvare un BudgetReport.
      * @param writer Writer con cui salvare il BudgetReport.
+     * @throws IOException Eccezione dovuta ad un errore dovuto alla scrittura.
      */
     void save(Writer<BudgetReport> writer) throws IOException;
 
