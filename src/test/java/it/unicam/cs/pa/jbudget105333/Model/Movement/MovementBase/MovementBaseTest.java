@@ -10,7 +10,6 @@ import it.unicam.cs.pa.jbudget105333.Model.Movement.MovementType;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.Tag;
 import it.unicam.cs.pa.jbudget105333.Model.Tag.TagBase.TagBase;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.Transaction;
-import it.unicam.cs.pa.jbudget105333.Model.Transaction.TransactionBase.InstantTransaction;
 import it.unicam.cs.pa.jbudget105333.Model.Transaction.TransactionBase.ProgramTransaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +34,8 @@ class MovementBaseTest {
     @BeforeEach
     void createMovementBase(){
         this.idGenerator = new IDGeneratorBase();
-        this.transaction1 = new InstantTransaction(null, idGenerator.generate());
+        this.transaction1 = new ProgramTransaction(LocalDateTime.of(2020,9
+                ,2,00,00,00),null, idGenerator.generate());
         this.fondoCassa = new AccountBase("FondoCassa","personale"
                 ,500, AccountType.ASSETS,idGenerator.generate());
         this.prepagata = new AccountBase("Prepagata","personale"

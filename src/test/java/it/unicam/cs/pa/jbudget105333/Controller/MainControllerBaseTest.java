@@ -52,9 +52,9 @@ class MainControllerBaseTest {
     void createMainControllerBase(){
         this.controller = MainControllerManager.generateMainController();
         this.idGenerator =  this.controller.idGenerator();
-        this.transaction1 = new ProgramTransaction(LocalDateTime.of(LocalDate.of(2021,2,5)
+        this.transaction1 = new ProgramTransaction(LocalDateTime.of(LocalDate.now().plusYears(2)
                 , LocalTime.MIN),"transaction 1",idGenerator.generate());
-        this.transaction2 = new ProgramTransaction(LocalDateTime.of(LocalDate.of(2020,9,9)
+        this.transaction2 = new ProgramTransaction(LocalDateTime.of(LocalDate.now().plusYears(1)
                 , LocalTime.MIN),"transaction 2",idGenerator.generate());
         this.fondoCassa = new AccountBase("FondoCassa","personale"
                 ,500, AccountType.ASSETS,idGenerator.generate());
@@ -246,8 +246,8 @@ class MainControllerBaseTest {
     void scheduleTransactionsDate() {
         this.controller.addTransaction(this.transaction1,this.transaction1.getMovements());
         this.controller.addTransaction(this.transaction2,this.transaction2.getMovements());
-        LocalDateTime start = LocalDateTime.of(LocalDate.of(2020,8,8),LocalTime.MIN);
-        LocalDateTime stop = LocalDateTime.of(LocalDate.of(2020,10,10),LocalTime.MIN);
+        LocalDateTime start = LocalDateTime.of(LocalDate.now().plusMonths(2),LocalTime.MIN);
+        LocalDateTime stop = LocalDateTime.of(LocalDate.now().plusYears(1).plusMonths(2),LocalTime.MIN);
         assertTrue(this.controller.scheduleTransactionsDate(start,stop).contains(this.transaction2));
         assertFalse(this.controller.scheduleTransactionsDate(start,stop).contains(this.transaction1));
     }
@@ -305,8 +305,6 @@ class MainControllerBaseTest {
     void check() {
         Account fondoCassa = new AccountBase("FondoCassa","personale"
                 ,500, AccountType.ASSETS,idGenerator.generate());
-        Account prepagata = new AccountBase("Prepagata","personale"
-                ,200,AccountType.LIABILITIES,idGenerator.generate());
         Tag sport = new TagBase("Sport","tennis",idGenerator.generate());
         Tag utenza = new TagBase("Utenza","luce",idGenerator.generate());
         Transaction transaction = new InstantTransaction(null, idGenerator.generate());
